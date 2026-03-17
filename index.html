@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Running Performance Report Archive</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: #121933;
+    --panel-2: #0f152b;
+    --panel-3: #171f3d;
+    --text: #ebf1ff;
+    --muted: #98a4c7;
+    --line: #263151;
+    --accent: #ff7a00;
+    --accent-2: #4ea6ff;
+    --good: #32c48d;
+    --warn: #ffb020;
+    --bad: #ff5d5d;
+    --violet: #a855f7;
+    --radius: 18px;
+    --shadow: 0 18px 60px rgba(0,0,0,.30);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background:
+      radial-gradient(circle at top right, rgba(78,166,255,.14), transparent 22%),
+      radial-gradient(circle at top left, rgba(255,122,0,.10), transparent 20%),
+      var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  .app-shell {
+    width: min(1680px, 100%);
+    margin: 0 auto;
+    padding: 14px 0 32px;
+  }
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    color: var(--text);
+  }
+  .sidebar { display:grid; gap:16px; }
+  .sidebar .panel { padding:18px; }
+  .eyebrow {
+    color: var(--accent); font-size:12px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+  }
+  .app-title { margin:10px 0 6px; font-size:30px; line-height:1.05; }
+  .muted { color:var(--muted); line-height:1.55; }
+  .toolbar { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+  button, .app-btn, .list-item, .day {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button, .app-btn {
+    border:1px solid var(--line);
+    background: rgba(255,255,255,.03);
+    color:var(--text);
+    border-radius: 12px;
+    padding:10px 12px;
+    font: inherit;
+    cursor:pointer;
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  button:hover, .app-btn:hover { background: rgba(255,255,255,.06); }
+  .app-btn.primary { background: rgba(255,122,0,.14); border-color: rgba(255,122,0,.30); color: #ffe7d2; }
+  .month-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
+  .month-head h3 { margin:0; font-size:20px; }
+  .icon-btn { width:40px; height:40px; display:grid; place-items:center; padding:0; border-radius:12px; }
+  .weekdays, .calendar-grid { display:grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap:8px; }
+  .weekdays div { text-align:center; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.08em; padding:4px 0; }
+  .day {
+    min-height:64px; padding:8px; border-radius:14px; border:1px solid transparent;
+    background: rgba(255,255,255,.02); position:relative; cursor:pointer;
+  }
+  .day:hover { border-color: rgba(255,255,255,.12); }
+  .day.other { opacity:.35; }
+  .day .n { font-size:14px; }
+  .day .dot { width:8px; height:8px; border-radius:999px; position:absolute; bottom:10px; left:10px; background:var(--accent); }
+  .day.selected { border-color: rgba(78,166,255,.55); box-shadow: inset 0 0 0 1px rgba(78,166,255,.35); }
+  .day.has-report { background: rgba(255,122,0,.08); }
+  .day.today .n { color:#ffd5aa; }
+  .list { display:grid; gap:10px; margin-top:10px; }
+  .list-item {
+    padding:12px; border-radius:14px; background:rgba(255,255,255,.02); border:1px solid var(--line);
+    text-align: left; width: 100%;
+  }
+  .list-item.active { border-color: rgba(255,122,0,.4); background: rgba(255,122,0,.08); }
+  .list-item .k { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); }
+  .list-item .v { margin-top:4px; font-weight:700; color: var(--text); }
+  .main { display:grid; gap:18px; }
+  .hero {
+    padding:26px;
+    display:grid; grid-template-columns: 1.15fr .85fr; gap:18px; overflow:hidden;
+  }
+  .hero h1 { margin:12px 0 10px; font-size: clamp(30px, 4vw, 46px); line-height:1.04; }
+  .hero .subtitle { color:var(--muted); line-height:1.62; max-width:78ch; }
+  .tags { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+  .tag {
+    padding:9px 12px; border-radius:999px; border:1px solid var(--line); background: rgba(255,255,255,.025); font-size:13px;
+  }
+  .summary-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; }
+  .summary-card, .mini {
+    padding:16px; border-radius:16px; border:1px solid var(--line); background: rgba(255,255,255,.025);
+  }
+  .summary-card .label, .mini .label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+  .summary-card .value, .mini .value { margin-top:6px; font-size:28px; font-weight:800; line-height:1.1; }
+  .summary-card p, .mini p { margin:8px 0 0; color:var(--muted); line-height:1.5; font-size:14px; }
+  .section { display:grid; gap:12px; }
+  .section-head { display:flex; justify-content:space-between; gap:16px; align-items:end; }
+  .section-head h2 { margin:0; font-size:24px; }
+  .section-head .hint { color:var(--muted); line-height:1.55; max-width:82ch; }
+  .grid-4 { display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:16px; }
+  .grid-3 { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; }
+  .grid-2 { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:16px; }
+  .text-card { padding:22px; }
+  .text-card h3 { margin:0 0 12px; font-size:18px; }
+  .text-card p { margin:0 0 14px; color:var(--muted); line-height:1.68; }
+  .text-card ul { margin:0; padding-left:18px; color:var(--muted); line-height:1.68; }
+  .quote {
+    margin-top:14px; padding:16px 18px; border-left:4px solid var(--accent);
+    border-radius:12px; background: rgba(255,122,0,.08); color:var(--text); line-height:1.6;
+  }
+  .kv-card { padding:18px; }
+  .kv-card h3 { margin:0 0 12px; font-size:18px; }
+  .kv {
+    display: grid;
+    grid-template-columns: minmax(160px, 220px) minmax(0, 1fr);
+    gap: 10px 16px;
+    align-items: start;
+  }
+
+  .kv .val {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .kv div { padding:8px 0; border-bottom:1px dashed rgba(255,255,255,.08); color:var(--muted); }
+  .kv div:nth-last-child(-n+2) { border-bottom:0; }
+  .chart-card { padding:18px; }
+  .chart-title { display:flex; justify-content:space-between; gap:16px; align-items:start; margin-bottom:12px; }
+  .chart-title h3 { margin:0; font-size:18px; }
+  .chart-title .meta { color:var(--muted); font-size:13px; max-width:48ch; line-height:1.45; }
+  svg.chart { width:100%; height:300px; display:block; border-radius:14px; background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)); }
+  .legend { display:flex; gap:14px; flex-wrap:wrap; margin-top:12px; color:var(--muted); font-size:13px; }
+  .dotlegend { width:10px; height:10px; display:inline-block; border-radius:999px; margin-right:6px; }
+  .table-wrap { overflow:auto; -webkit-overflow-scrolling: touch; }
+  table { width:100%; border-collapse:collapse; font-size:14px; min-width: 980px; }
+  th, td { padding:12px 10px; border-bottom:1px solid rgba(255,255,255,.06); text-align:left; vertical-align:top; }
+  th { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
+  tbody tr:hover { background: rgba(255,255,255,.02); }
+  .pill {
+    display:inline-flex; align-items:center; gap:6px; padding:7px 10px; border-radius:999px;
+    font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+  }
+  .pill.good { background: rgba(50,196,141,.14); color:#8bf0c4; }
+  .pill.warn { background: rgba(255,176,32,.14); color:#ffd27f; }
+  .pill.bad { background: rgba(255,93,93,.14); color:#ff9b9b; }
+  .pill.blue { background: rgba(78,166,255,.14); color:#a6d4ff; }
+  .zone-list { display:grid; gap:10px; }
+  .zone-item { padding:14px; border-radius:14px; border:1px solid var(--line); background: rgba(255,255,255,.025); }
+  .zone-item .row { display:flex; justify-content:space-between; gap:14px; align-items:center; }
+  .zone-item .name { font-weight:700; }
+  .bar {
+    margin-top:10px; height:10px; border-radius:999px; overflow:hidden; background: rgba(255,255,255,.06);
+  }
+  .bar > span { display:block; height:100%; border-radius:999px; }
+  .empty { padding:34px 26px; }
+  .empty h2 { margin:0 0 10px; }
+  .empty p { margin:0; color:var(--muted); line-height:1.65; }
+  .footer-note { color:var(--muted); font-size:13px; line-height:1.55; }
+  code {
+    background: rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:2px 6px; color:#dce6ff;
+  }
+  .sidebar-shell {
+    width: 100%;
+    max-width: 420px;
+    background: transparent;
+    border: 0;
+    color: var(--text);
+  }
+  .row > [class*="col-"] {
+    min-width: 0;
+  }
+  @media (min-width: 1200px) {
+    .sidebar-shell {
+      position: sticky;
+      top: 18px;
+      margin-right: auto;
+    }
+  }
+  .mobile-actions {
+    position: sticky;
+    top: 0;
+    z-index: 1010;
+  }
+  .mobile-actions .panel {
+    padding: 14px 16px;
+    backdrop-filter: blur(16px);
+    background: rgba(18,25,51,.92);
+  }
+  .section-head .pill {
+    white-space: nowrap;
+  }
+  @media (min-width: 1200px) {
+    .sidebar-shell {
+      position: sticky;
+      top: 18px;
+    }
+  }
+  @media (max-width: 1199.98px) {
+    .hero { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    .sidebar-shell {
+      background: linear-gradient(180deg, rgba(11,16,32,.98), rgba(11,16,32,.98));
+      border-right: 1px solid var(--line);
+    }
+    .sidebar-shell .offcanvas-header {
+      border-bottom: 1px solid var(--line);
+      padding: 16px 18px;
+    }
+    .sidebar-shell .offcanvas-body {
+      padding: 16px;
+    }
+  }
+  @media (max-width: 991.98px) {
+    .app-shell { padding-top: 10px; }
+    .hero,
+    .text-card,
+    .kv-card,
+    .chart-card,
+    .sidebar .panel,
+    .empty { padding: 18px; }
+    .section-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .section-head .pill {
+      align-self: flex-start;
+    }
+    svg.chart { height: 270px; }
+  }
+  @media (max-width: 767.98px) {
+    .app-shell { padding-bottom: 24px; }
+    .app-title { font-size: 26px; }
+    .hero h1 { font-size: clamp(26px, 7vw, 36px); }
+    .summary-grid,
+    .grid-4 { grid-template-columns: 1fr; }
+    .toolbar > button,
+    .toolbar > .app-btn { flex: 1 1 calc(50% - 10px); }
+    .month-head h3 { font-size: 18px; }
+    .weekdays div { font-size: 11px; }
+    .calendar-grid { gap: 6px; }
+    .day { min-height: 56px; padding: 8px 6px; }
+    .day .n { font-size: 13px; }
+    .kv { grid-template-columns: 1fr; gap: 0; }
+    .kv .val { text-align: left; }
+    .zone-item .row,
+    .chart-title { flex-direction: column; align-items: flex-start; }
+    .tag { font-size: 12px; }
+    svg.chart { height: 240px; }
+    table { font-size: 13px; min-width: 900px; }
+  }
+  @media (max-width: 575.98px) {
+    .mobile-actions .panel {
+      padding: 12px 14px;
+      border-radius: 14px;
+    }
+    .toolbar > button,
+    .toolbar > .app-btn { flex: 1 1 100%; }
+    .hero,
+    .text-card,
+    .kv-card,
+    .chart-card,
+    .sidebar .panel,
+    .empty { padding: 16px; }
+    .summary-card .value,
+    .mini .value { font-size: 24px; }
+    .month-head { gap: 8px; }
+    .icon-btn { width: 38px; height: 38px; }
+  }
+</style>
+</head>
+<body>
+<div class="container-fluid px-2 px-md-3 px-xxl-4">
+  <div class="app-shell">
+    <div class="mobile-actions d-xl-none mb-3">
+      <section class="card panel d-flex flex-column gap-3 gap-sm-2 flex-sm-row align-items-sm-center justify-content-sm-between">
+        <div>
+          <div class="eyebrow">Archivio report</div>
+          <div class="fw-semibold">Running Report</div>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="app-btn primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarCanvas" aria-controls="sidebarCanvas">Archivio e calendario</button>
+          <button class="app-btn" type="button" id="jumpTodayBtn">Oggi</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="row g-3 g-xl-4 align-items-start">
+      <aside class="col-12 col-xl-4 col-xxl-3">
+        <div class="offcanvas-xl offcanvas-start sidebar-shell" tabindex="-1" id="sidebarCanvas" aria-labelledby="sidebarCanvasLabel">
+          <div class="offcanvas-header d-xl-none">
+            <div>
+              <div class="eyebrow">Archivio report</div>
+              <h5 class="offcanvas-title mb-0" id="sidebarCanvasLabel">Running Report</h5>
+            </div>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#sidebarCanvas" aria-label="Chiudi"></button>
+          </div>
+          <div class="offcanvas-body p-0">
+            <div class="sidebar">
+              <section class="card panel">
+                <div class="eyebrow">Archivio report</div>
+                <div class="app-title">Running Report</div>
+                <p class="muted">Seleziona un giorno dal calendario. I report sono salvati per data e possono essere esportati/importati in JSON per mantenere la storicità.</p>
+                <div class="toolbar">
+                  <button id="exportBtn" class="app-btn primary" type="button">Esporta JSON</button>
+                  <button id="importBtn" class="app-btn" type="button">Importa JSON</button>
+                  <button id="resetBtn" class="app-btn" type="button">Reset archivio</button>
+                  <input id="importFile" type="file" accept="application/json" hidden />
+                </div>
+              </section>
+
+              <section class="card panel">
+                <div class="month-head">
+                  <button class="icon-btn" id="prevMonthBtn" aria-label="Mese precedente" type="button">‹</button>
+                  <h3 id="monthLabel">Mese</h3>
+                  <button class="icon-btn" id="nextMonthBtn" aria-label="Mese successivo" type="button">›</button>
+                </div>
+                <div class="weekdays">
+                  <div>Lun</div><div>Mar</div><div>Mer</div><div>Gio</div><div>Ven</div><div>Sab</div><div>Dom</div>
+                </div>
+                <div id="calendarGrid" class="calendar-grid mt-2"></div>
+              </section>
+
+              <section class="card panel">
+                <div class="eyebrow">Date disponibili</div>
+                <div id="reportList" class="list"></div>
+              </section>
+
+              <section class="card panel">
+                <div class="eyebrow">Workflow consigliato</div>
+                <p class="muted mt-2 mb-0">Per ora il flusso più robusto è questo: mi mandi nuovi screen qui in chat, io aggiorno l’archivio e ti restituisco HTML + JSON aggiornati. L’automazione completa in app richiede un backend o funzione serverless.</p>
+              </section>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="col-12 col-xl-8 col-xxl-9">
+        <main class="main" id="mainContent"></main>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BUNDLED_ARCHIVE = {"schemaVersion": 1, "athleteProfile": {"name": "Marco", "age": 33, "heightCm": 185, "weightKg": 86.7, "bodyFatPct": 22.8, "muscleMassKg": 63.1, "restingHr": 49, "maxHr": 190, "lthr": 168, "goals": {"10k": "< 59:50", "half": "< 1:59:00"}}, "reports": {"2026-03-17": {"title": "Report tecnico 10K • stato al 17 marzo 2026", "subtitle": "Aggiornamento del report con VO₂max, Training Readiness, Training Status, FC media/max 4 settimane e nuove zone cardio basate su SAFC 168 bpm.", "heroTags": ["Garmin Coach Greg • settimana 8/12", "3–4 uscite/settimana", "Target A-race: Tuttadritta 10 maggio", "Nuove zone corsa basate su SAFC 168 bpm"], "summaryCards": [{"label": "Stato forma", "value": "In crescita", "text": "Base aerobica, durata e passo facile sono migliorati in modo netto. La nuova evidenza chiave è la 5.01 km in 29:35."}, {"label": "Training Readiness", "value": "69/100", "text": "Moderato: sonno buono, recupero completato, HRV bilanciata. Il corpo appare fresco più che affaticato."}, {"label": "Training Status", "value": "Non produttivo", "text": "Non significa regressione: Garmin segnala che il carico è troppo sbilanciato sulle basse intensità rispetto al mix ideale."}, {"label": "10K realistico oggi", "value": "60:45–62:30", "text": "Il sub 60 è diventato molto più credibile. I 55' restano però una stima troppo aggressiva per maggio."}], "quickFacts": [["VO₂max", "51 attuale • lieve calo 51.5 → 51.0 → 50.6 in 4 settimane"], ["HRV Status", "69 ms • bilanciato"], ["Carico acuto", "157 • basso"], ["Sonno", "84 punteggio notte • media 7 giorni 6h31"], ["FC corsa (ultime 4 settimane)", "FC media 141 bpm • FC max media 159 bpm"], ["Zone corsa", "ricalcolate su SAFC 168 bpm"], ["PB funzionale 5K", "5.01 km in 29:35 il 7 marzo, molto più rappresentativo del vecchio 39:30"], ["Bilancia", "BMI 25.3 = sovrastima grossolana del rischio se letto da solo"]], "data": {"easyRuns": [{"date": "2026-01-28", "label": "28 gen", "paceSec": 523, "distance": 3.45}, {"date": "2026-01-31", "label": "31 gen", "paceSec": 471, "distance": 3.85}, {"date": "2026-02-01", "label": "1 feb", "paceSec": 457, "distance": 5.42}, {"date": "2026-02-04", "label": "4 feb", "paceSec": 475, "distance": 3.81}, {"date": "2026-02-06", "label": "6 feb", "paceSec": 478, "distance": 4.54}, {"date": "2026-02-11", "label": "11 feb", "paceSec": 403, "distance": 5.96}, {"date": "2026-02-15", "label": "15 feb", "paceSec": 445, "distance": 6.76}, {"date": "2026-02-18", "label": "18 feb", "paceSec": 440, "distance": 4.28}, {"date": "2026-02-19", "label": "19 feb", "paceSec": 446, "distance": 3.7}, {"date": "2026-02-20", "label": "20 feb", "paceSec": 494, "distance": 3.65}, {"date": "2026-02-23", "label": "23 feb", "paceSec": 458, "distance": 4.78}, {"date": "2026-03-01", "label": "1 mar", "paceSec": 444, "distance": 6.77}, {"date": "2026-03-03", "label": "3 mar", "paceSec": 441, "distance": 6.83}, {"date": "2026-03-13", "label": "13 mar", "paceSec": 408, "distance": 8.02}, {"date": "2026-03-15", "label": "15 mar", "paceSec": 415, "distance": 8.68}], "weeklyVolume": [{"label": "26 gen–1 feb", "km": 14.16}, {"label": "2–8 feb", "km": 12.48}, {"label": "9–15 feb", "km": 16.78}, {"label": "16–22 feb", "km": 11.63}, {"label": "23 feb–1 mar", "km": 23.86}, {"label": "2–8 mar", "km": 18.38}, {"label": "9–15 mar", "km": 30.04}], "vo2Trend": [{"date": "2026-02-23", "label": "23 feb", "value": 51.5}, {"date": "2026-03-02", "label": "2 mar", "value": 51.0}, {"date": "2026-03-09", "label": "9 mar", "value": 50.6}], "zoneBands": [{"label": "Z1 Recupero", "low": 109, "high": 133, "note": "65–79% SAFC"}, {"label": "Z2 Facile", "low": 134, "high": 148, "note": "80–88% SAFC"}, {"label": "Z3 Aerobica", "low": 150, "high": 158, "note": "89–94% SAFC"}, {"label": "Z4 Soglia", "low": 160, "high": 166, "note": "95–99% SAFC"}, {"label": "Z5 Sopra soglia", "low": 168, "high": 190, "note": "100–113% SAFC"}], "sessions": [{"name": "Prima corsa facile", "date": "28 gen", "distance": 3.45, "time": "30:03", "pace": "8:43/km", "paceSec": 523, "avgHr": 124, "maxHr": 132, "power": 237, "cadence": 156, "stride": 0.74, "te": "1.4 aerobico basso", "load": 14, "rpe": "Molto facile", "type": "easy"}, {"name": "5K di riferimento", "date": "7 mar", "distance": 5.01, "time": "29:35", "pace": "5:54/km", "paceSec": 354, "avgHr": 154, "maxHr": 176, "power": 334, "cadence": 176, "stride": 0.96, "te": "3.3 miglioramento aerobico", "load": 92, "rpe": "4/10 abbastanza duro", "type": "fast"}, {"name": "Ultima corsa facile", "date": "15 mar", "distance": 8.68, "time": "1:00:05", "pace": "6:55/km", "paceSec": 415, "avgHr": 137, "maxHr": 151, "power": 285, "cadence": 173, "stride": 0.84, "te": "2.8 mantenimento", "load": 54, "rpe": "2/10 leggero", "type": "easy"}], "bodyComp": {"weight": 86.7, "bmi": 25.3, "bodyFat": 22.8, "fatMass": 19.8, "muscleMass": 63.1, "skeletalMusclePct": 38.1, "visceralFat": 7, "waterPct": 59.1, "bmr": 1815, "ffm": 66.9}}, "sections": {"executive": "\n                <p>Con i dati nuovi il quadro cambia in meglio: il report precedente era prudente perché mancava un riferimento prestativo reale. La corsa del <strong>7 marzo da 5.01 km in 29:35</strong> sposta l’analisi. Non dimostra ancora che oggi hai già il sub 60 “in mano”, ma dimostra che il vecchio PB 5K da 39:30 non è più un benchmark utile.</p>\n                <p>Qui c’è il punto da mettere alla prova: raddoppiare una 5K a <strong>5:54/km</strong> non equivale automaticamente a tenere <strong>5:59/km</strong> per 10 km. Però ci dice che il target è entrato nella zona del plausibile. La differenza tra desiderio e dato si è ridotta parecchio.</p>\n                <div class=\"quote\">Conclusione aggiornata: il sub 60 non va più trattato come target “ottimistico”, ma come obiettivo realistico se nelle prossime settimane inserisci un po’ più di lavoro vicino alla soglia e proteggi il recupero.</div>\n                ", "physiology": "\n                <p><strong>Training Readiness 69</strong> con sonno 84, recupero completato, HRV 69 ms bilanciata e carico acuto basso significa una cosa abbastanza chiara: il tuo problema oggi non sembra essere la stanchezza sistemica. Semmai il contrario: sei abbastanza fresco, ma lo stimolo recente è stato un po’ troppo facile per far dire a Garmin che sei “produttivo”.</p>\n                <p>Il <strong>VO₂max sceso da 51.5 a 50.6</strong> nelle ultime 4 settimane va letto con cautela. È un calo piccolo, mentre sul campo hai migliorato passo, durata e benchmark 5K. Questo è un classico caso in cui l’algoritmo può reagire a combinazione di caldo, sedute facili, HR più alta in alcune giornate o finestra temporale breve. Non lo leggerei come peggioramento reale della forma.</p>\n                <p><strong>Training Status “Non produttivo”</strong> non è una bocciatura del piano: è un feedback sul mix. Garmin ti sta dicendo che il carico c’è, ma che è troppo concentrato in basso. Quindi la conclusione non è “stai sbagliando tutto”; la conclusione corretta è “per rendere il blocco più 10K-specifico serve un pizzico di intensità qualitativa in più”.</p>\n                ", "zones": "\n                <p>La correzione delle zone da <strong>% FC max</strong> a <strong>% SAFC/LTHR 168 bpm</strong> per te ha senso. Il tuo vecchio vincolo psicologico di stare sotto <strong>130 bpm</strong> per sentirti in Z2 probabilmente era troppo restrittivo rispetto a come realmente risponde il tuo corpo adesso.</p>\n                <p>Detto questo, non fare l’errore opposto. Il fatto che ora tu possa parlare o respirare col naso a ritmi un po’ più sostenuti <em>non</em> significa che ogni corsa a 145–150 bpm sia automaticamente “facile”. Le nuove zone sono più credibili, ma non sono un lasciapassare per trasformare ogni easy run in medio mascherato.</p>\n                <p>Il dato forte è che la tua <strong>ultima corsa facile a 137 bpm medi</strong> cade perfettamente dentro la nuova <strong>Z2 (134–148)</strong>. Questo rende il feeling della seduta coerente con il modello fisiologico aggiornato. È la prima volta che Garmin e la tua percezione soggettiva sembrano allinearsi davvero.</p>\n                ", "technique": "\n                <p>La tecnica sta migliorando senza che tu sembri averla “forzata”. Passi da <strong>156 spm e 0.74 m</strong> nella prima corsa facile a <strong>173 spm e 0.84 m</strong> nell’ultima facile, fino a <strong>176 spm e 0.96 m</strong> nel 5K veloce. Questo è il pattern sano: la meccanica migliora come effetto della forma, non come tentativo artificiale di inseguire un numero.</p>\n                <p>Il margine più utile non è rincorrere ancora più cadenza, ma consolidare la capacità di mantenere una buona lunghezza del passo quando il ritmo sale verso il passo gara 10K. La tua 5K mostra già che quando spingi, la gamba “si apre” meglio e la potenza sale parecchio. Ora manca soprattutto la tenuta metabolica, non il gesto di base.</p>\n                ", "estimates": "\n                <p><strong>Stima 10K oggi:</strong> 60:45–62:30. La corsa da 5.01 km in 29:35 suggerisce, con una normale penalità di fatica sul raddoppio distanza, una proiezione intorno ai 61 minuti e mezzo. Quindi sì: sei vicino. Ma vicino non significa già automatico.</p>\n                <p><strong>Stima 10K a maggio:</strong> 58:45–60:30 se continui con 3–4 uscite, una seduta di soglia a settimana e un medio/lungo facile che salga in modo stabile. Il vero rischio non è il motore: è arrivare in gara con troppo poco lavoro specifico a ritmo 10K.</p>\n                <p><strong>Stima mezza di ottobre:</strong> target sub 2h plausibile, ma solo se da maggio in poi sposti il focus su volume e lungo. Per stare sotto 2h ti serve meno brillantezza pura di oggi e più tenuta strutturale.</p>\n                ", "strategy": "\n                <p><strong>Io non butterei Garmin Greg.</strong> Lo terrei, ma correggerei il mix. In pratica: una seduta davvero facile, una seduta qualitativa alternando soglia e 10K-specifico, e una terza/quarta uscita dedicata a far salire il tempo totale sulle gambe.</p>\n                <ul>\n                  <li><strong>Seduta soglia:</strong> 3×8' oppure 2×12' a ritmo controllato-duro, non all-out.</li>\n                  <li><strong>Seduta 10K specifica:</strong> 5×3' o 4×5' vicino a ritmo gara con recuperi brevi.</li>\n                  <li><strong>Easy run:</strong> tienila davvero facile, spesso dentro Z2 nuova, non sempre al bordo alto.</li>\n                  <li><strong>Lungo/medio lungo:</strong> spingi gradualmente verso 75–85' facili.</li>\n                  <li><strong>Forza:</strong> 2 richiami brevi a settimana, soprattutto polpacci, glutei, core.</li>\n                </ul>\n                <p>In sintesi: la tua limitazione non sembra più “non ho motore”. Sembra piuttosto “ho motore in crescita, ma devo renderlo più specifico sul passo gara”.</p>\n                ", "health": "\n                <p>Hai ragione a contestare la dicitura “obeso” della bilancia: con i dati che hai fornito è semplicemente una lettura sbagliata. <strong>BMI 25.3</strong> vuol dire fascia <em>sovrappeso statistico</em>, non obesità; e in più il BMI ignora del tutto la tua massa muscolare e la storia di calisthenics.</p>\n                <p>Questo non significa che la composizione corporea sia irrilevante per la corsa. Con <strong>22.8% di body fat</strong> c’è probabilmente ancora margine per migliorare l’economia di corsa nel medio periodo, ma non lo inseguirei con un taglio aggressivo in piena preparazione 10K. La priorità resta allenarti bene e recuperare bene.</p>\n                ", "workflow": "\n                <p>Questa web-app ora è strutturata come <strong>archivio di report per data</strong>. Il report di oggi è salvato sul <strong>17 marzo 2026</strong> e il calendario è già pronto a ospitare i prossimi aggiornamenti.</p>\n                <p><strong>Workflow consigliato per ora:</strong> tu continui a mandarmi qui screenshot e dati; io ti aggiorno l’archivio e ti restituisco la web-app aggiornata. In più puoi <strong>esportare/importare il JSON</strong> direttamente dall’app per non perdere la storicità.</p>\n                <p><strong>Integrazione AI direttamente nella web-app:</strong> fattibile, ma non come semplice file HTML statico. Per farla bene serve un piccolo backend o funzione serverless che riceva gli screenshot, usi un modello vision per estrarre i dati, aggiorni il JSON storico e rigeneri il report. È la strada giusta se vuoi automatizzare davvero; è una fase successiva, non una toppa da mettere nel front-end da solo.</p>\n                "}}}};
+const STORAGE_KEY = 'marco_running_report_archive_v1';
+const STORAGE_SELECTED_KEY = 'marco_running_report_selected_date_v1';
+
+const state = {
+  archive: loadArchive(),
+  selectedDate: loadSelectedDate(),
+  monthCursor: null
+};
+
+function loadArchive() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return structuredClone(BUNDLED_ARCHIVE);
+    const parsed = JSON.parse(raw);
+    return parsed && parsed.reports ? parsed : structuredClone(BUNDLED_ARCHIVE);
+  } catch (err) {
+    return structuredClone(BUNDLED_ARCHIVE);
+  }
+}
+
+function saveArchive() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.archive));
+}
+
+function loadSelectedDate() {
+  const saved = localStorage.getItem(STORAGE_SELECTED_KEY);
+  const dates = Object.keys(BUNDLED_ARCHIVE.reports).sort();
+  return saved || dates[dates.length - 1];
+}
+
+function saveSelectedDate() {
+  localStorage.setItem(STORAGE_SELECTED_KEY, state.selectedDate);
+}
+
+function getReportDates() {
+  return Object.keys(state.archive.reports).sort();
+}
+
+function getLatestReportDate() {
+  const dates = getReportDates();
+  return dates[dates.length - 1] || null;
+}
+
+function isoToDate(iso) {
+  const [y,m,d] = iso.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function formatLongDate(iso) {
+  return isoToDate(iso).toLocaleDateString('it-IT', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+  });
+}
+
+function formatMonth(date) {
+  return date.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+}
+
+function fmtPace(sec) {
+  if (sec == null || Number.isNaN(sec)) return 'n.d.';
+  const m = Math.floor(sec / 60);
+  const s = Math.round(sec % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function paceToMinPerKmLabel(sec) {
+  return `${fmtPace(sec)}/km`;
+}
+
+function createSVG(el, width = 900, height = 300) {
+  el.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  el.innerHTML = '';
+  return { width, height };
+}
+
+function lineChart(svgId, data, yAccessor, opts = {}) {
+  const svg = document.getElementById(svgId);
+  if (!svg || !data?.length) return;
+  const { width, height } = createSVG(svg);
+  const m = { top: 24, right: 18, bottom: 44, left: 54 };
+  const innerW = width - m.left - m.right;
+  const innerH = height - m.top - m.bottom;
+  const ys = data.map(yAccessor).filter(v => v != null);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const pad = (maxY - minY) * 0.12 || 1;
+  const y0 = minY - pad;
+  const y1 = maxY + pad;
+  const x = i => m.left + (i / Math.max(data.length - 1, 1)) * innerW;
+  const y = v => m.top + innerH - ((v - y0) / (y1 - y0)) * innerH;
+
+  for (let i = 0; i < 5; i++) {
+    const gy = m.top + (innerH / 4) * i;
+    const val = y1 - ((y1 - y0) / 4) * i;
+    svg.insertAdjacentHTML('beforeend',
+      `<line x1="${m.left}" y1="${gy}" x2="${width-m.right}" y2="${gy}" stroke="rgba(255,255,255,.08)" />`);
+    svg.insertAdjacentHTML('beforeend',
+      `<text x="${m.left-10}" y="${gy+4}" text-anchor="end" fill="rgba(235,241,255,.62)" font-size="12">${opts.formatY ? opts.formatY(val) : Math.round(val)}</text>`);
+  }
+
+  data.forEach((d, i) => {
+    if (i % Math.max(1, Math.ceil(data.length / 7)) === 0 || i === data.length - 1) {
+      svg.insertAdjacentHTML('beforeend',
+        `<text x="${x(i)}" y="${height-14}" text-anchor="middle" fill="rgba(235,241,255,.62)" font-size="12">${d.label || d.date}</text>`);
+    }
+  });
+
+  let path = '';
+  data.forEach((d, i) => {
+    const v = yAccessor(d);
+    if (v == null) return;
+    path += `${path ? 'L' : 'M'} ${x(i)} ${y(v)} `;
+  });
+  svg.insertAdjacentHTML('beforeend', `<path d="${path}" fill="none" stroke="${opts.color || '#ff7a00'}" stroke-width="3.5" />`);
+
+  data.forEach((d, i) => {
+    const v = yAccessor(d);
+    if (v == null) return;
+    svg.insertAdjacentHTML('beforeend', `<circle cx="${x(i)}" cy="${y(v)}" r="4.5" fill="${opts.color || '#ff7a00'}" />`);
+  });
+}
+
+function barChart(svgId, data, valueKey, opts = {}) {
+  const svg = document.getElementById(svgId);
+  if (!svg || !data?.length) return;
+  const { width, height } = createSVG(svg);
+  const m = { top: 24, right: 18, bottom: 48, left: 48 };
+  const innerW = width - m.left - m.right;
+  const innerH = height - m.top - m.bottom;
+  const maxVal = Math.max(...data.map(d => d[valueKey])) * 1.15;
+  const barW = innerW / data.length * 0.58;
+  data.forEach((d, i) => {
+    const x = m.left + (i + 0.5) * (innerW / data.length) - barW/2;
+    const h = (d[valueKey] / maxVal) * innerH;
+    const y = m.top + innerH - h;
+    svg.insertAdjacentHTML('beforeend', `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="8" fill="${opts.color || '#4ea6ff'}"/>`);
+    svg.insertAdjacentHTML('beforeend', `<text x="${x + barW/2}" y="${height-14}" text-anchor="middle" fill="rgba(235,241,255,.62)" font-size="12">${d.label}</text>`);
+    svg.insertAdjacentHTML('beforeend', `<text x="${x + barW/2}" y="${y - 8}" text-anchor="middle" fill="#ebf1ff" font-size="12" font-weight="700">${d[valueKey].toFixed(1)} km</text>`);
+  });
+  for (let i = 0; i < 5; i++) {
+    const val = (maxVal / 4) * (4-i);
+    const gy = m.top + (innerH / 4) * i;
+    svg.insertAdjacentHTML('beforeend', `<line x1="${m.left}" y1="${gy}" x2="${width-m.right}" y2="${gy}" stroke="rgba(255,255,255,.08)" />`);
+    svg.insertAdjacentHTML('beforeend', `<text x="${m.left-10}" y="${gy+4}" text-anchor="end" fill="rgba(235,241,255,.62)" font-size="12">${Math.round(val)}</text>`);
+  }
+}
+
+function ensureSelectedDateValid() {
+  const dates = getReportDates();
+  if (!dates.length) return;
+  if (!state.archive.reports[state.selectedDate]) {
+    state.selectedDate = getLatestReportDate();
+    saveSelectedDate();
+  }
+  state.monthCursor = new Date(isoToDate(state.selectedDate).getFullYear(), isoToDate(state.selectedDate).getMonth(), 1);
+}
+
+function closeSidebarIfMobile() {
+  const sidebar = document.getElementById('sidebarCanvas');
+  if (!sidebar || window.innerWidth >= 1200 || !window.bootstrap) return;
+  const instance = window.bootstrap.Offcanvas.getOrCreateInstance(sidebar);
+  instance.hide();
+}
+
+function renderCalendar() {
+  const grid = document.getElementById('calendarGrid');
+  const label = document.getElementById('monthLabel');
+  grid.innerHTML = '';
+  label.textContent = formatMonth(state.monthCursor);
+  const reportDates = new Set(getReportDates());
+  const first = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth(), 1);
+  const startOffset = (first.getDay() + 6) % 7;
+  const gridStart = new Date(first);
+  gridStart.setDate(first.getDate() - startOffset);
+  const todayIso = getLatestReportDate();
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(gridStart);
+    d.setDate(gridStart.getDate() + i);
+    const iso = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const sameMonth = d.getMonth() === state.monthCursor.getMonth();
+    const hasReport = reportDates.has(iso);
+    const selected = iso === state.selectedDate;
+    const isTodayMarker = iso === todayIso;
+    const cls = ['day', sameMonth ? '' : 'other', hasReport ? 'has-report' : '', selected ? 'selected' : '', isTodayMarker ? 'today' : ''].join(' ').trim();
+    const el = document.createElement('button');
+    el.className = cls;
+    el.type = 'button';
+    el.innerHTML = `<span class="n">${d.getDate()}</span>${hasReport ? '<span class="dot"></span>' : ''}`;
+    el.addEventListener('click', () => {
+      state.selectedDate = iso;
+      saveSelectedDate();
+      renderAll();
+      closeSidebarIfMobile();
+    });
+    grid.appendChild(el);
+  }
+}
+
+function renderReportList() {
+  const root = document.getElementById('reportList');
+  root.innerHTML = '';
+  getReportDates().slice().reverse().forEach(date => {
+    const report = state.archive.reports[date];
+    const el = document.createElement('button');
+    el.type = 'button';
+    el.className = 'list-item' + (date === state.selectedDate ? ' active' : '');
+    el.innerHTML = `
+      <div class="k">${formatLongDate(date)}</div>
+      <div class="v">${report.title}</div>
+      <div class="muted" style="font-size:13px; margin-top:6px;">${report.subtitle}</div>
+    `;
+    el.addEventListener('click', () => {
+      state.selectedDate = date;
+      saveSelectedDate();
+      state.monthCursor = new Date(isoToDate(date).getFullYear(), isoToDate(date).getMonth(), 1);
+      renderAll();
+      closeSidebarIfMobile();
+    });
+    root.appendChild(el);
+  });
+}
+
+function renderMain() {
+  const root = document.getElementById('mainContent');
+  const report = state.archive.reports[state.selectedDate];
+  if (!report) {
+    root.innerHTML = `
+      <section class="card empty">
+        <h2>Nessun report salvato per questa data</h2>
+        <p>La struttura storica è pronta. Quando avremo un nuovo aggiornamento, basterà aggiungere una nuova voce all’archivio per quella data. Puoi farlo importando un nuovo JSON o facendomi aggiornare l’app qui in chat.</p>
+      </section>
+    `;
+    return;
+  }
+
+  const data = report.data;
+  const body = data.bodyComp;
+  const sessionsRows = data.sessions.map(s => `
+    <tr>
+      <td><strong>${s.name}</strong><div class="footer-note">${s.date}</div></td>
+      <td>${s.distance.toFixed(2)} km</td>
+      <td>${s.time}</td>
+      <td>${s.pace}</td>
+      <td>${s.avgHr} / ${s.maxHr} bpm</td>
+      <td>${s.power} W</td>
+      <td>${s.cadence} spm</td>
+      <td>${s.stride.toFixed(2)} m</td>
+      <td>${s.te}</td>
+      <td>${s.load}</td>
+      <td>${s.rpe}</td>
+    </tr>
+  `).join('');
+
+  const quickFacts = report.quickFacts.map(([k,v]) => `
+    <div>${k}</div><div class="val">${v}</div>
+  `).join('');
+
+  const summary = report.summaryCards.map(card => `
+    <div class="summary-card">
+      <div class="label">${card.label}</div>
+      <div class="value">${card.value}</div>
+      <p>${card.text}</p>
+    </div>
+  `).join('');
+
+  const zoneColors = ['#32c48d','#4ea6ff','#ffb020','#ff7a00','#ff5d5d'];
+  const zoneHtml = data.zoneBands.map((z, idx) => {
+    const width = Math.max(8, ((z.high - z.low) / 82) * 100);
+    return `
+      <div class="zone-item">
+        <div class="row">
+          <div class="name">${z.label}</div>
+          <div class="muted">${z.low}–${z.high} bpm • ${z.note}</div>
+        </div>
+        <div class="bar"><span style="width:${width}%; background:${zoneColors[idx]}"></span></div>
+      </div>
+    `;
+  }).join('');
+
+  root.innerHTML = `
+    <section class="card hero">
+      <div>
+        <div class="eyebrow">Running Performance Analyst • Endurance Coach</div>
+        <h1>${report.title}</h1>
+        <div class="subtitle">
+          Report salvato per <strong>${formatLongDate(state.selectedDate)}</strong>. ${report.subtitle}
+        </div>
+        <div class="tags">
+          ${report.heroTags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+        </div>
+      </div>
+      <div class="summary-grid">${summary}</div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Quadro rapido del giorno</h2>
+          <div class="hint">Questi dati integrano il report precedente e correggono i punti che erano ancora in sospeso.</div>
+        </div>
+        <div class="pill blue">Report archiviato</div>
+      </div>
+      <div class="grid-2">
+        <div class="card kv-card">
+          <h3>Fatti chiave</h3>
+          <div class="kv">${quickFacts}</div>
+        </div>
+        <div class="card text-card">
+          <h3>Lettura aggiornata</h3>
+          ${report.sections.executive}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Progressione del piano</h2>
+          <div class="hint">Il trend delle corse facili e il volume settimanale restano il fondamento del miglioramento.</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card chart-card">
+          <div class="chart-title">
+            <div>
+              <h3>Tendenza del passo facile</h3>
+              <div class="meta">Più in alto = passo più rapido. Il salto da 8:43/km a ~6:50–6:55/km su distanze più lunghe è il progresso più solido dell’intero dataset.</div>
+            </div>
+          </div>
+          <svg id="easyPaceChart" class="chart" aria-label="Grafico passo facile"></svg>
+          <div class="legend">
+            <span><span class="dotlegend" style="background:var(--accent);"></span>Passo easy</span>
+          </div>
+        </div>
+        <div class="card chart-card">
+          <div class="chart-title">
+            <div>
+              <h3>Volume settimanale</h3>
+              <div class="meta">Il picco a ~30 km/settimana è ciò che rende credibile la crescita verso il sub 60 e, più avanti, verso la mezza.</div>
+            </div>
+          </div>
+          <svg id="weeklyVolumeChart" class="chart" aria-label="Grafico volume"></svg>
+        </div>
+      </div>
+      <div class="card text-card">
+        <h3>Tre sedute che raccontano davvero il percorso</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Seduta</th>
+                <th>Distanza</th>
+                <th>Tempo</th>
+                <th>Passo</th>
+                <th>FC media/max</th>
+                <th>Potenza</th>
+                <th>Cadenza</th>
+                <th>Passo medio</th>
+                <th>Training Effect</th>
+                <th>Load</th>
+                <th>RPE</th>
+              </tr>
+            </thead>
+            <tbody>${sessionsRows}</tbody>
+          </table>
+        </div>
+        <div class="footer-note">La combinazione “5K veloce + easy run lungo controllato” è molto più informativa del vecchio PB 39:30. Salvo anomalie di GPS o classificazione Garmin, il tuo riferimento attuale è già ampiamente migliore.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Fisiologia, recupero e stato Garmin</h2>
+          <div class="hint">Il punto centrale non è “sei stanco?” ma “sei abbastanza stimolato nel modo giusto?”.</div>
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="card mini">
+          <div class="label">Training Readiness</div>
+          <div class="value">69</div>
+          <p>Moderato. Sonno buono, recupero completato, HRV bilanciata, carico acuto basso.</p>
+        </div>
+        <div class="card mini">
+          <div class="label">VO₂max</div>
+          <div class="value">51</div>
+          <p>Trend in lieve calo nelle 4 settimane, ma in contrasto con una performance sul campo chiaramente migliore.</p>
+        </div>
+        <div class="card mini">
+          <div class="label">Training Status</div>
+          <div class="value">Non produttivo</div>
+          <p>Interpretazione corretta: troppo easy rispetto al mix ideale, non “stai peggiorando”.</p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card chart-card">
+          <div class="chart-title">
+            <div>
+              <h3>Trend VO₂max (4 settimane)</h3>
+              <div class="meta">Calo lieve e probabilmente più algoritmico che reale. Il benchmark 5K ti difende meglio del grafico isolato.</div>
+            </div>
+          </div>
+          <svg id="vo2Chart" class="chart" aria-label="Grafico VO2"></svg>
+        </div>
+        <div class="card text-card">
+          <h3>Interpretazione fisiologica</h3>
+          ${report.sections.physiology}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Zone cardiache e significato pratico</h2>
+          <div class="hint">Nuovo modello basato su SAFC/LTHR 168 bpm: molto più coerente con le tue sensazioni nelle corse facili.</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card text-card">
+          <h3>Analisi delle nuove zone</h3>
+          ${report.sections.zones}
+        </div>
+        <div class="card text-card">
+          <h3>Bande calcolate</h3>
+          <div class="zone-list">${zoneHtml}</div>
+          <div class="footer-note" style="margin-top:12px;">Nota: i limiti sono arrotondati ai bpm interi più vicini a partire dalle percentuali Garmin visibili nello screenshot.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Tecnica di corsa e composizione corporea</h2>
+          <div class="hint">Qui conviene separare i numeri utili dalle etichette fuorvianti.</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card text-card">
+          <h3>Tecnica</h3>
+          ${report.sections.technique}
+        </div>
+        <div class="card kv-card">
+          <h3>Bilancia e salute</h3>
+          <div class="kv">
+            <div>Peso</div><div class="val">${body.weight} kg</div>
+            <div>BMI</div><div class="val">${body.bmi}</div>
+            <div>Body fat</div><div class="val">${body.bodyFat}%</div>
+            <div>Massa grassa</div><div class="val">${body.fatMass} kg</div>
+            <div>Massa muscolare</div><div class="val">${body.muscleMass} kg</div>
+            <div>Massa magra</div><div class="val">${body.ffm} kg</div>
+            <div>Acqua corporea</div><div class="val">${body.waterPct}%</div>
+            <div>Visceral fat</div><div class="val">${body.visceralFat}</div>
+            <div>BMR</div><div class="val">${body.bmr} kcal</div>
+          </div>
+          <div style="margin-top:14px;">${report.sections.health}</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Stime prestazione e strategia</h2>
+          <div class="hint">Qui va distinto ciò che è già dimostrato da ciò che diventa plausibile con 6–8 settimane di lavoro ben indirizzato.</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card text-card">
+          <h3>Stime aggiornate</h3>
+          ${report.sections.estimates}
+        </div>
+        <div class="card text-card">
+          <h3>Strategia consigliata</h3>
+          ${report.sections.strategy}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Storico e aggiornamenti futuri</h2>
+          <div class="hint">La web-app ora è pronta a crescere per data. Il prossimo passo dipende da quanto vuoi automatizzare.</div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card text-card">
+          <h3>Come manterremo gli aggiornamenti</h3>
+          ${report.sections.workflow}
+        </div>
+        <div class="card text-card">
+          <h3>Formato archivio</h3>
+          <p>Ogni report è salvato dentro <code>reports["YYYY-MM-DD"]</code>. Quando avremo nuovi allenamenti, aggiungeremo una nuova data e il calendario la mostrerà automaticamente.</p>
+          <p>Hai già tre modalità operative:</p>
+          <ul>
+            <li><strong>HTML aggiornato da me</strong>: tu invii screen, io aggiorno l’app e ti restituisco il nuovo file.</li>
+            <li><strong>JSON importabile</strong>: puoi mantenere un archivio separato e importarlo dentro questa stessa interfaccia.</li>
+            <li><strong>Automazione futura</strong>: backend + AI vision per estrarre dati e appendere report in automatico.</li>
+          </ul>
+          <p class="footer-note">Per evitare falsi positivi o parsing sbagliati, oggi il flusso guidato via chat resta il più affidabile.</p>
+        </div>
+      </div>
+    </section>
+  `;
+
+  lineChart('easyPaceChart', data.easyRuns, d => -d.paceSec, {
+    color: '#ff7a00',
+    formatY: v => paceToMinPerKmLabel(Math.abs(v))
+  });
+  barChart('weeklyVolumeChart', data.weeklyVolume, 'km', { color: '#4ea6ff' });
+  lineChart('vo2Chart', data.vo2Trend, d => d.value, {
+    color: '#32c48d',
+    formatY: v => v.toFixed(1)
+  });
+}
+
+function renderAll() {
+  ensureSelectedDateValid();
+  renderCalendar();
+  renderReportList();
+  renderMain();
+}
+
+document.getElementById('prevMonthBtn').addEventListener('click', () => {
+  state.monthCursor = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth() - 1, 1);
+  renderCalendar();
+});
+document.getElementById('nextMonthBtn').addEventListener('click', () => {
+  state.monthCursor = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth() + 1, 1);
+  renderCalendar();
+});
+
+document.getElementById('jumpTodayBtn').addEventListener('click', () => {
+  state.selectedDate = getLatestReportDate();
+  saveSelectedDate();
+  state.monthCursor = new Date(isoToDate(state.selectedDate).getFullYear(), isoToDate(state.selectedDate).getMonth(), 1);
+  renderAll();
+});
+
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(state.archive, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'marco-running-report-archive.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+
+document.getElementById('importBtn').addEventListener('click', () => {
+  document.getElementById('importFile').click();
+});
+
+document.getElementById('importFile').addEventListener('change', async (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    if (!parsed.reports) throw new Error('Formato non valido: manca la chiave reports');
+    state.archive = parsed;
+    saveArchive();
+    state.selectedDate = getLatestReportDate();
+    saveSelectedDate();
+    state.monthCursor = new Date(isoToDate(state.selectedDate).getFullYear(), isoToDate(state.selectedDate).getMonth(), 1);
+    renderAll();
+    alert('Archivio importato correttamente.');
+  } catch (err) {
+    alert('Import fallito: ' + err.message);
+  } finally {
+    e.target.value = '';
+  }
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('Vuoi ripristinare l’archivio di default incluso in questa pagina?')) return;
+  state.archive = structuredClone(BUNDLED_ARCHIVE);
+  saveArchive();
+  state.selectedDate = getLatestReportDate();
+  saveSelectedDate();
+  state.monthCursor = new Date(isoToDate(state.selectedDate).getFullYear(), isoToDate(state.selectedDate).getMonth(), 1);
+  renderAll();
+});
+
+renderAll();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
