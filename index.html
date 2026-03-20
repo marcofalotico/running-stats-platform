@@ -732,8 +732,19 @@ function buildBodyCompText(report) {
   const wt = body.weight != null ? body.weight.toFixed(1) + ' kg' : 'n.d.';
   const bf = body.bodyFat != null ? body.bodyFat.toFixed(1) + '%' : 'n.d.';
   const mus = body.muscleMass != null ? body.muscleMass.toFixed(1) + ' kg' : 'n.d.';
+  const ffm = body.ffm ?? null;
+
+  let targetText = 'Range peso target non ancora stimabile.';
+  if (ffm != null) {
+    const w20 = ffm / 0.80; // 20% body fat
+    const w18 = ffm / 0.82; // 18% body fat
+    const low = Math.min(w20, w18).toFixed(1);
+    const high = Math.max(w20, w18).toFixed(1);
+    targetText = `Un primo range peso sensato, se mantieni la massa magra, è circa <strong>${low}–${high} kg</strong>.`;
+  }
+
   return `
-    Il peso attuale è <strong>${wt}</strong>, con body fat <strong>${bf}</strong> e massa muscolare <strong>${mus}</strong>. Il punto utile non è l’etichetta della bilancia, ma il rapporto tra massa attiva e peso totale: oggi hai ancora margine per diventare più economico nella corsa, ma il modo giusto è un lavoro lento e sostenibile. Indicazione pratica: <strong>proteine 1.6–1.8 g/kg/die</strong>, carboidrati più alti nei giorni di qualità o lungo e più moderati nei giorni facili, verdure e fibre ogni giorno, deficit calorico solo <strong>leggero</strong> e mai a ridosso delle sedute chiave. Un ritmo sensato, se vuoi alleggerirti senza perdere gamba, è circa <strong>0.2–0.3 kg a settimana</strong>.`;
+    Il peso attuale è <strong>${wt}</strong>, con body fat <strong>${bf}</strong> e massa muscolare <strong>${mus}</strong>. Il punto utile non è l’etichetta della bilancia, ma il rapporto tra massa attiva e peso totale: oggi hai ancora margine per diventare più economico nella corsa, ma il modo giusto è un lavoro lento e sostenibile. ${targetText} Indicazione pratica: <strong>proteine alte e ben distribuite</strong>, carboidrati più alti nei giorni di qualità o lungo e più moderati nei giorni facili, verdure e fibre ogni giorno, deficit calorico solo <strong>leggero</strong> e mai a ridosso delle sedute chiave. Un ritmo sensato, se vuoi alleggerirti senza perdere gamba, è circa <strong>0.2–0.3 kg a settimana</strong>.`;
 }
 
 function buildTechnicalSummaryHTML(report) {
@@ -754,6 +765,448 @@ function buildTechnicalSummaryHTML(report) {
       <li><strong>Dieta pratica:</strong> proteine distribuite nella giornata, carboidrati concentrati attorno agli allenamenti, deficit leggero solo se sostenibile e mai dopo una seduta chiave.</li>
       <li><strong>Cosa evitare:</strong> trasformare ogni corsa facile in medio mascherato e inseguire la bilancia più della qualità del blocco.</li>
     </ul>
+  `;
+}
+
+function roundTo50(value) {
+  return Math.round(value / 50) * 50;
+}
+
+function addDays(date, days) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+function getComingSunday(date) {
+  const d = new Date(date);
+  const delta = (7 - d.getDay()) % 7;
+  d.setDate(d.getDate() + delta);
+  return d;
+}
+
+function formatShortDayDate(date) {
+  return date.toLocaleDateString('it-IT', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short'
+  });
+}
+
+function computeTargetWeightRange(report) {
+  const ffm = report?.data?.bodyComp?.ffm ?? null;
+  if (ffm == null) return { low: 82.0, high: 84.0 };
+
+  const w20 = ffm / 0.80; // target 20% body fat
+  const w18 = ffm / 0.82; // target 18% body fat
+
+  return {
+    low: +Math.min(w20, w18).toFixed(1),
+    high: +Math.max(w20, w18).toFixed(1)
+  };
+}
+
+function meal(text, kcal, swaps = []) {
+  return { text, kcal, swaps };
+}
+
+function sumMealsKcal(dayPlan) {
+  return dayPlan.breakfast.kcal + dayPlan.lunch.kcal + dayPlan.dinner.kcal + dayPlan.snack.kcal;
+}
+
+function renderSwaps(swaps) {
+  if (!swaps || !swaps.length) return '';
+  return `<div class="small-note mt-2"><strong>Sostituzioni:</strong> ${swaps.join(' • ')}</div>`;
+}
+
+function computeTargetWeightRange(report) {
+  const ffm = report?.data?.bodyComp?.ffm ?? null;
+  if (ffm == null) return { low: 82.0, high: 84.0 };
+
+  const w20 = ffm / 0.80;
+  const w18 = ffm / 0.82;
+
+  return {
+    low: +Math.min(w20, w18).toFixed(1),
+    high: +Math.max(w20, w18).toFixed(1)
+  };
+}
+
+function getNutritionTemplateByWeekday(dayNumber) {
+  switch (dayNumber) {
+    case 0: // domenica
+      return {
+        typeLabel: 'Lungo / ricarica controllata',
+        breakfast: meal(
+          '250 ml latte + 50 g cereali + 1 banana + caffè',
+          380,
+          [
+            '200 g yogurt greco + 35 g cereali + banana (~360 kcal)',
+            '5 gallette di mais + 25 g marmellata + yogurt greco 170 g (~350 kcal)'
+          ]
+        ),
+        lunch: meal(
+          '100 g pasta al tonno + 15 g grana + 10 g olio + misticanza',
+          730,
+          [
+            '100 g pasta al sugo + 20 g grana + 10 g olio (~680 kcal)',
+            '90 g pasta al pesto + tonno naturale 80 g (~700 kcal)'
+          ]
+        ),
+        dinner: meal(
+          '200 g pesce + zucchine o carote + 80 g pane + 10 g olio',
+          680,
+          [
+            '180 g pollo + 80 g pane + verdura + 10 g olio (~700 kcal)',
+            'Hamburger magro 180 g + 70 g pane + misticanza (~680 kcal)'
+          ]
+        ),
+        snack: meal(
+          '170 g yogurt greco + banana + 2 gallette',
+          260,
+          [
+            '250 ml latte + banana (~200 kcal)',
+            '170 g yogurt greco + 20 g marmellata (~180 kcal)'
+          ]
+        ),
+        note: 'Giorno più alto in carboidrati, ma senza sforare: qui il cibo serve anche a recuperare bene.'
+      };
+
+    case 1: // lunedì
+      return {
+        typeLabel: 'Recupero attivo',
+        breakfast: meal(
+          '200 g yogurt greco + 30 g cereali + caffè',
+          280,
+          [
+            '250 ml latte + 4 Nascondini (~300 kcal)',
+            '4 gallette + 20 g marmellata + yogurt greco 150 g (~280 kcal)'
+          ]
+        ),
+        lunch: meal(
+          '90 g pasta al tonno + 10 g olio + misticanza',
+          620,
+          [
+            '90 g pasta al sugo + 15 g grana + 10 g olio (~560 kcal)',
+            '90 g pasta allo sgombro (~640 kcal)'
+          ]
+        ),
+        dinner: meal(
+          '180 g pollo + zucchine + 70 g pane + 10 g olio',
+          650,
+          [
+            '200 g pesce + 70 g pane + verdura (~620 kcal)',
+            '3 uova + 150 g albumi + 60 g pane + verdura (~610 kcal)'
+          ]
+        ),
+        snack: meal(
+          '170 g yogurt greco + 1 frutto',
+          180,
+          [
+            '4 gallette + 20 g marmellata (~160 kcal)',
+            'Banana + caffè (~110 kcal)'
+          ]
+        ),
+        note: 'Giorno da deficit leggero ma non estremo.'
+      };
+
+    case 2: // martedì
+      return {
+        typeLabel: 'Qualità / seduta chiave',
+        breakfast: meal(
+          '250 ml latte + 50 g cereali + banana + caffè',
+          370,
+          [
+            '200 g yogurt greco + 35 g cereali + banana (~360 kcal)',
+            '250 ml latte + 5 Nascondini + banana (~390 kcal)'
+          ]
+        ),
+        lunch: meal(
+          '100 g pasta con sgombro + 10 g olio + carote',
+          710,
+          [
+            '100 g pasta al tonno + 15 g grana (~730 kcal)',
+            '100 g pasta al sugo + 20 g grana + 10 g olio (~680 kcal)'
+          ]
+        ),
+        dinner: meal(
+          'Hamburger magro 180 g + misticanza + 70 g pane',
+          660,
+          [
+            '180 g pollo + 70 g pane + verdura (~650 kcal)',
+            '3 uova + 150 g albumi + 60 g pane (~610 kcal)'
+          ]
+        ),
+        snack: meal(
+          '170 g yogurt greco + banana',
+          220,
+          [
+            '250 ml latte + 4 gallette (~220 kcal)',
+            'Yogurt greco 170 g + 20 g marmellata (~180 kcal)'
+          ]
+        ),
+        note: 'Qui non tagliare troppo: meglio proteggere la seduta.'
+      };
+
+    case 3: // mercoledì
+      return {
+        typeLabel: 'Corsa facile',
+        breakfast: meal(
+          '250 ml latte + 45 g cereali + caffè',
+          300,
+          [
+            '200 g yogurt greco + 30 g cereali (~280 kcal)',
+            '250 ml latte + 4 Nascondini (~300 kcal)'
+          ]
+        ),
+        lunch: meal(
+          '90 g pasta al sugo + 15 g grana + 10 g olio + carote',
+          590,
+          [
+            '90 g pasta al tonno (~620 kcal)',
+            '90 g pasta al pesto (~620 kcal)'
+          ]
+        ),
+        dinner: meal(
+          '200 g pesce + zucchine + 70 g pane + 10 g olio',
+          620,
+          [
+            '180 g pollo + 70 g pane + verdura (~650 kcal)',
+            'Hamburger magro 180 g + 60 g pane (~640 kcal)'
+          ]
+        ),
+        snack: meal(
+          '170 g yogurt greco + banana oppure 4 gallette + marmellata',
+          220,
+          [
+            'Banana sola (~90 kcal)',
+            'Yogurt greco 170 g (~100 kcal)'
+          ]
+        ),
+        note: 'Equilibrato: più leggero del giorno qualità, ma senza scendere troppo.'
+      };
+
+    case 4: // giovedì
+      return {
+        typeLabel: 'Recupero / sonno da proteggere',
+        breakfast: meal(
+          '200 g yogurt greco + 30 g cereali + caffè',
+          280,
+          [
+            '250 ml latte + 4 Nascondini (~300 kcal)',
+            '4 gallette + 20 g marmellata + yogurt greco 150 g (~280 kcal)'
+          ]
+        ),
+        lunch: meal(
+          '90 g pasta al tonno + 10 g olio + misticanza',
+          620,
+          [
+            '90 g pasta al sugo + 15 g grana + 10 g olio (~560 kcal)',
+            '90 g pasta allo sgombro (~640 kcal)'
+          ]
+        ),
+        dinner: meal(
+          '180 g pollo + zucchine + 70 g pane + 10 g olio',
+          650,
+          [
+            '200 g pesce + 70 g pane + verdura (~620 kcal)',
+            '3 uova + 150 g albumi + 60 g pane + verdura (~610 kcal)'
+          ]
+        ),
+        snack: meal(
+          '170 g yogurt greco + 1 frutto',
+          180,
+          [
+            '4 gallette + 20 g marmellata (~160 kcal)',
+            'Banana + caffè (~110 kcal)'
+          ]
+        ),
+        note: 'Perfetto per tenere il deficit senza rovinare il recupero.'
+      };
+
+    case 5: // venerdì
+      return {
+        typeLabel: 'Base aerobica',
+        breakfast: meal(
+          '250 ml latte + 45 g cereali + caffè',
+          300,
+          [
+            '200 g yogurt greco + 30 g cereali (~280 kcal)',
+            '250 ml latte + 4 Nascondini (~300 kcal)'
+          ]
+        ),
+        lunch: meal(
+          '90 g pasta al sugo e formaggio + 10 g olio',
+          600,
+          [
+            '90 g pasta al tonno (~620 kcal)',
+            '90 g pasta allo sgombro (~640 kcal)'
+          ]
+        ),
+        dinner: meal(
+          'Hamburger magro 180 g + misticanza + 70 g pane',
+          660,
+          [
+            '180 g pollo + 70 g pane + verdura (~650 kcal)',
+            '200 g pesce + 70 g pane + verdura (~620 kcal)'
+          ]
+        ),
+        snack: meal(
+          '170 g yogurt greco + banana',
+          220,
+          [
+            '4 gallette + 20 g marmellata (~160 kcal)',
+            'Banana sola (~90 kcal)'
+          ]
+        ),
+        note: 'Pulito e sostenibile: qui puoi stare leggermente sotto senza problemi.'
+      };
+
+    case 6: // sabato
+      return {
+        typeLabel: 'Riposo / scarico leggero',
+        breakfast: meal(
+          '250 ml latte + 4 Nascondini + caffè',
+          300,
+          [
+            '200 g yogurt greco + 25 g cereali (~250 kcal)',
+            '4 gallette + 20 g marmellata + yogurt greco 150 g (~280 kcal)'
+          ]
+        ),
+        lunch: meal(
+          '90 g pasta allo sgombro oppure al pesto + misticanza',
+          620,
+          [
+            '90 g pasta al tonno (~620 kcal)',
+            '90 g pasta al sugo + 15 g grana + 10 g olio (~560 kcal)'
+          ]
+        ),
+        dinner: meal(
+          '200 g pesce oppure 3 uova + verdura + 60 g pane + 10 g olio',
+          590,
+          [
+            '180 g pollo + 60 g pane + verdura (~600 kcal)',
+            'Hamburger magro 180 g + 50 g pane (~600 kcal)'
+          ]
+        ),
+        snack: meal(
+          '170 g yogurt greco oppure 1 frutto + 2 gallette',
+          150,
+          [
+            'Banana sola (~90 kcal)',
+            '4 gallette + 20 g marmellata (~160 kcal)'
+          ]
+        ),
+        note: 'Qui il deficit può essere un po’ più netto, ma senza scendere troppo.'
+      };
+
+    default:
+      return {
+        typeLabel: 'Giorno standard',
+        breakfast: meal('250 ml latte + 45 g cereali + caffè', 300),
+        lunch: meal('90 g pasta con condimento semplice', 600),
+        dinner: meal('Secondo + verdura + 60 g pane', 600),
+        snack: meal('Yogurt greco o frutto', 180),
+        note: 'Giorno bilanciato.'
+      };
+  }
+}
+
+function buildNutritionPlanData(report) {
+  const body = report?.data?.bodyComp || {};
+  const weight = body.weight ?? state.archive?.athleteProfile?.weightKg ?? 87.3;
+  const proteinLow = Math.round(weight * 1.6);
+  const proteinHigh = Math.round(weight * 1.8);
+  const targetRange = computeTargetWeightRange(report);
+
+  const start = isoToDate(state.selectedDate);
+  const end = getComingSunday(start);
+
+  const days = [];
+  let cursor = new Date(start);
+
+  while (cursor <= end) {
+    const template = getNutritionTemplateByWeekday(cursor.getDay());
+    const kcal = sumMealsKcal(template);
+
+    days.push({
+      label: formatShortDayDate(cursor),
+      isToday: cursor.toDateString() === start.toDateString(),
+      kcal,
+      ...template
+    });
+
+    cursor = addDays(cursor, 1);
+  }
+
+  const avgTargetKcal = Math.round(
+    days.reduce((sum, day) => sum + day.kcal, 0) / Math.max(days.length, 1)
+  );
+
+  return {
+    proteinLow,
+    proteinHigh,
+    targetLow: targetRange.low,
+    targetHigh: targetRange.high,
+    avgTargetKcal,
+    days
+  };
+}
+
+function buildNutritionHTML(report) {
+  const plan = buildNutritionPlanData(report);
+
+  return `
+    <div class="card-panel p-4 h-100">
+      <div class="eyebrow mb-2">Nutrizione</div>
+      <h2 class="section-title mb-3">Da oggi a domenica</h2>
+
+      <p class="muted mb-3">
+        Qui le kcal non sono più “stimate a parte”: sono la <strong>somma pratica dei pasti proposti</strong>. Restano comunque valori <strong>circa</strong>, perché cambiano con marche, olio, pane, formaggio e porzioni reali.
+      </p>
+
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <span class="delta-badge">Target medio ~${plan.avgTargetKcal} kcal</span>
+        <span class="delta-badge">Proteine ${plan.proteinLow}–${plan.proteinHigh} g</span>
+        <span class="delta-badge">Range peso sensato ${plan.targetLow}–${plan.targetHigh} kg</span>
+        <span class="delta-badge">Taratura: ±100–150 kcal ogni 14 gg</span>
+      </div>
+
+      <div class="row g-3">
+        ${plan.days.map(day => `
+          <div class="col-md-6 col-xl-4">
+            <div class="metric-item h-100">
+              <div class="label">${day.label}${day.isToday ? ' • oggi' : ''}</div>
+              <div class="value">${day.kcal} kcal</div>
+
+              <div class="mini-note mt-2"><strong>${day.typeLabel}</strong></div>
+
+              <div class="mini-note mt-2"><strong>Colazione:</strong> ${day.breakfast.text} <em>(~${day.breakfast.kcal} kcal)</em></div>
+              ${renderSwaps(day.breakfast.swaps)}
+
+              <div class="mini-note mt-3"><strong>Pranzo:</strong> ${day.lunch.text} <em>(~${day.lunch.kcal} kcal)</em></div>
+              ${renderSwaps(day.lunch.swaps)}
+
+              <div class="mini-note mt-3"><strong>Cena:</strong> ${day.dinner.text} <em>(~${day.dinner.kcal} kcal)</em></div>
+              ${renderSwaps(day.dinner.swaps)}
+
+              <div class="mini-note mt-3"><strong>Spuntino:</strong> ${day.snack.text} <em>(~${day.snack.kcal} kcal)</em></div>
+              ${renderSwaps(day.snack.swaps)}
+
+              <div class="small-note mt-3">${day.note}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <p class="small-note mt-3 mb-2">
+        Regola pratica di taratura: se la <strong>media peso di 14 giorni</strong> non scende, togli <strong>100–150 kcal</strong> al giorno soprattutto da biscotti, pane, marmellata, pesto, grana o olio. Se invece ti senti vuoto in allenamento, recuperi male o scendi troppo in fretta, aggiungi <strong>100–150 kcal</strong> nei giorni di qualità o lungo.
+      </p>
+
+      <p class="small-note mb-0">
+        Punto chiave: con le tue preferenze, le sostituzioni più intelligenti per restare in deficit sono queste: <strong>latte + biscotti → yogurt greco + cereali</strong> quando vuoi più proteine; <strong>pasta al pesto → pasta al tonno / sugo</strong> quando vuoi tagliare kcal senza togliere il piatto che ti piace; <strong>hamburger + pane grande → pollo o pesce + pane controllato</strong> quando vuoi una cena più leggera.
+      </p>
+    </div>
   `;
 }
 
@@ -879,6 +1332,10 @@ function renderMain() {
           <h2 class="section-title mb-3">Relazione medico-sportiva e operativa</h2>
           ${buildTechnicalSummaryHTML(report)}
         </div>
+      </div>
+
+      <div class="col-12">
+        ${buildNutritionHTML(report)}
       </div>
     </section>
 
