@@ -1,0 +1,1953 @@
+{
+  "schemaVersion": 1,
+  "athleteProfile": {
+    "name": "Marco",
+    "age": 33,
+    "heightCm": 185,
+    "weightKg": 86.9,
+    "bodyFatPct": 22.9,
+    "muscleMassKg": 63.2,
+    "restingHr": 49,
+    "maxHr": 190,
+    "lthr": 168,
+    "goals": {
+      "10k": "59:27 achieved on 2026-03-21 • next target < 59:00",
+      "deejayTen": "58:50–59:30 realistico • stretch < 59:00",
+      "tuttadritta": "58:15–59:00 realistico • stretch 57:45–58:15",
+      "half": "< 1:58:30 autunno 2026"
+    }
+  },
+  "reports": {
+    "2026-03-17": {
+      "title": "Report tecnico 10K • stato al 17 marzo 2026",
+      "subtitle": "Aggiornamento del report con VO₂max, Training Readiness, Training Status, FC media/max 4 settimane e nuove zone cardio basate su SAFC 168 bpm.",
+      "heroTags": [
+        "Garmin Coach Greg • settimana 8/12",
+        "3–4 uscite/settimana",
+        "Target A-race: Tuttadritta 10 maggio",
+        "Nuove zone corsa basate su SAFC 168 bpm"
+      ],
+      "summaryCards": [
+        {
+          "label": "Stato forma",
+          "value": "In crescita",
+          "text": "Base aerobica, durata e passo facile sono migliorati in modo netto. La nuova evidenza chiave è la 5.01 km in 29:35."
+        },
+        {
+          "label": "Training Readiness",
+          "value": "69/100",
+          "text": "Moderato: sonno buono, recupero completato, HRV bilanciata. Il corpo appare fresco più che affaticato."
+        },
+        {
+          "label": "Training Status",
+          "value": "Non produttivo",
+          "text": "Non significa regressione: Garmin segnala che il carico è troppo sbilanciato sulle basse intensità rispetto al mix ideale."
+        },
+        {
+          "label": "10K realistico oggi",
+          "value": "60:45–62:30",
+          "text": "Il sub 60 è diventato molto più credibile. I 55' restano però una stima troppo aggressiva per maggio."
+        }
+      ],
+      "quickFacts": [
+        [
+          "VO₂max",
+          "51 attuale • lieve calo 51.5 → 51.0 → 50.6 in 4 settimane"
+        ],
+        [
+          "HRV Status",
+          "69 ms • bilanciato"
+        ],
+        [
+          "Carico acuto",
+          "157 • basso"
+        ],
+        [
+          "Sonno",
+          "84 punteggio notte • media 7 giorni 6h31"
+        ],
+        [
+          "FC corsa (ultime 4 settimane)",
+          "FC media 141 bpm • FC max media 159 bpm"
+        ],
+        [
+          "Zone corsa",
+          "ricalcolate su SAFC 168 bpm"
+        ],
+        [
+          "PB funzionale 5K",
+          "5.01 km in 29:35 il 7 marzo, molto più rappresentativo del vecchio 39:30"
+        ],
+        [
+          "Bilancia",
+          "BMI 25.3 = sovrastima grossolana del rischio se letto da solo"
+        ]
+      ],
+      "data": {
+        "easyRuns": [
+          {
+            "date": "2026-01-28",
+            "label": "28 gen",
+            "paceSec": 523,
+            "distance": 3.45
+          },
+          {
+            "date": "2026-01-31",
+            "label": "31 gen",
+            "paceSec": 471,
+            "distance": 3.85
+          },
+          {
+            "date": "2026-02-01",
+            "label": "1 feb",
+            "paceSec": 457,
+            "distance": 5.42
+          },
+          {
+            "date": "2026-02-04",
+            "label": "4 feb",
+            "paceSec": 475,
+            "distance": 3.81
+          },
+          {
+            "date": "2026-02-06",
+            "label": "6 feb",
+            "paceSec": 478,
+            "distance": 4.54
+          },
+          {
+            "date": "2026-02-11",
+            "label": "11 feb",
+            "paceSec": 403,
+            "distance": 5.96
+          },
+          {
+            "date": "2026-02-15",
+            "label": "15 feb",
+            "paceSec": 445,
+            "distance": 6.76
+          },
+          {
+            "date": "2026-02-18",
+            "label": "18 feb",
+            "paceSec": 440,
+            "distance": 4.28
+          },
+          {
+            "date": "2026-02-19",
+            "label": "19 feb",
+            "paceSec": 446,
+            "distance": 3.7
+          },
+          {
+            "date": "2026-02-20",
+            "label": "20 feb",
+            "paceSec": 494,
+            "distance": 3.65
+          },
+          {
+            "date": "2026-02-23",
+            "label": "23 feb",
+            "paceSec": 458,
+            "distance": 4.78
+          },
+          {
+            "date": "2026-03-01",
+            "label": "1 mar",
+            "paceSec": 444,
+            "distance": 6.77
+          },
+          {
+            "date": "2026-03-03",
+            "label": "3 mar",
+            "paceSec": 441,
+            "distance": 6.83
+          },
+          {
+            "date": "2026-03-13",
+            "label": "13 mar",
+            "paceSec": 408,
+            "distance": 8.02
+          },
+          {
+            "date": "2026-03-15",
+            "label": "15 mar",
+            "paceSec": 415,
+            "distance": 8.68
+          }
+        ],
+        "weeklyVolume": [
+          {
+            "label": "26 gen–1 feb",
+            "km": 14.16
+          },
+          {
+            "label": "2–8 feb",
+            "km": 12.48
+          },
+          {
+            "label": "9–15 feb",
+            "km": 16.78
+          },
+          {
+            "label": "16–22 feb",
+            "km": 11.63
+          },
+          {
+            "label": "23 feb–1 mar",
+            "km": 23.86
+          },
+          {
+            "label": "2–8 mar",
+            "km": 18.38
+          },
+          {
+            "label": "9–15 mar",
+            "km": 30.04
+          }
+        ],
+        "vo2Trend": [
+          {
+            "date": "2026-02-23",
+            "label": "23 feb",
+            "value": 51.5
+          },
+          {
+            "date": "2026-03-02",
+            "label": "2 mar",
+            "value": 51.0
+          },
+          {
+            "date": "2026-03-09",
+            "label": "9 mar",
+            "value": 50.6
+          }
+        ],
+        "zoneBands": [
+          {
+            "label": "Z1 Recupero",
+            "low": 109,
+            "high": 133,
+            "note": "65–79% SAFC"
+          },
+          {
+            "label": "Z2 Facile",
+            "low": 134,
+            "high": 148,
+            "note": "80–88% SAFC"
+          },
+          {
+            "label": "Z3 Aerobica",
+            "low": 150,
+            "high": 158,
+            "note": "89–94% SAFC"
+          },
+          {
+            "label": "Z4 Soglia",
+            "low": 160,
+            "high": 166,
+            "note": "95–99% SAFC"
+          },
+          {
+            "label": "Z5 Sopra soglia",
+            "low": 168,
+            "high": 190,
+            "note": "100–113% SAFC"
+          }
+        ],
+        "sessions": [
+          {
+            "name": "Prima corsa facile",
+            "date": "28 gen",
+            "distance": 3.45,
+            "time": "30:03",
+            "pace": "8:43/km",
+            "paceSec": 523,
+            "avgHr": 124,
+            "maxHr": 132,
+            "power": 237,
+            "cadence": 156,
+            "stride": 0.74,
+            "te": "1.4 aerobico basso",
+            "load": 14,
+            "rpe": "Molto facile",
+            "type": "easy"
+          },
+          {
+            "name": "5K di riferimento",
+            "date": "7 mar",
+            "distance": 5.01,
+            "time": "29:35",
+            "pace": "5:54/km",
+            "paceSec": 354,
+            "avgHr": 154,
+            "maxHr": 176,
+            "power": 334,
+            "cadence": 176,
+            "stride": 0.96,
+            "te": "3.3 miglioramento aerobico",
+            "load": 92,
+            "rpe": "4/10 abbastanza duro",
+            "type": "fast"
+          },
+          {
+            "name": "Ultima corsa facile",
+            "date": "15 mar",
+            "distance": 8.68,
+            "time": "1:00:05",
+            "pace": "6:55/km",
+            "paceSec": 415,
+            "avgHr": 137,
+            "maxHr": 151,
+            "power": 285,
+            "cadence": 173,
+            "stride": 0.84,
+            "te": "2.8 mantenimento",
+            "load": 54,
+            "rpe": "2/10 leggero",
+            "type": "easy"
+          }
+        ],
+        "bodyComp": {
+          "weight": 86.7,
+          "bmi": 25.3,
+          "bodyFat": 22.8,
+          "fatMass": 19.8,
+          "muscleMass": 63.1,
+          "skeletalMusclePct": 38.1,
+          "visceralFat": 7,
+          "waterPct": 59.1,
+          "bmr": 1815,
+          "ffm": 66.9
+        }
+      },
+      "sections": {
+        "executive": "\n                <p>Con i dati nuovi il quadro cambia in meglio: il report precedente era prudente perché mancava un riferimento prestativo reale. La corsa del <strong>7 marzo da 5.01 km in 29:35</strong> sposta l’analisi. Non dimostra ancora che oggi hai già il sub 60 “in mano”, ma dimostra che il vecchio PB 5K da 39:30 non è più un benchmark utile.</p>\n                <p>Qui c’è il punto da mettere alla prova: raddoppiare una 5K a <strong>5:54/km</strong> non equivale automaticamente a tenere <strong>5:59/km</strong> per 10 km. Però ci dice che il target è entrato nella zona del plausibile. La differenza tra desiderio e dato si è ridotta parecchio.</p>\n                <div class=\"quote\">Conclusione aggiornata: il sub 60 non va più trattato come target “ottimistico”, ma come obiettivo realistico se nelle prossime settimane inserisci un po’ più di lavoro vicino alla soglia e proteggi il recupero.</div>\n                ",
+        "physiology": "\n                <p><strong>Training Readiness 69</strong> con sonno 84, recupero completato, HRV 69 ms bilanciata e carico acuto basso significa una cosa abbastanza chiara: il tuo problema oggi non sembra essere la stanchezza sistemica. Semmai il contrario: sei abbastanza fresco, ma lo stimolo recente è stato un po’ troppo facile per far dire a Garmin che sei “produttivo”.</p>\n                <p>Il <strong>VO₂max sceso da 51.5 a 50.6</strong> nelle ultime 4 settimane va letto con cautela. È un calo piccolo, mentre sul campo hai migliorato passo, durata e benchmark 5K. Questo è un classico caso in cui l’algoritmo può reagire a combinazione di caldo, sedute facili, HR più alta in alcune giornate o finestra temporale breve. Non lo leggerei come peggioramento reale della forma.</p>\n                <p><strong>Training Status “Non produttivo”</strong> non è una bocciatura del piano: è un feedback sul mix. Garmin ti sta dicendo che il carico c’è, ma che è troppo concentrato in basso. Quindi la conclusione non è “stai sbagliando tutto”; la conclusione corretta è “per rendere il blocco più 10K-specifico serve un pizzico di intensità qualitativa in più”.</p>\n                ",
+        "zones": "\n                <p>La correzione delle zone da <strong>% FC max</strong> a <strong>% SAFC/LTHR 168 bpm</strong> per te ha senso. Il tuo vecchio vincolo psicologico di stare sotto <strong>130 bpm</strong> per sentirti in Z2 probabilmente era troppo restrittivo rispetto a come realmente risponde il tuo corpo adesso.</p>\n                <p>Detto questo, non fare l’errore opposto. Il fatto che ora tu possa parlare o respirare col naso a ritmi un po’ più sostenuti <em>non</em> significa che ogni corsa a 145–150 bpm sia automaticamente “facile”. Le nuove zone sono più credibili, ma non sono un lasciapassare per trasformare ogni easy run in medio mascherato.</p>\n                <p>Il dato forte è che la tua <strong>ultima corsa facile a 137 bpm medi</strong> cade perfettamente dentro la nuova <strong>Z2 (134–148)</strong>. Questo rende il feeling della seduta coerente con il modello fisiologico aggiornato. È la prima volta che Garmin e la tua percezione soggettiva sembrano allinearsi davvero.</p>\n                ",
+        "technique": "\n                <p>La tecnica sta migliorando senza che tu sembri averla “forzata”. Passi da <strong>156 spm e 0.74 m</strong> nella prima corsa facile a <strong>173 spm e 0.84 m</strong> nell’ultima facile, fino a <strong>176 spm e 0.96 m</strong> nel 5K veloce. Questo è il pattern sano: la meccanica migliora come effetto della forma, non come tentativo artificiale di inseguire un numero.</p>\n                <p>Il margine più utile non è rincorrere ancora più cadenza, ma consolidare la capacità di mantenere una buona lunghezza del passo quando il ritmo sale verso il passo gara 10K. La tua 5K mostra già che quando spingi, la gamba “si apre” meglio e la potenza sale parecchio. Ora manca soprattutto la tenuta metabolica, non il gesto di base.</p>\n                ",
+        "estimates": "\n                <p><strong>Stima 10K oggi:</strong> 60:45–62:30. La corsa da 5.01 km in 29:35 suggerisce, con una normale penalità di fatica sul raddoppio distanza, una proiezione intorno ai 61 minuti e mezzo. Quindi sì: sei vicino. Ma vicino non significa già automatico.</p>\n                <p><strong>Stima 10K a maggio:</strong> 58:45–60:30 se continui con 3–4 uscite, una seduta di soglia a settimana e un medio/lungo facile che salga in modo stabile. Il vero rischio non è il motore: è arrivare in gara con troppo poco lavoro specifico a ritmo 10K.</p>\n                <p><strong>Stima mezza di ottobre:</strong> target sub 2h plausibile, ma solo se da maggio in poi sposti il focus su volume e lungo. Per stare sotto 2h ti serve meno brillantezza pura di oggi e più tenuta strutturale.</p>\n                ",
+        "strategy": "\n                <p><strong>Io non butterei Garmin Greg.</strong> Lo terrei, ma correggerei il mix. In pratica: una seduta davvero facile, una seduta qualitativa alternando soglia e 10K-specifico, e una terza/quarta uscita dedicata a far salire il tempo totale sulle gambe.</p>\n                <ul>\n                  <li><strong>Seduta soglia:</strong> 3×8' oppure 2×12' a ritmo controllato-duro, non all-out.</li>\n                  <li><strong>Seduta 10K specifica:</strong> 5×3' o 4×5' vicino a ritmo gara con recuperi brevi.</li>\n                  <li><strong>Easy run:</strong> tienila davvero facile, spesso dentro Z2 nuova, non sempre al bordo alto.</li>\n                  <li><strong>Lungo/medio lungo:</strong> spingi gradualmente verso 75–85' facili.</li>\n                  <li><strong>Forza:</strong> 2 richiami brevi a settimana, soprattutto polpacci, glutei, core.</li>\n                </ul>\n                <p>In sintesi: la tua limitazione non sembra più “non ho motore”. Sembra piuttosto “ho motore in crescita, ma devo renderlo più specifico sul passo gara”.</p>\n                ",
+        "health": "\n                <p>Hai ragione a contestare la dicitura “obeso” della bilancia: con i dati che hai fornito è semplicemente una lettura sbagliata. <strong>BMI 25.3</strong> vuol dire fascia <em>sovrappeso statistico</em>, non obesità; e in più il BMI ignora del tutto la tua massa muscolare e la storia di calisthenics.</p>\n                <p>Questo non significa che la composizione corporea sia irrilevante per la corsa. Con <strong>22.8% di body fat</strong> c’è probabilmente ancora margine per migliorare l’economia di corsa nel medio periodo, ma non lo inseguirei con un taglio aggressivo in piena preparazione 10K. La priorità resta allenarti bene e recuperare bene.</p>\n                ",
+        "workflow": "\n                <p>Questa web-app ora è strutturata come <strong>archivio di report per data</strong>. Il report di oggi è salvato sul <strong>17 marzo 2026</strong> e il calendario è già pronto a ospitare i prossimi aggiornamenti.</p>\n                <p><strong>Workflow consigliato per ora:</strong> tu continui a mandarmi qui screenshot e dati; io ti aggiorno l’archivio e ti restituisco la web-app aggiornata. In più puoi <strong>esportare/importare il JSON</strong> direttamente dall’app per non perdere la storicità.</p>\n                <p><strong>Integrazione AI direttamente nella web-app:</strong> fattibile, ma non come semplice file HTML statico. Per farla bene serve un piccolo backend o funzione serverless che riceva gli screenshot, usi un modello vision per estrarre i dati, aggiorni il JSON storico e rigeneri il report. È la strada giusta se vuoi automatizzare davvero; è una fase successiva, non una toppa da mettere nel front-end da solo.</p>\n                "
+      }
+    },
+    "2026-03-19": {
+      "title": "Report tecnico 10K • stato al 19 marzo 2026",
+      "subtitle": "Aggiornamento con allenamento del 18 marzo, tempo in zona FC, Training Readiness del 19 marzo e nuovi dati di bilancia.",
+      "heroTags": [
+        "Garmin Coach Greg • blocco 10K in corso",
+        "Ripetute di passo falcato • 7.21 km",
+        "Training Readiness 49/100",
+        "Carico acuto 184 • ottimale",
+        "Ultima seduta: 75% del tempo in Z2"
+      ],
+      "summaryCards": [
+        {
+          "label": "Stato forma",
+          "value": "Buono ma da rifinire",
+          "text": "La forma resta in crescita, ma l'ultima seduta conferma più economia e controllo che stress metabolico elevato."
+        },
+        {
+          "label": "Training Readiness",
+          "value": "49/100",
+          "text": "Bassa soprattutto per qualità del sonno non ottimale. Il recupero e l'HRV non suggeriscono sovraccarico importante."
+        },
+        {
+          "label": "Training Status",
+          "value": "Non produttivo",
+          "text": "Il messaggio Garmin non cambia: il mix resta ancora troppo spostato su intensità basse rispetto a un blocco 10K più specifico."
+        },
+        {
+          "label": "10K realistico oggi",
+          "value": "60:30–62:00",
+          "text": "Stima sostanzialmente stabile: il sub 60 resta vicino, ma questa seduta da sola non basta a dimostrarlo."
+        }
+      ],
+      "quickFacts": [
+        [
+          "VO₂max",
+          "51 attuale • trend sostanzialmente stabile nelle ultime settimane"
+        ],
+        [
+          "HRV Status",
+          "69 ms • bilanciato"
+        ],
+        [
+          "Carico acuto",
+          "184 • ottimale"
+        ],
+        [
+          "Sonno",
+          "75 punteggio notte • readiness penalizzata soprattutto dal sonno"
+        ],
+        [
+          "Ultima seduta FC",
+          "139 bpm media • 151 bpm max"
+        ],
+        [
+          "Tempo in zona FC",
+          "Z2 35:47 (75%) • Z1 9:56 (21%) • Z3 0:32 (1%)"
+        ],
+        [
+          "Bilancia",
+          "87.3 kg • 23.1% body fat • massa muscolare 63.3 kg"
+        ],
+        [
+          "Lettura corretta",
+          "La bilancia parla di overweight/obese, ma il dato va contestualizzato con muscolatura e andamento sportivo"
+        ]
+      ],
+      "data": {
+        "easyRuns": [
+          {
+            "date": "2026-01-28",
+            "label": "28 gen",
+            "paceSec": 523,
+            "distance": 3.45
+          },
+          {
+            "date": "2026-01-31",
+            "label": "31 gen",
+            "paceSec": 471,
+            "distance": 3.85
+          },
+          {
+            "date": "2026-02-01",
+            "label": "1 feb",
+            "paceSec": 457,
+            "distance": 5.42
+          },
+          {
+            "date": "2026-02-04",
+            "label": "4 feb",
+            "paceSec": 475,
+            "distance": 3.81
+          },
+          {
+            "date": "2026-02-06",
+            "label": "6 feb",
+            "paceSec": 478,
+            "distance": 4.54
+          },
+          {
+            "date": "2026-02-11",
+            "label": "11 feb",
+            "paceSec": 403,
+            "distance": 5.96
+          },
+          {
+            "date": "2026-02-15",
+            "label": "15 feb",
+            "paceSec": 445,
+            "distance": 6.76
+          },
+          {
+            "date": "2026-02-18",
+            "label": "18 feb",
+            "paceSec": 440,
+            "distance": 4.28
+          },
+          {
+            "date": "2026-02-19",
+            "label": "19 feb",
+            "paceSec": 446,
+            "distance": 3.7
+          },
+          {
+            "date": "2026-02-20",
+            "label": "20 feb",
+            "paceSec": 494,
+            "distance": 3.65
+          },
+          {
+            "date": "2026-02-23",
+            "label": "23 feb",
+            "paceSec": 458,
+            "distance": 4.78
+          },
+          {
+            "date": "2026-03-01",
+            "label": "1 mar",
+            "paceSec": 444,
+            "distance": 6.77
+          },
+          {
+            "date": "2026-03-03",
+            "label": "3 mar",
+            "paceSec": 441,
+            "distance": 6.83
+          },
+          {
+            "date": "2026-03-13",
+            "label": "13 mar",
+            "paceSec": 408,
+            "distance": 8.02
+          },
+          {
+            "date": "2026-03-15",
+            "label": "15 mar",
+            "paceSec": 415,
+            "distance": 8.68
+          }
+        ],
+        "weeklyVolume": [
+          {
+            "label": "26 gen–1 feb",
+            "km": 14.16
+          },
+          {
+            "label": "2–8 feb",
+            "km": 12.48
+          },
+          {
+            "label": "9–15 feb",
+            "km": 16.78
+          },
+          {
+            "label": "16–22 feb",
+            "km": 11.63
+          },
+          {
+            "label": "23 feb–1 mar",
+            "km": 23.86
+          },
+          {
+            "label": "2–8 mar",
+            "km": 18.38
+          },
+          {
+            "label": "9–15 mar",
+            "km": 30.04
+          },
+          {
+            "label": "16–22 mar",
+            "km": 7.87
+          }
+        ],
+        "vo2Trend": [
+          {
+            "date": "2026-02-23",
+            "label": "23 feb",
+            "value": 51.5
+          },
+          {
+            "date": "2026-03-02",
+            "label": "2 mar",
+            "value": 51.0
+          },
+          {
+            "date": "2026-03-09",
+            "label": "9 mar",
+            "value": 50.6
+          },
+          {
+            "date": "2026-03-19",
+            "label": "19 mar",
+            "value": 50.6
+          }
+        ],
+        "zoneBands": [
+          {
+            "label": "Z1 Recupero",
+            "low": 109,
+            "high": 133,
+            "note": "65–79% SAFC"
+          },
+          {
+            "label": "Z2 Facile",
+            "low": 134,
+            "high": 148,
+            "note": "80–88% SAFC"
+          },
+          {
+            "label": "Z3 Aerobica",
+            "low": 150,
+            "high": 158,
+            "note": "89–94% SAFC"
+          },
+          {
+            "label": "Z4 Soglia",
+            "low": 160,
+            "high": 166,
+            "note": "95–99% SAFC"
+          },
+          {
+            "label": "Z5 Sopra soglia",
+            "low": 168,
+            "high": 190,
+            "note": "100–113% SAFC"
+          }
+        ],
+        "sessions": [
+          {
+            "name": "Prima corsa facile",
+            "date": "28 gen",
+            "distance": 3.45,
+            "time": "30:03",
+            "pace": "8:43/km",
+            "paceSec": 523,
+            "avgHr": 124,
+            "maxHr": 132,
+            "power": 237,
+            "cadence": 156,
+            "stride": 0.74,
+            "te": "1.4 aerobico basso",
+            "load": 14,
+            "rpe": "Molto facile",
+            "type": "easy"
+          },
+          {
+            "name": "5K di riferimento",
+            "date": "7 mar",
+            "distance": 5.01,
+            "time": "29:35",
+            "pace": "5:54/km",
+            "paceSec": 354,
+            "avgHr": 154,
+            "maxHr": 176,
+            "power": 334,
+            "cadence": 176,
+            "stride": 0.96,
+            "te": "3.3 miglioramento aerobico",
+            "load": 92,
+            "rpe": "4/10 abbastanza duro",
+            "type": "fast"
+          },
+          {
+            "name": "Ripetute di passo falcato",
+            "date": "18 mar",
+            "distance": 7.21,
+            "time": "47:16",
+            "pace": "6:33/km",
+            "paceSec": 393,
+            "avgHr": 139,
+            "maxHr": 151,
+            "power": 307,
+            "cadence": 180,
+            "stride": 0.85,
+            "te": "3.1 miglioramento aerobico",
+            "load": 70,
+            "rpe": "Facile/controllato",
+            "type": "intervals"
+          }
+        ],
+        "bodyComp": {
+          "weight": 87.3,
+          "bmi": 25.5,
+          "bodyFat": 23.1,
+          "fatMass": 20.2,
+          "muscleMass": 63.3,
+          "skeletalMusclePct": null,
+          "skeletalMuscleMass": 38.2,
+          "visceralFat": 8,
+          "waterPct": 58.8,
+          "waterMass": 51.3,
+          "proteinMass": 11.2,
+          "proteinPct": 12.8,
+          "boneMineralKg": 3.8,
+          "boneMineralPct": 4.4,
+          "bmr": 1819,
+          "ffm": 67.1,
+          "bodyAge": 30,
+          "whr": 0.8,
+          "bodyScore": 79,
+          "scaleHeartRate": 77
+        },
+        "latestHrZones": [
+          {
+            "zone": "Z1",
+            "time": "9:56",
+            "seconds": 596,
+            "pct": 21
+          },
+          {
+            "zone": "Z2",
+            "time": "35:47",
+            "seconds": 2147,
+            "pct": 75
+          },
+          {
+            "zone": "Z3",
+            "time": "0:32",
+            "seconds": 32,
+            "pct": 1
+          },
+          {
+            "zone": "Z4",
+            "time": "0:00",
+            "seconds": 0,
+            "pct": 0
+          },
+          {
+            "zone": "Z5",
+            "time": "0:00",
+            "seconds": 0,
+            "pct": 0
+          }
+        ],
+        "trainingReadiness": {
+          "date": "2026-03-19",
+          "value": 49,
+          "label": "Bassa",
+          "sleepScore": 75,
+          "sleepLabel": "Accettabile",
+          "recoveryHours": 2,
+          "recoveryLabel": "Necessità bassa",
+          "hrvMs": 69,
+          "hrvLabel": "Bilanciato",
+          "acuteLoad": 184,
+          "acuteLoadLabel": "Ottimale"
+        },
+        "trainingStatus": {
+          "date": "2026-03-19",
+          "label": "Non produttivo",
+          "vo2max": 51,
+          "vo2Label": "Eccellente",
+          "hrvMs": 69,
+          "hrvLabel": "Bilanciato"
+        }
+      },
+      "sections": {
+        "executive": "\n                <p>L’allenamento del <strong>18 marzo</strong> aggiunge un’informazione importante: il tuo blocco sta diventando più ordinato e più efficiente, ma non ancora nettamente più specifico per il 10K. Le <strong>ripetute di passo falcato</strong> sono state eseguite bene sul piano tecnico, ma il costo cardiovascolare è rimasto contenuto.</p>\n                <p>Questo è il punto da non fraintendere: vedere la parola <em>ripetute</em> non significa automaticamente che la seduta abbia prodotto uno stimolo soglia o VO₂. Qui i dati raccontano altro: <strong>139 bpm medi, 151 bpm massimi e 75% del tempo in Z2</strong>. Quindi seduta utile, ma più neurale/economica che metabolica.</p>\n                <div class=\"quote\">Conclusione aggiornata: stai costruendo bene, senza eccesso di fatica. Però Garmin continua a dirti “non produttivo” perché, ad oggi, il mix resta ancora troppo facile per trasformare il miglioramento generale in specificità 10K piena.</div>\n                ",
+        "physiology": "\n                <p><strong>Training Readiness 49</strong> potrebbe sembrare un peggioramento netto rispetto al 69 del report precedente, ma il dato va letto bene: il fattore limitante oggi è soprattutto il <strong>sonno (75, accettabile)</strong>, non un collasso del recupero. Hai solo <strong>2 ore</strong> di necessità di recupero residua, <strong>HRV 69 ms bilanciata</strong> e <strong>carico acuto 184 ottimale</strong>.</p>\n                <p>Questo significa che il corpo non appare in stato di affaticamento sistemico marcato. Piuttosto, sei in una giornata in cui la prontezza è abbassata dal recupero notturno non perfetto. È una differenza importante: non serve “scaricare” a caso, serve proteggere la qualità del sonno.</p>\n                <p>Il <strong>VO₂max a 51</strong> resta buono e coerente con il quadro generale. Il messaggio Garmin di <strong>Training Status non produttivo</strong> continua a essere più una critica al mix di intensità che alla tua forma complessiva.</p>\n                ",
+        "zones": "\n                <p>L’ultima seduta è molto istruttiva proprio perché demolisce un equivoco comune: <strong>seduta con ripetute</strong> non equivale sempre a <strong>seduta ad alta intensità cardiovascolare</strong>. Nei fatti hai passato <strong>35:47 in Z2</strong>, <strong>9:56 in Z1</strong> e solo <strong>0:32 in Z3</strong>, senza tempo significativo in Z4-Z5.</p>\n                <p>Per un lavoro di <em>passo falcato</em> questo non è per forza un difetto. Anzi: indica che l’obiettivo della seduta era probabilmente migliorare coordinazione, frequenza di passo, elasticità e feeling del gesto senza produrre un grosso debito metabolico.</p>\n                <p>Il punto critico è un altro: se troppe sedute qualitative finiscono per assomigliare a un grande Z1-Z2 con piccoli richiami, allora il sistema Garmin continuerà a leggerti come poco produttivo per il 10K. Per cambiare davvero quel segnale serve almeno una seduta settimanale che tocchi in modo più chiaro soglia o ritmo gara.</p>\n                ",
+        "technique": "\n                <p>Dal punto di vista meccanico la seduta è buona. <strong>Cadenza media 180 spm</strong>, <strong>cadenza massima 199</strong>, <strong>lunghezza passo 0.85 m</strong> e <strong>passo migliore 5:02/km</strong> dicono che il lavoro ha acceso bene la parte neuromuscolare senza disgregare il gesto.</p>\n                <p>Qui però bisogna evitare un errore di interpretazione: numeri tecnici buoni <em>non</em> significano automaticamente che la seduta abbia spinto la forma aerobica quanto un medio o un lavoro di soglia. Ti ha probabilmente aiutato di più su economia e coordinazione che su tenuta lattacida o tenuta a ritmo 10K.</p>\n                ",
+        "estimates": "\n                <p><strong>Stima 10K oggi:</strong> 60:30–62:00. L’intervallo è quasi invariato rispetto al report precedente, perché questa seduta aggiunge soprattutto qualità tecnica e controllo del gesto, non una prova prestativa nuova paragonabile al 5K del 7 marzo.</p>\n                <p><strong>Stima 10K a maggio:</strong> il sub 60 resta realistico, ma dipende ancora dalla capacità di mettere dentro un po’ più di lavoro specifico vicino alla soglia e al passo gara. Il quadro complessivo resta favorevole, solo non ancora conclusivo.</p>\n                <p><strong>Mezza di ottobre:</strong> resta plausibile il sub 2h, ma il ragionamento non cambia: da dopo la 10K dovrai spostare il focus da brillantezza/qualità a volume e tenuta.</p>\n                ",
+        "strategy": "\n                <p><strong>Continuerei con Garmin Greg</strong>, ma con una lettura più consapevole delle sedute. Le ripetute di passo falcato vanno bene come richiamo tecnico, ma da sole non cambieranno molto il tuo Training Status.</p>\n                <ul>\n                  <li><strong>1 seduta easy vera</strong> per consolidare la base e preservare il recupero.</li>\n                  <li><strong>1 seduta tecnica/neuromuscolare</strong> come questa, utile per economia e agilità.</li>\n                  <li><strong>1 seduta più specifica</strong> a settimana con blocchi vicini alla soglia o al ritmo 10K reale.</li>\n                  <li><strong>1 uscita più lunga facile</strong> quando il calendario lo permette.</li>\n                  <li><strong>Priorità sonno</strong>: oggi la readiness è bassa più per qualità del sonno che per carico eccessivo.</li>\n                </ul>\n                <p>In sostanza: la seduta del 18 marzo è utile, ma non basta da sola per spostare il sistema da “in crescita” a “specificamente pronto per correre forte 10K”.</p>\n                ",
+        "health": "\n                <p>La bilancia del <strong>19 marzo</strong> mostra <strong>87.3 kg</strong>, <strong>23.1% di body fat</strong> e <strong>63.3 kg di massa muscolare</strong>. Il punto importante è non sovrainterpretare il micro-aumento di peso di pochi decimi: su scale di 24–72 ore è spesso soprattutto acqua, glicogeno, sale, orario della misura e residuo digestivo.</p>\n                <p>Resta valido anche oggi il caveat principale: la classificazione grafica della bilancia che tende verso “overweight/obese” è semplicistica e fuorviante se letta senza contesto. Con la tua statura, la storia di allenamento e la massa muscolare presente, quel giudizio va ridimensionato parecchio.</p>\n                <p>Più utile osservare il trend: peso stabile alto ma non fuori controllo, massa muscolare sostanzialmente conservata, body fat leggermente sopra il punto ideale per la corsa ma non tale da giustificare tagli aggressivi nel pieno della preparazione.</p>\n                ",
+        "workflow": "\n                <p><strong>Sì, possiamo continuare così.</strong> Il workflow che hai usato in questo aggiornamento è abbastanza solido: mi mandi <strong>Activities.csv</strong>, il <strong>JSON archivio corrente</strong> e gli screenshot solo per le sezioni che il CSV non contiene (tempo in zona, readiness, training status, bilancia).</p>\n                <p>In questo modo io posso aggiornarti il <strong>JSON storico</strong> in modo coerente con la tua web-app, senza dover ricostruire ogni volta tutto da zero. È un compromesso migliore rispetto al solo screenshot o al solo CSV.</p>\n                <p>L’unico limite da ricordare è questo: se un giorno mi mandi <em>solo</em> il CSV, potrò aggiornare molto bene la parte prestativa e storica, ma non tutte le sezioni fisiologiche avanzate. Finché restiamo su questo protocollo misto, il report resta consistente.</p>\n                "
+      }
+    },
+    "2026-03-20": {
+      "title": "Report tecnico 10K • stato al 20 marzo 2026",
+      "subtitle": "Aggiornamento con richiamo passo gara del 19 marzo, corsa in progressione del 20 marzo, nuova bilancia e calendario dei prossimi allenamenti fino alla Deejay Ten.",
+      "heroTags": [
+        "Richiamo passo gara 19 mar • 4.34 km",
+        "Corsa in progressione 20 mar • 4.84 km",
+        "Peso 86.6 kg • body fat 22.9%",
+        "Settimana in corso: 17.05 km",
+        "Prossimi focus: 22 easy • 27 falcato • 29 Deejay Ten"
+      ],
+      "summaryCards": [
+        {
+          "label": "Stato forma",
+          "value": "In crescita, ma non ancora rifinita",
+          "text": "I dati di ieri e oggi confermano progresso reale, ma mostrano anche che il passo 10K ideale non è ancora stabilizzato."
+        },
+        {
+          "label": "Recupero di giornata",
+          "value": "Da proteggere",
+          "text": "Oggi il sonno è stato scarso (59) e il Body Battery è 40: non è allarme rosso, ma spiega la fatica anticipata nella progressione."
+        },
+        {
+          "label": "Training Status",
+          "value": "Ancora non produttivo",
+          "text": "Il quadro sta migliorando, ma Garmin continua a leggere troppo poco lavoro chiaramente a soglia rispetto al volume facile."
+        },
+        {
+          "label": "10K realistico oggi",
+          "value": "60:00–61:15",
+          "text": "Il sub 60 è vicino, ma i dati non dicono ancora che 5:30/km sia un passo gara sostenibile per 10 km."
+        }
+      ],
+      "quickFacts": [
+        [
+          "Seduta 19 marzo",
+          "4.34 km • 26:11 • 6:02/km • FC 144/163"
+        ],
+        [
+          "Seduta 20 marzo",
+          "4.84 km • 29:18 • 6:03/km • FC 143/164"
+        ],
+        [
+          "Progressione odierna",
+          "blocco corsa 18:02 per 3.05 km @ 5:55/km"
+        ],
+        [
+          "Peso",
+          "86.6 kg il 20 marzo (-0.7 kg vs giorno prima)"
+        ],
+        [
+          "Body fat",
+          "22.9% • fat mass 19.8 kg • FFM 66.8 kg"
+        ],
+        [
+          "Massa muscolare",
+          "63.1 kg • muscolo da preservare, non da sacrificare"
+        ],
+        [
+          "Settimana 16–22 mar",
+          "17.05 km finora"
+        ],
+        [
+          "Calendario",
+          "22 mar easy • 25 mar easy • 27 mar falcato • 29 mar Deejay Ten"
+        ]
+      ],
+      "data": {
+        "easyRuns": [
+          {
+            "date": "2026-01-28",
+            "label": "28 gen",
+            "paceSec": 523,
+            "distance": 3.45
+          },
+          {
+            "date": "2026-01-31",
+            "label": "31 gen",
+            "paceSec": 471,
+            "distance": 3.85
+          },
+          {
+            "date": "2026-02-01",
+            "label": "1 feb",
+            "paceSec": 457,
+            "distance": 5.42
+          },
+          {
+            "date": "2026-02-04",
+            "label": "4 feb",
+            "paceSec": 475,
+            "distance": 3.81
+          },
+          {
+            "date": "2026-02-06",
+            "label": "6 feb",
+            "paceSec": 478,
+            "distance": 4.54
+          },
+          {
+            "date": "2026-02-11",
+            "label": "11 feb",
+            "paceSec": 403,
+            "distance": 5.96
+          },
+          {
+            "date": "2026-02-15",
+            "label": "15 feb",
+            "paceSec": 445,
+            "distance": 6.76
+          },
+          {
+            "date": "2026-02-18",
+            "label": "18 feb",
+            "paceSec": 440,
+            "distance": 4.28
+          },
+          {
+            "date": "2026-02-19",
+            "label": "19 feb",
+            "paceSec": 446,
+            "distance": 3.7
+          },
+          {
+            "date": "2026-02-20",
+            "label": "20 feb",
+            "paceSec": 494,
+            "distance": 3.65
+          },
+          {
+            "date": "2026-02-23",
+            "label": "23 feb",
+            "paceSec": 458,
+            "distance": 4.78
+          },
+          {
+            "date": "2026-03-01",
+            "label": "1 mar",
+            "paceSec": 444,
+            "distance": 6.77
+          },
+          {
+            "date": "2026-03-03",
+            "label": "3 mar",
+            "paceSec": 441,
+            "distance": 6.83
+          },
+          {
+            "date": "2026-03-13",
+            "label": "13 mar",
+            "paceSec": 408,
+            "distance": 8.02
+          },
+          {
+            "date": "2026-03-15",
+            "label": "15 mar",
+            "paceSec": 415,
+            "distance": 8.68
+          }
+        ],
+        "weeklyVolume": [
+          {
+            "label": "26 gen–1 feb",
+            "km": 14.16
+          },
+          {
+            "label": "2–8 feb",
+            "km": 12.48
+          },
+          {
+            "label": "9–15 feb",
+            "km": 16.78
+          },
+          {
+            "label": "16–22 feb",
+            "km": 11.63
+          },
+          {
+            "label": "23 feb–1 mar",
+            "km": 23.86
+          },
+          {
+            "label": "2–8 mar",
+            "km": 23.39
+          },
+          {
+            "label": "9–15 mar",
+            "km": 30.04
+          },
+          {
+            "label": "16–22 mar",
+            "km": 17.05
+          }
+        ],
+        "vo2Trend": [
+          {
+            "date": "2026-02-23",
+            "label": "23 feb",
+            "value": 51.5
+          },
+          {
+            "date": "2026-03-02",
+            "label": "2 mar",
+            "value": 51.0
+          },
+          {
+            "date": "2026-03-09",
+            "label": "9 mar",
+            "value": 50.6
+          },
+          {
+            "date": "2026-03-19",
+            "label": "19 mar",
+            "value": 50.6
+          }
+        ],
+        "zoneBands": [
+          {
+            "label": "Z1 Recupero",
+            "low": 109,
+            "high": 133,
+            "note": "65–79% SAFC"
+          },
+          {
+            "label": "Z2 Facile",
+            "low": 134,
+            "high": 148,
+            "note": "80–88% SAFC"
+          },
+          {
+            "label": "Z3 Aerobica",
+            "low": 150,
+            "high": 158,
+            "note": "89–94% SAFC"
+          },
+          {
+            "label": "Z4 Soglia",
+            "low": 160,
+            "high": 166,
+            "note": "95–99% SAFC"
+          },
+          {
+            "label": "Z5 Sopra soglia",
+            "low": 168,
+            "high": 190,
+            "note": "100–113% SAFC"
+          }
+        ],
+        "sessions": [
+          {
+            "name": "Prima corsa facile",
+            "date": "28 gen",
+            "distance": 3.45,
+            "time": "30:03",
+            "pace": "8:43/km",
+            "paceSec": 523,
+            "avgHr": 124,
+            "maxHr": 132,
+            "power": 237,
+            "cadence": 156,
+            "stride": 0.74,
+            "te": "1.4 aerobico basso",
+            "load": 14,
+            "rpe": "Molto facile",
+            "type": "easy"
+          },
+          {
+            "name": "Ripetute di passo falcato",
+            "date": "25 feb",
+            "distance": 5.68,
+            "time": "45:15",
+            "pace": "7:58/km",
+            "paceSec": 478,
+            "avgHr": 139,
+            "maxHr": 164,
+            "power": 264,
+            "cadence": 167,
+            "stride": 0.76,
+            "te": "3.0 miglioramento aerobico",
+            "rpe": "Facile/controllato",
+            "type": "intervals"
+          },
+          {
+            "name": "Corsa in progressione",
+            "date": "27 feb",
+            "distance": 5.46,
+            "time": "35:04",
+            "pace": "6:25/km",
+            "paceSec": 385,
+            "avgHr": 148,
+            "maxHr": 166,
+            "power": 305,
+            "cadence": 176,
+            "stride": 0.88,
+            "te": "3.1 miglioramento aerobico",
+            "rpe": "Medio/controllato",
+            "type": "progression"
+          },
+          {
+            "name": "Ripetute di passo falcato",
+            "date": "4 mar",
+            "distance": 5.69,
+            "time": "42:05",
+            "pace": "7:24/km",
+            "paceSec": 444,
+            "avgHr": 141,
+            "maxHr": 163,
+            "power": 263,
+            "cadence": 163,
+            "stride": 0.83,
+            "te": "2.7 miglioramento aerobico",
+            "rpe": "Facile/controllato",
+            "type": "intervals"
+          },
+          {
+            "name": "Corsa in progressione",
+            "date": "6 mar",
+            "distance": 5.86,
+            "time": "40:02",
+            "pace": "6:50/km",
+            "paceSec": 410,
+            "avgHr": 144,
+            "maxHr": 166,
+            "power": 293,
+            "cadence": 173,
+            "stride": 0.84,
+            "te": "3.0 miglioramento aerobico",
+            "rpe": "Progressivo controllato",
+            "type": "progression"
+          },
+          {
+            "name": "5K di riferimento",
+            "date": "7 mar",
+            "distance": 5.01,
+            "time": "29:35",
+            "pace": "5:54/km",
+            "paceSec": 354,
+            "avgHr": 154,
+            "maxHr": 176,
+            "power": 334,
+            "cadence": 176,
+            "stride": 0.96,
+            "te": "3.3 miglioramento aerobico",
+            "rpe": "4/10 abbastanza duro",
+            "type": "fast"
+          },
+          {
+            "name": "Ripetute di passo falcato",
+            "date": "9 mar",
+            "distance": 7.01,
+            "time": "45:30",
+            "pace": "6:29/km",
+            "paceSec": 389,
+            "avgHr": 141,
+            "maxHr": 169,
+            "power": 308,
+            "cadence": 174,
+            "stride": 0.89,
+            "te": "3.1 miglioramento aerobico",
+            "rpe": "Moderato/controllato",
+            "type": "intervals"
+          },
+          {
+            "name": "Corsa in progressione",
+            "date": "11 mar",
+            "distance": 6.33,
+            "time": "42:22",
+            "pace": "6:41/km",
+            "paceSec": 401,
+            "avgHr": 143,
+            "maxHr": 158,
+            "power": 300,
+            "cadence": 168,
+            "stride": 0.88,
+            "te": "3.1 miglioramento aerobico",
+            "rpe": "Controllato con finale più brillante",
+            "type": "progression"
+          },
+          {
+            "name": "Ultima corsa facile lunga",
+            "date": "15 mar",
+            "distance": 8.68,
+            "time": "1:00:05",
+            "pace": "6:55/km",
+            "paceSec": 415,
+            "avgHr": 137,
+            "maxHr": 151,
+            "power": 285,
+            "cadence": 173,
+            "stride": 0.84,
+            "te": "2.8 mantenimento",
+            "load": 54,
+            "rpe": "2/10 leggero",
+            "type": "easy"
+          },
+          {
+            "name": "Ripetute di passo falcato",
+            "date": "18 mar",
+            "distance": 7.21,
+            "time": "47:16",
+            "pace": "6:33/km",
+            "paceSec": 393,
+            "avgHr": 139,
+            "maxHr": 151,
+            "power": 307,
+            "cadence": 180,
+            "stride": 0.85,
+            "te": "3.1 miglioramento aerobico",
+            "rpe": "Facile/controllato",
+            "type": "intervals"
+          },
+          {
+            "name": "Richiamo passo gara 2×8'",
+            "date": "19 mar",
+            "distance": 4.34,
+            "time": "26:11",
+            "pace": "6:02/km",
+            "paceSec": 362,
+            "avgHr": 144,
+            "maxHr": 163,
+            "power": 317,
+            "cadence": 171,
+            "stride": 0.97,
+            "te": "3.1 miglioramento aerobico",
+            "rpe": "3/10 moderato",
+            "type": "intervals"
+          },
+          {
+            "name": "Corsa in progressione",
+            "date": "20 mar",
+            "distance": 4.84,
+            "time": "29:18",
+            "pace": "6:03/km",
+            "paceSec": 363,
+            "avgHr": 143,
+            "maxHr": 164,
+            "power": 319,
+            "cadence": 180,
+            "stride": 0.92,
+            "te": "3.0 miglioramento aerobico",
+            "rpe": "Fatica crescente, progressione interrotta",
+            "type": "progression"
+          }
+        ],
+        "bodyComp": {
+          "weight": 86.6,
+          "bmi": 25.3,
+          "bodyFat": 22.9,
+          "fatMass": 19.8,
+          "muscleMass": 63.1,
+          "musclePct": 72.9,
+          "skeletalMuscleMass": 37.7,
+          "visceralFat": 8,
+          "waterPct": 58.7,
+          "waterMass": 50.8,
+          "proteinMass": 11.5,
+          "proteinPct": 13.3,
+          "boneMineralKg": 3.7,
+          "boneMineralPct": 4.3,
+          "bmr": 1813,
+          "ffm": 66.8,
+          "bodyAge": 30,
+          "whr": 0.7,
+          "bodyScore": 79,
+          "scaleHeartRate": 68
+        },
+        "latestHrZones": [
+          {
+            "zone": "Z1",
+            "time": "3:44",
+            "seconds": 224,
+            "pct": 12
+          },
+          {
+            "zone": "Z2",
+            "time": "17:50",
+            "seconds": 1070,
+            "pct": 60
+          },
+          {
+            "zone": "Z3",
+            "time": "5:41",
+            "seconds": 341,
+            "pct": 19
+          },
+          {
+            "zone": "Z4",
+            "time": "1:54",
+            "seconds": 114,
+            "pct": 6
+          },
+          {
+            "zone": "Z5",
+            "time": "0:00",
+            "seconds": 0,
+            "pct": 0
+          }
+        ],
+        "trainingReadiness": {
+          "date": "2026-03-19",
+          "value": 49,
+          "label": "Bassa",
+          "sleepScore": 75,
+          "sleepLabel": "Accettabile",
+          "recoveryHours": 2,
+          "recoveryLabel": "Necessità bassa",
+          "hrvMs": 69,
+          "hrvLabel": "Bilanciato",
+          "acuteLoad": 184,
+          "acuteLoadLabel": "Ottimale"
+        },
+        "trainingStatus": {
+          "date": "2026-03-19",
+          "label": "Non produttivo",
+          "vo2max": 51,
+          "vo2Label": "Eccellente",
+          "hrvMs": 69,
+          "hrvLabel": "Bilanciato"
+        },
+        "recoverySnapshot": {
+          "date": "2026-03-20",
+          "sleepScore": 59,
+          "sleepLabel": "Scarso",
+          "bodyBattery": 40,
+          "stepsToday": 11009,
+          "coachWeek": "8 di 12"
+        },
+        "plannedWorkouts": {
+          "2026-03-22": {
+            "typeKey": "easy",
+            "label": "Corsa facile"
+          },
+          "2026-03-25": {
+            "typeKey": "easy",
+            "label": "Corsa facile"
+          },
+          "2026-03-27": {
+            "typeKey": "quality",
+            "label": "Ripetute di passo falcato"
+          },
+          "2026-03-29": {
+            "typeKey": "race",
+            "label": "Deejay Ten 2026"
+          }
+        }
+      },
+      "sections": {
+        "executive": "<p>Le due sedute del <strong>19 e 20 marzo</strong> spostano il quadro in modo utile ma non magico. Ieri hai fatto il primo lavoro davvero vicino all’idea di <strong>passo gara</strong>: non perfetto, ma molto più specifico di una semplice corsa facile o di un falcato tecnico. Oggi, invece, la progressione è servita soprattutto a mostrarti un limite pratico: se parti già un po’ troppo forte e arrivi con fatica residua, il finale salta prima del previsto.</p><p>La lettura onesta è questa: il <strong>sub 60</strong> è ancora assolutamente vivo, ma il <strong>5:30/km</strong> come passo gara 10K oggi resta un obiettivo troppo aggressivo. Il dato reale non dice che sei fermo; dice che stai entrando nella zona in cui devi smettere di inseguire il passo ideale e iniziare a consolidare il passo sostenibile.</p><div class=\"quote\">Conclusione aggiornata: la forma cresce, la specificità 10K cresce, ma il miglioramento più importante adesso non è andare ancora più forte per 2 minuti; è tenere meglio un ritmo buono per più minuti, arrivando meno cotto al finale.</div>",
+        "physiology": "<p>Ieri hai corso <strong>4.34 km in 26:11</strong> a <strong>6:02/km</strong> con <strong>144 bpm medi</strong> e <strong>163 bpm massimi</strong>; oggi <strong>4.84 km in 29:18</strong> a <strong>6:03/km</strong> con <strong>143 bpm medi</strong> e <strong>164 bpm massimi</strong>. Il punto interessante è che due sedute diverse hanno prodotto una risposta cardiaca simile: questo suggerisce che non sei ancora andato davvero vicino al tuo tetto fisiologico, ma che la fatica si è manifestata più come perdita di qualità del blocco che come esplosione della frequenza cardiaca.</p><p>Qui entra in gioco il recupero. Oggi il contesto era peggiore: <strong>sonno scarso 59</strong> e <strong>Body Battery 40</strong>. Non basta per dire che eri svuotato, ma basta per spiegare perché la progressione sia stata meno rifinita e più faticosa del previsto. In altre parole: non vedo un crollo della forma, vedo una giornata con recupero parziale e pacing un po’ troppo ambizioso.</p><p>Il dato Garmin più recente che resta forte è ancora quello del <strong>19 marzo</strong>: <strong>Readiness 49</strong>, <strong>HRV 69 ms bilanciata</strong>, <strong>carico acuto 184 ottimale</strong> e <strong>Training Status non produttivo</strong>. Non leggo questo come allarme, ma come conferma che il tuo sistema sta chiedendo più precisione nelle sedute specifiche, non più caos.</p>",
+        "zones": "<p>Le zone finalmente raccontano una storia più interessante. Il <strong>19 marzo</strong> eri molto più dentro una logica 10K-specifica: circa <strong>41% in Z2</strong>, <strong>31% in Z3</strong> e <strong>11% in Z4</strong>. Questo è un salto netto rispetto al falcato del 18 marzo, dove eri rimasto quasi tutto in basso. È il primo segnale concreto che il lavoro vicino al passo gara ti smuove davvero la seduta sul piano metabolico.</p><p>Oggi invece la progressione è stata più ibrida: <strong>60% in Z2</strong>, <strong>19% in Z3</strong> e solo <strong>6% in Z4</strong>. Questo non significa che la seduta sia stata inutile. Significa che la progressione è stata interrotta prima che lo stimolo diventasse pienamente specifico. È un dato utile perché ti dice che il problema non è 'non riesco a correre forte', ma 'se gestisco male la distribuzione dello sforzo, consumo presto il margine'.</p><p>Tradotto operativamente: il lavoro di ieri va tenuto come riferimento di specificità; quello di oggi come promemoria sul pacing. Il tuo prossimo salto non è alzare tutte le zone, ma passare più tempo continuo in <strong>Z3 alta / Z4 bassa</strong> senza pagarlo subito.</p>",
+        "technique": "<p>La meccanica continua a essere una parte positiva del quadro. Ieri hai corso con <strong>171 spm</strong> e <strong>0.97 m</strong> di passo medio; oggi con <strong>180 spm</strong> e <strong>0.92 m</strong>. Questo vuol dire che quando cerchi brillantezza aumenti di più la frequenza, ma non sempre riesci a mantenere la stessa efficacia della falcata. Non è un difetto grave: è esattamente il tipo di oscillazione che ci si aspetta quando il motore cresce ma la tenuta specifica non è ancora completa.</p><p>Il segnale da non fraintendere è questo: il tuo corpo <strong>sa già correre a ritmi da 5:30–5:35</strong> per tratti, ma oggi lo fa meglio a blocchi che in modo uniforme. Questo è il motivo per cui parlare di 5:30 come passo gara pieno è prematuro. Non perché il gesto non esista, ma perché manca ancora la tenuta per renderlo stabile.</p>",
+        "estimates": "<p><strong>Stima 10K oggi:</strong> <strong>60:00–61:15</strong>. Restringo il range rispetto al report precedente, ma non lo abbasso in modo aggressivo. Le sedute del 19 e 20 marzo mostrano che la tua specificità è migliorata, ma non abbastanza da dire che il sub 60 sia già 'automatico'.</p><p><strong>Stima 10K per la Deejay Ten del 29 marzo:</strong> se la usi come test intelligente e non come sparata iniziale, il riferimento più sensato è partire in controllo e provare a stare intorno a <strong>5:58–6:03/km</strong> nei primi km, per poi decidere se scendere. Partire a <strong>5:30/km</strong> sarebbe, ad oggi, più una scommessa che una strategia.</p><p><strong>Stima 10K per la Tuttadritta del 10 maggio:</strong> <strong>58:45–60:00</strong> se fai bene tre cose: continui a mettere lavori specifici, arrivi con un paio di kg in meno di sola zavorra e smetti di confondere il passo ideale col passo sostenibile. Il 55' oggi non è supportato dai dati.</p>",
+        "strategy": "<p>La tua settimana ora va letta così: il <strong>19 marzo</strong> è stato un richiamo più utile del previsto, il <strong>20 marzo</strong> una progressione buona ma incompleta. Il prossimo blocco va gestito in modo molto pulito:</p><ul><li><strong>22 marzo easy:</strong> davvero facile, senza trasformarla in medio mascherato.</li><li><strong>25 marzo easy:</strong> controllata e regolare, utile più a recuperare che a dimostrare qualcosa.</li><li><strong>27 marzo falcato:</strong> seduta da fare bene ma senza strafare, perché deve lasciarti brillante, non cotto.</li><li><strong>29 marzo Deejay Ten:</strong> trattala come test serio o gara B, non come all-in suicida.</li></ul><p>La strategia più intelligente per il 29 è un <strong>negative split leggero</strong>: primi 3 km prudenti, blocco centrale solido, finale dove provi ad aprire se ne hai davvero. Se invece vuoi usare la Deejay Ten solo come allenamento di qualità, allora la corri in controllo vicino al ritmo sub-60 senza forzare tutto il finale.</p>",
+        "health": "<p>La bilancia del <strong>20 marzo</strong> segna <strong>86.6 kg</strong>, <strong>22.9% body fat</strong> e <strong>66.8 kg di massa magra</strong>. La discesa di <strong>0.7 kg in 24 ore</strong> non va letta come grasso perso: è quasi certamente un mix di acqua, glicogeno, residuo digestivo e sale. Però il segnale utile è un altro: il tuo peso non sta scappando verso l’alto e la body fat si muove nella direzione giusta.</p><p>Il grafico della bilancia che ti colloca verso 'obese' resta fuorviante. Con la tua altezza, la massa magra attuale e il fatto che ti alleni regolarmente, quel giudizio grafico ha poco valore operativo. Quello che conta davvero per la gara è portare il rapporto tra <strong>massa magra e massa grassa</strong> in una zona un po’ migliore senza perdere gamba.</p><p>In pratica: per la <strong>Tuttadritta</strong> il target realistico non è inseguire i <strong>73.5 kg</strong> suggeriti dalla bilancia, che per il tuo contesto sono un numero astratto. Il target serio per inizio maggio è arrivare circa tra <strong>84.0 e 84.8 kg</strong>, con body fat orientativamente verso <strong>20.5–21.5%</strong>, mantenendo il più possibile la massa magra. Questo sì sarebbe un miglioramento che aiuta davvero la corsa.</p>",
+        "workflow": "<p>Con il file CSV, gli screenshot Garmin e la bilancia, adesso il tuo archivio è abbastanza ricco per fare confronti sempre più credibili. La cosa importante è che i nuovi allenamenti vadano nominati bene nel JSON: il <strong>19 marzo</strong> non è una semplice 'Torino Corsa', ma un <strong>richiamo passo gara 2×8'</strong>; il <strong>20 marzo</strong> è una <strong>corsa in progressione</strong>. Se li lasci nominati in modo generico, la dashboard perde capacità di distinguere le tipologie davvero utili.</p><p>Per i prossimi aggiornamenti, il protocollo migliore resta questo: <strong>CSV completo + JSON attuale + screenshot delle sezioni che il CSV non contiene</strong> (zone, readiness/status, bilancia, eventuali lap o ripetute). Così il report può continuare a diventare più preciso senza fare assunzioni inutili.</p>"
+      }
+    },
+    "2026-03-24": {
+      "title": "Report tecnico 10K • PR centrato e nuove priorità al 24 marzo 2026",
+      "subtitle": "Aggiornamento con PR ufficiali Garmin del 21 marzo, readiness/status del 24 marzo, nuovi obiettivi gara e lettura critica della composizione corporea.",
+      "heroTags": [
+        "PR ufficiale 10K 59:27 • PR 5K 29:21",
+        "21 mar • 10.98 km totali in 1:07:07",
+        "Training Readiness 64 • HRV 71 • VO₂max 50",
+        "Deejay Ten: 58:50–59:30 realistico",
+        "Body fat 22.9%: trend breve stabile, non vera salita dimostrata"
+      ],
+      "summaryCards": [
+        {
+          "label": "Stato forma",
+          "value": "Sub-60 centrato",
+          "text": "Garmin aggiorna ufficialmente il tuo record a 59:27 sui 10 km il 21 marzo 2026. Il target iniziale è quindi già raggiunto."
+        },
+        {
+          "label": "Training Readiness",
+          "value": "64/100",
+          "text": "Moderato: sonno accettabile, recupero effettuato, HRV bilanciata e carico acuto ottimale. Giornata buona, non perfetta ma solida."
+        },
+        {
+          "label": "Training Status",
+          "value": "Non produttivo su Garmin, meglio nei fatti",
+          "text": "L’etichetta Garmin resta conservativa, ma il PR del 21 marzo dimostra che la forma specifica 10K è salita davvero."
+        },
+        {
+          "label": "10K realistico oggi",
+          "value": "58:50–59:30",
+          "text": "Ora il focus non è più il sub-60, ma consolidarlo in gara e limarlo con una distribuzione dello sforzo più pulita."
+        }
+      ],
+      "quickFacts": [
+        [
+          "Record personali",
+          "10K 59:27 • 5K 29:21 • corsa più lunga 10.98 km"
+        ],
+        [
+          "Seduta chiave 21 marzo",
+          "10.98 km • 1:07:07 • FC 150/180 • TE 3.9"
+        ],
+        [
+          "Training Readiness",
+          "64/100 • sonno 75 • recupero effettuato • HRV 71"
+        ],
+        [
+          "Training Status",
+          "Non produttivo • VO₂max 50 • Acute Load 260 ottimale"
+        ],
+        [
+          "Previsioni gara Garmin",
+          "5K 24:24 • 10K 52:46 • mezza 1:59:59"
+        ],
+        [
+          "Bilancia 24 marzo",
+          "86.9 kg • 22.9% body fat • 63.2 kg muscolo"
+        ],
+        [
+          "Lettura corretta peso/grasso",
+          "+0.1% body fat in 3 giorni non prova un vero aumento di grasso: conta il trend di 2–4 settimane"
+        ],
+        [
+          "Nuovi focus",
+          "Deejay Ten 58:50–59:30 • Tuttadritta 58:15–59:00 • mezza autunnale <1:58:30"
+        ]
+      ],
+      "data": {
+        "easyRuns": [
+          {
+            "date": "2026-01-28",
+            "label": "28 gen",
+            "paceSec": 523,
+            "distance": 3.45
+          },
+          {
+            "date": "2026-01-31",
+            "label": "31 gen",
+            "paceSec": 471,
+            "distance": 3.85
+          },
+          {
+            "date": "2026-02-01",
+            "label": "1 feb",
+            "paceSec": 457,
+            "distance": 5.42
+          },
+          {
+            "date": "2026-02-04",
+            "label": "4 feb",
+            "paceSec": 475,
+            "distance": 3.81
+          },
+          {
+            "date": "2026-02-06",
+            "label": "6 feb",
+            "paceSec": 478,
+            "distance": 4.54
+          },
+          {
+            "date": "2026-02-11",
+            "label": "11 feb",
+            "paceSec": 403,
+            "distance": 5.96
+          },
+          {
+            "date": "2026-02-15",
+            "label": "15 feb",
+            "paceSec": 445,
+            "distance": 6.76
+          },
+          {
+            "date": "2026-02-18",
+            "label": "18 feb",
+            "paceSec": 440,
+            "distance": 4.28
+          },
+          {
+            "date": "2026-02-19",
+            "label": "19 feb",
+            "paceSec": 446,
+            "distance": 3.7
+          },
+          {
+            "date": "2026-02-20",
+            "label": "20 feb",
+            "paceSec": 494,
+            "distance": 3.65
+          },
+          {
+            "date": "2026-02-23",
+            "label": "23 feb",
+            "paceSec": 458,
+            "distance": 4.78
+          },
+          {
+            "date": "2026-03-01",
+            "label": "1 mar",
+            "paceSec": 444,
+            "distance": 6.77
+          },
+          {
+            "date": "2026-03-03",
+            "label": "3 mar",
+            "paceSec": 441,
+            "distance": 6.83
+          },
+          {
+            "date": "2026-03-13",
+            "label": "13 mar",
+            "paceSec": 408,
+            "distance": 8.02
+          },
+          {
+            "date": "2026-03-15",
+            "label": "15 mar",
+            "paceSec": 415,
+            "distance": 8.68
+          }
+        ],
+        "weeklyVolume": [
+          {
+            "label": "26 gen–1 feb",
+            "km": 14.16
+          },
+          {
+            "label": "2–8 feb",
+            "km": 12.48
+          },
+          {
+            "label": "9–15 feb",
+            "km": 16.78
+          },
+          {
+            "label": "16–22 feb",
+            "km": 11.63
+          },
+          {
+            "label": "23 feb–1 mar",
+            "km": 23.86
+          },
+          {
+            "label": "2–8 mar",
+            "km": 23.39
+          },
+          {
+            "label": "9–15 mar",
+            "km": 30.04
+          },
+          {
+            "label": "16–22 mar",
+            "km": 28.03
+          }
+        ],
+        "vo2Trend": [
+          {
+            "date": "2026-02-23",
+            "label": "23 feb",
+            "value": 51.5
+          },
+          {
+            "date": "2026-03-02",
+            "label": "2 mar",
+            "value": 51.0
+          },
+          {
+            "date": "2026-03-09",
+            "label": "9 mar",
+            "value": 50.6
+          },
+          {
+            "date": "2026-03-19",
+            "label": "19 mar",
+            "value": 50.6
+          },
+          {
+            "date": "2026-03-24",
+            "label": "24 mar",
+            "value": 50.0
+          }
+        ],
+        "zoneBands": [
+          {
+            "label": "Z1 Recupero",
+            "low": 109,
+            "high": 133,
+            "note": "65–79% SAFC"
+          },
+          {
+            "label": "Z2 Facile",
+            "low": 134,
+            "high": 148,
+            "note": "80–88% SAFC"
+          },
+          {
+            "label": "Z3 Aerobica",
+            "low": 150,
+            "high": 158,
+            "note": "89–94% SAFC"
+          },
+          {
+            "label": "Z4 Soglia",
+            "low": 160,
+            "high": 166,
+            "note": "95–99% SAFC"
+          },
+          {
+            "label": "Z5 Sopra soglia",
+            "low": 168,
+            "high": 190,
+            "note": "100–113% SAFC"
+          }
+        ],
+        "sessions": [
+          {
+            "name": "Prima corsa facile",
+            "date": "28 gen",
+            "distance": 3.45,
+            "time": "30:03",
+            "pace": "8:43/km",
+            "paceSec": 523,
+            "avgHr": 124,
+            "maxHr": 132,
+            "power": 237,
+            "cadence": 156,
+            "stride": 0.74,
+            "te": "1.4 aerobico basso",
+            "load": 14,
+            "rpe": "Molto facile",
+            "type": "easy"
+          },
+          {
+            "name": "Ripetute di passo falcato",
+            "date": "25 feb",
+            "distance": 5.68,
+            "time": "45:15",
+            "pace": "7:58/km",
+            "paceSec": 478,
+            "avgHr": 139,
+            "maxHr": 164,
+            "power": 264,
+            "cadence": 167,
+            "stride": 0.76,
+            "te": "3.0 miglioramento aerobico",
+            "rpe": "Facile/controllato",
+            "type": "intervals"
+          },
+          {
+            "name": "Corsa in progressione",
+            "date": "27 feb",
+            "distance": 5.46,
+            "time": "35:04",
+            "pace": "6:25/km",
+            "paceSec": 385,
+            "avgHr": 148,
+            "maxHr": 166,
+            "power": 305,
+            "cadence": 176,
+            "stride": 0.88,
+            "te": "3.1 miglioramento aerobico",
+            "rpe": "Medio/controllato",
+            "type": "progression"
+          },
+          {
+            "name": "Ripetute di passo falcato",
+            "date": "4 mar",
+            "distance": 5.69,
+            "time": "42:05",
+            "pace": "7:24/km",
+            "paceSec": 444,
+            "avgHr": 141,
+            "maxHr": 163,
+            "power": 263,
+            "cadence": 163,
+            "stride": 0.83,
+            "te": "2.7 miglioramento aerobico",
+            "rpe": "Facile/controllato",
+            "type": "intervals"
+          },
+          {
+            "name": "Corsa in progressione",
+            "date": "6 mar",
+            "distance": 5.86,
+            "time": "40:02",
+            "pace": "6:50/km",
+            "paceSec": 410,
+            "avgHr": 144,
+            "maxHr": 166,
+            "power": 293,
+            "cadence": 173,
+            "stride": 0.84,
+            "te": "3.0 miglioramento aerobico",
+            "rpe": "Progressivo controllato",
+            "type": "progression"
+          },
+          {
+            "name": "5K di riferimento",
+            "date": "7 mar",
+            "distance": 5.01,
+            "time": "29:35",
+            "pace": "5:54/km",
+            "paceSec": 354,
+            "avgHr": 154,
+            "maxHr": 176,
+            "power": 334,
+            "cadence": 176,
+            "stride": 0.96,
+            "te": "3.3 miglioramento aerobico",
+            "load": 92,
+            "rpe": "4/10 abbastanza duro",
+            "type": "race"
+          },
+          {
+            "name": "Ripetute di passo falcato",
+            "date": "9 mar",
+            "distance": 7.01,
+            "time": "45:30",
+            "pace": "6:29/km",
+            "paceSec": 389,
+            "avgHr": 141,
+            "maxHr": 169,
+            "power": 308,
+            "cadence": 174,
+            "stride": 0.89,
+            "te": "3.1 miglioramento aerobico",
+            "rpe": "Moderato/controllato",
+            "type": "intervals"
+          },
+          {
+            "name": "Corsa in progressione",
+            "date": "11 mar",
+            "distance": 6.33,
+            "time": "42:22",
+            "pace": "6:41/km",
+            "paceSec": 401,
+            "avgHr": 143,
+            "maxHr": 158,
+            "power": 300,
+            "cadence": 168,
+            "stride": 0.88,
+            "te": "3.1 miglioramento aerobico",
+            "rpe": "Controllato con finale più brillante",
+            "type": "progression"
+          },
+          {
+            "name": "Ultima corsa facile lunga",
+            "date": "15 mar",
+            "distance": 8.68,
+            "time": "1:00:05",
+            "pace": "6:55/km",
+            "paceSec": 415,
+            "avgHr": 137,
+            "maxHr": 151,
+            "power": 285,
+            "cadence": 173,
+            "stride": 0.84,
+            "te": "2.8 mantenimento",
+            "load": 54,
+            "rpe": "2/10 leggero",
+            "type": "easy"
+          },
+          {
+            "name": "Ripetute di passo falcato",
+            "date": "18 mar",
+            "distance": 7.21,
+            "time": "47:16",
+            "pace": "6:33/km",
+            "paceSec": 393,
+            "avgHr": 139,
+            "maxHr": 151,
+            "power": 307,
+            "cadence": 180,
+            "stride": 0.85,
+            "te": "3.1 miglioramento aerobico",
+            "rpe": "Facile/controllato",
+            "type": "intervals"
+          },
+          {
+            "name": "Richiamo passo gara 2×8'",
+            "date": "19 mar",
+            "distance": 4.34,
+            "time": "26:11",
+            "pace": "6:02/km",
+            "paceSec": 362,
+            "avgHr": 144,
+            "maxHr": 163,
+            "power": 317,
+            "cadence": 171,
+            "stride": 0.97,
+            "te": "3.1 miglioramento aerobico",
+            "rpe": "3/10 moderato",
+            "type": "intervals"
+          },
+          {
+            "name": "Corsa in progressione",
+            "date": "20 mar",
+            "distance": 4.84,
+            "time": "29:18",
+            "pace": "6:03/km",
+            "paceSec": 363,
+            "avgHr": 143,
+            "maxHr": 164,
+            "power": 319,
+            "cadence": 180,
+            "stride": 0.92,
+            "te": "3.0 miglioramento aerobico",
+            "rpe": "Fatica crescente, progressione interrotta",
+            "type": "progression"
+          },
+          {
+            "name": "PR 10K ufficiale dentro corsa continua",
+            "date": "21 mar",
+            "distance": 10.98,
+            "time": "1:07:07",
+            "pace": "6:07/km",
+            "paceSec": 367,
+            "avgHr": 150,
+            "maxHr": 180,
+            "power": 317,
+            "cadence": 178,
+            "stride": 0.92,
+            "te": "3.9 aerobico alto",
+            "load": 130,
+            "rpe": "Difficile ma ben gestito; primi ~40 minuti con amico, finale forte da solo",
+            "type": "race",
+            "tenKRecord": "59:27",
+            "fiveKRecord": "29:21",
+            "recordDate": "2026-03-21",
+            "tenKPace": "5:57/km",
+            "tenKDistance": 10.0,
+            "oneMileRecord": "8:49.5"
+          }
+        ],
+        "bodyComp": {
+          "weight": 86.9,
+          "bmi": 25.4,
+          "bodyFat": 22.9,
+          "fatMass": 19.9,
+          "muscleMass": 63.2,
+          "musclePct": 72.7,
+          "skeletalMuscleMass": 38.1,
+          "visceralFat": 7,
+          "waterPct": 59.0,
+          "waterMass": 51.3,
+          "proteinMass": 11.1,
+          "proteinPct": 12.8,
+          "boneMineralKg": 3.8,
+          "boneMineralPct": 4.4,
+          "bmr": 1817,
+          "ffm": 67.0,
+          "bodyAge": 30,
+          "whr": 0.8,
+          "bodyScore": 79,
+          "scaleHeartRate": 77,
+          "threeDayDeltaWeight": 0.2,
+          "threeDayDeltaBodyFatPct": 0.1,
+          "interpretation": "Variazione troppo piccola per concludere che stai davvero accumulando grasso corporeo."
+        },
+        "latestHrZones": [
+          {
+            "zone": "Z1",
+            "time": "0:54",
+            "seconds": 54,
+            "pct": 1
+          },
+          {
+            "zone": "Z2",
+            "time": "17:48",
+            "seconds": 1068,
+            "pct": 26
+          },
+          {
+            "zone": "Z3",
+            "time": "43:05",
+            "seconds": 2585,
+            "pct": 64
+          },
+          {
+            "zone": "Z4",
+            "time": "2:42",
+            "seconds": 162,
+            "pct": 4
+          },
+          {
+            "zone": "Z5",
+            "time": "0:40",
+            "seconds": 40,
+            "pct": 0
+          }
+        ],
+        "trainingReadiness": {
+          "date": "2026-03-24",
+          "value": 64,
+          "label": "Moderata",
+          "sleepScore": 75,
+          "sleepLabel": "Accettabile",
+          "recoveryHours": 0,
+          "recoveryLabel": "Recupero effettuato",
+          "hrvMs": 71,
+          "hrvLabel": "Bilanciato",
+          "acuteLoad": 260,
+          "acuteLoadLabel": "Ottimale"
+        },
+        "trainingStatus": {
+          "date": "2026-03-24",
+          "label": "Non produttivo",
+          "vo2max": 50,
+          "vo2Label": "Eccellente",
+          "hrvMs": 71,
+          "hrvLabel": "Bilanciato",
+          "acuteLoad": 260,
+          "acuteLoadLabel": "Ottimale"
+        },
+        "racePredictions": {
+          "fiveK": "24:24",
+          "tenK": "52:46",
+          "half": "1:59:59",
+          "marathon": "4:26:06",
+          "date": "2026-03-24"
+        },
+        "benchmarkSegments": [
+          {
+            "name": "Blocco 10 km netto nella seduta del 21 marzo",
+            "date": "2026-03-21",
+            "distance": 10.02,
+            "time": "1:00:00",
+            "pace": "5:59/km"
+          }
+        ],
+        "plannedWorkouts": {
+          "2026-03-25": {
+            "typeKey": "easy",
+            "label": "Corsa facile"
+          },
+          "2026-03-27": {
+            "typeKey": "quality",
+            "label": "Ripetute di passo falcato"
+          },
+          "2026-03-29": {
+            "typeKey": "race",
+            "label": "Deejay Ten 2026"
+          }
+        },
+        "personalRecords": {
+          "1km": {
+            "time": "5:05.9",
+            "pace": "5:06/km",
+            "activity": "Torino - Gara di riferimento",
+            "date": "2026-01-26"
+          },
+          "1mi": {
+            "time": "8:49.5",
+            "pace": "5:29/km",
+            "activity": "Torino - Corsa in progressione",
+            "date": "2026-03-20"
+          },
+          "5k": {
+            "time": "29:21",
+            "pace": "5:52/km",
+            "activity": "Torino - Corsa facile",
+            "date": "2026-03-21"
+          },
+          "10k": {
+            "time": "59:27",
+            "pace": "5:57/km",
+            "activity": "Torino - Corsa facile",
+            "date": "2026-03-21"
+          },
+          "longestRun": {
+            "distance": "10.98 km",
+            "activity": "Torino - Corsa facile",
+            "date": "2026-03-21"
+          }
+        },
+        "goalTargets": {
+          "deejayTen": {
+            "a": "58:45–59:20",
+            "b": "59:20–59:59",
+            "c": "60:00–60:40"
+          },
+          "tuttaDritta": {
+            "a": "58:00–58:45",
+            "b": "58:45–59:30",
+            "c": "59:30–60:15"
+          },
+          "halfAutumn": {
+            "a": "1:56:00–1:58:30",
+            "b": "1:58:30–1:59:59",
+            "c": "2:00:00–2:03:00"
+          }
+        },
+        "raceGoals": {
+          "deejayTen": {
+            "realistic": "58:50–59:30",
+            "A": "< 59:00",
+            "B": "< 59:30",
+            "C": "Conferma sub-60"
+          },
+          "tuttadritta": {
+            "realistic": "58:15–59:00",
+            "A": "< 58:30",
+            "B": "< 59:00",
+            "C": "< 59:30"
+          },
+          "halfAutumn": {
+            "realistic": "1:57:30–1:59:00",
+            "goal": "< 1:58:30"
+          }
+        },
+        "nutritionDiagnosis": {
+          "whyWeightNotDropping": [
+            "Il trend disponibile non dimostra un vero aumento di grasso: +0.1% body fat in 3 giorni è compatibile con rumore della bilancia bioimpedenziometrica.",
+            "La corsa sta migliorando ma il volume attuale non è enorme: 25–30 km/settimana spesso non basta da solo a creare un deficit forte se l’alimentazione resta un po’ larga.",
+            "Glicogeno, sale, infiammazione post-allenamento, sonno e orario della misura possono spostare peso e body fat stimata da un giorno all’altro.",
+            "Le calorie “invisibili” più probabili, dato il tuo schema, sono olio, pesto, grana, biscotti, pane extra e porzioni non pesate."
+          ],
+          "actionPoints": [
+            "Valuta il peso come media di 14 giorni, non sul singolo dato.",
+            "Riduci di ~100–150 kcal nei giorni easy/riposo se la media non scende per 2 settimane.",
+            "Mantieni proteine 1.6–1.8 g/kg e non tagliare troppo i carboidrati nei giorni di qualità o gara.",
+            "Tieni costante il momento della pesata: mattino, a digiuno, dopo bagno, stesso livello di idratazione."
+          ]
+        }
+      },
+      "sections": {
+        "executive": "<p>Qui il punto non è discutibile: il <strong>sub-60 è già stato centrato</strong>. Garmin ti accredita un <strong>record personale ufficiale sui 10 km di 59:27</strong> il 21 marzo 2026, con contemporaneo <strong>PR sui 5 km di 29:21</strong> all’interno della stessa attività. Il vecchio frame mentale 'ci sono quasi' non regge più: il target iniziale è già chiuso.</p><p>La lettura intelligente però non è esultare e basta. Bisogna capire cosa significa davvero questo dato: hai corso <strong>10.98 km totali in 1:07:07</strong>, con un blocco 10K da record e con una gestione interessante dello sforzo, perché per circa <strong>40 minuti</strong> hai avuto un riferimento esterno con il tuo amico, poi hai chiuso bene da solo. Questo rende il risultato ancora più credibile sul piano mentale.</p><div class=\"quote\">Conclusione aggiornata: il nuovo obiettivo non è più 'fare sub-60', ma <strong>consolidarlo in gara</strong> e poi scendere verso <strong>59 basso / 58 alto</strong> senza inseguire fantasy pace da 52 minuti che oggi non sono supportate dai fatti.</div>",
+        "physiology": "<p>Il 24 marzo Garmin ti dà <strong>Training Readiness 64</strong>, <strong>HRV 71 ms bilanciata</strong>, <strong>VO₂max 50</strong> e <strong>carico acuto 260 ottimale</strong>. Il fatto interessante è che il sistema continua a mostrarti <strong>'Non produttivo'</strong> mentre tu hai appena fatto un PR ufficiale. Questo è un ottimo esempio di quanto l’etichetta Garmin vada interpretata e non subita.</p><p>La contraddizione si spiega così: Garmin sta valutando il <em>mix complessivo</em> delle ultime settimane, non solo l’ultima performance. Quindi può ancora leggerti poco 'produttivo' se il blocco ha avuto molto lavoro facile e relativamente poco lavoro chiaramente a soglia. Ma il PR del 21 marzo dimostra che, nei fatti, la tua forma specifica 10K è salita.</p>",
+        "zones": "<p>La seduta del 21 marzo ha distribuito il tempo soprattutto in <strong>Z3 (64%)</strong>, con una quota utile in <strong>Z2 (26%)</strong> e poco tempo in <strong>Z4</strong>. Questo è coerente con una corsa forte ma non completamente all-out. È importante perché smonta un altro equivoco: per correre bene 10 km non devi per forza stare sempre altissimo di frequenza. Devi piuttosto riuscire a stare tanto tempo in una fascia sostenibile ma davvero competitiva per te.</p><p>La lezione pratica è questa: il tuo passo gara attuale non è 5:30/km uniforme, ma è già intorno a <strong>5:57/km</strong> sui 10 km. È un salto enorme rispetto al punto di partenza. Se continui a spingere un po’ la specificità, la prossima frontiera realistica è allungare il tempo passato in <strong>Z3 alta / Z4 bassa</strong> senza perdere pulizia.</p>",
+        "technique": "<p>Anche meccanicamente la seduta è convincente: <strong>178 spm</strong> di cadenza media, <strong>0.92 m</strong> di passo medio e <strong>317 W</strong> di potenza media. Non sono numeri perfetti in assoluto, ma sono molto coerenti con un corridore che sta diventando più efficiente. La cosa più interessante è che hai tenuto un gesto buono anche quando sei rimasto senza il metronomo del tuo amico.</p><p>Questo conta molto più di quanto sembri: una parte del miglioramento non è solo fisiologica, è di <strong>autonomia nel ritmo</strong>. Prima il dubbio era 'ce la faccio a stare vicino al passo giusto?'. Ora la domanda più utile è 'riesco a distribuire meglio lo sforzo per limare altri 20–40 secondi?'.</p>",
+        "estimates": "<p><strong>Deejay Ten 29 marzo:</strong> target realistico <strong>58:50–59:30</strong>. Obiettivo A: <strong>sotto 59:00</strong>. Obiettivo B: <strong>sotto 59:30</strong>. Obiettivo C: <strong>confermare il sub-60</strong>. Qui la strategia giusta non è partire a 5:40 per ego, ma aprire in controllo e provare a chiudere più forte del 21 marzo.</p><p><strong>Tuttadritta 10 maggio:</strong> target realistico <strong>58:15–59:00</strong>. Se il lavoro specifico continua bene e arrivi più fresco e un filo più leggero, puoi stare anche nella parte bassa del range. Sotto <strong>58:00</strong> oggi non è impossibile, ma sarebbe ancora un obiettivo stretch, non il centro della previsione.</p><p><strong>Mezza autunnale:</strong> ora il sub 2h non è più solo plausibile, ma quasi un target base. Un range sensato, guardando dove sei oggi, diventa <strong>1:57:30–1:59:00</strong> se da maggio in poi sposti il focus su volume e lungo.</p>",
+        "strategy": "<p>Adesso che il sub-60 è già stato fatto, l’errore più facile sarebbe cambiare tutto o strafare. Io farei l’opposto: terrei il piano, ma con più lucidità sui ruoli delle sedute. Una easy davvero easy. Una seduta qualitativa che tocchi soglia o 10K pace con chiarezza. Una terza uscita che aumenti la tenuta senza diventare una gara mascherata.</p><ul><li><strong>Prima della Deejay Ten:</strong> non ti serve volume extra, ti serve freschezza.</li><li><strong>In gara:</strong> primi km in controllo, poi blocco centrale compatto, finale aggressivo solo se ne hai davvero.</li><li><strong>Dopo il PR:</strong> non inseguire subito il 55'. Quello oggi resta troppo aggressivo rispetto ai dati reali.</li></ul>",
+        "health": "<p>Qui ti devo correggere su un punto: con i dati che hai mandato <strong>non è vero che stai chiaramente aumentando massa grassa</strong>. Hai un <strong>22.9%</strong> il 24 marzo, che è appena <strong>+0.1</strong> rispetto a tre giorni prima secondo la bilancia. Questo scarto è troppo piccolo per essere preso come prova di grasso in aumento. Con le bilance bioimpedenziometriche conta moltissimo l’idratazione, il glicogeno, il sale, l’orario e perfino il carico dell’allenamento del giorno prima.</p><p>La domanda corretta non è 'perché sto ingrassando?', ma piuttosto 'perché il trend non sta scendendo quanto vorrei?'. Le spiegazioni più probabili sono quattro: <strong>deficit reale troppo piccolo</strong>, calorie invisibili (olio/pesto/pane/biscotti), <strong>spesa corsa sopravvalutata</strong> e oscillazioni da acqua/recupero che mascherano i cambiamenti veri. Per accumulare davvero 300–400 g di grasso servirebbe un surplus di migliaia di kcal, non un semplice decimale sul display della bilancia.</p><p>Quindi: non negare il tema composizione corporea, ma non leggere il display in modo letterale. Il dato utile è la <strong>media di 14 giorni</strong>, magari insieme a <strong>circonferenza vita</strong> e feeling in corsa.</p>",
+        "workflow": "<p>Questo report aggiorna correttamente l’archivio: adesso il 21 marzo viene trattato come <strong>giorno del PR ufficiale</strong>, non come semplice seduta generica. Per i prossimi aggiornamenti resta utile lo stesso protocollo: CSV completo, JSON corrente e screenshot per sezioni non contenute nel CSV (record personali, readiness/status, bilancia, zone).</p>"
+      }
+    }
+  }
+}
