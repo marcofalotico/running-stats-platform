@@ -43,7 +43,6 @@ body {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
-.card.card-panel { background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.018)); }
 .sidebar-wrap { width: 100%; min-width: 0; }
 .sticky-lg-top { top: 1.2rem; }
 .eyebrow {
@@ -68,19 +67,6 @@ body {
 }
 .btn-accent:hover { background: rgba(255,122,0,.20); color: #fff; }
 .hero-card { padding: 1.4rem; }
-.kpi-card { height: 100%; padding: 1rem 1rem 1.05rem; }
-.kpi-label {
-  color: var(--muted);
-  font-size: .76rem;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-}
-.kpi-value {
-  font-size: clamp(1.55rem, 3.2vw, 2.2rem);
-  font-weight: 800;
-  line-height: 1.05;
-  margin-top: .45rem;
-}
 .section-title {
   font-size: clamp(1.45rem, 2vw, 2rem);
   font-weight: 800;
@@ -99,18 +85,10 @@ body {
   max-width: 100%;
   text-align: left;
 }
-.delta-up { color: #ffc18c; }
-.delta-down { color: #94d7ff; }
-.delta-flat { color: #d7e2ff; }
 .mini-note {
   font-size: .93rem;
   line-height: 1.55;
   color: var(--muted);
-}
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: .85rem;
 }
 .metric-item {
   min-width: 0;
@@ -135,20 +113,6 @@ svg.chart {
 .chart-card { min-width: 0; padding: 1rem; height: 100%; }
 .chart-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .25rem; }
 .chart-sub { color: var(--muted); font-size: .9rem; line-height: 1.5; margin-bottom: .75rem; }
-.report-list button {
-  width: 100%;
-  text-align: left;
-  padding: .9rem 1rem;
-  border-radius: 16px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.02);
-  color: var(--text);
-}
-.report-list button.active {
-  border-color: rgba(255,122,0,.35);
-  background: rgba(255,122,0,.08);
-}
-.report-list button + button { margin-top: .75rem; }
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -188,31 +152,6 @@ svg.chart {
   box-shadow: inset 0 0 0 1px rgba(78,166,255,.28);
 }
 .calendar .day.other { opacity: .32; }
-.zone-stack {
-  display: flex;
-  height: 14px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(255,255,255,.06);
-}
-.zone-legend {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: .55rem .8rem;
-}
-.zone-pill {
-  display: flex;
-  align-items: center;
-  gap: .45rem;
-  color: var(--muted);
-  font-size: .9rem;
-}
-.zone-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex: 0 0 auto;
-}
 .table-tight td, .table-tight th {
   padding: .7rem .6rem;
   border-color: rgba(255,255,255,.06);
@@ -224,7 +163,7 @@ svg.chart {
   letter-spacing: .08em;
 }
 .small-note { color: var(--muted); font-size: .85rem; line-height: 1.55; }
-.hero-card, .kpi-card, .offcanvas-body, .calendar, .zone-legend, .mini-note, .muted, .chart-sub, .section-title, .kpi-value, .metric-item .value { min-width: 0; overflow-wrap: anywhere; }
+.hero-card, .calendar, .mini-note, .muted, .chart-sub, .section-title, .metric-item .value { min-width: 0; overflow-wrap: anywhere; }
 .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .btn-hamburger {
   padding: .5rem .65rem;
@@ -239,13 +178,15 @@ svg.chart {
   height: 1.35em;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28235, 241, 255, 0.88%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
+.loading-box, .error-box {
+  padding: 1.5rem;
+}
+.error-box { color: #ffd9d9; }
 @media (max-width: 991.98px) {
   .sidebar-wrap { position: static !important; }
 }
 @media (max-width: 767.98px) {
-  .metric-grid { grid-template-columns: 1fr; }
-  .zone-legend { grid-template-columns: 1fr; }
-  .hero-card, .chart-card, .kpi-card, .metric-item { padding-left: .9rem; padding-right: .9rem; }
+  .hero-card, .chart-card, .metric-item { padding-left: .9rem; padding-right: .9rem; }
   .card-panel { border-radius: 18px; }
   svg.chart { height: 240px; }
 }
@@ -271,359 +212,528 @@ svg.chart {
     </div>
   </div>
 </div>
+
 <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="archiveCanvas" aria-labelledby="archiveCanvasLabel" style="background: var(--bg); width:min(92vw, 380px);">
-  <div class="offcanvas-header border-bottom" style="border-color: var(--line)!important;"><h5 class="offcanvas-title" id="archiveCanvasLabel">Archivio report</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button></div>
+  <div class="offcanvas-header border-bottom" style="border-color: var(--line)!important;">
+    <h5 class="offcanvas-title" id="archiveCanvasLabel">Archivio report</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
   <div class="offcanvas-body p-3"><div id="sidebarMobile"></div></div>
 </div>
-<input id="importFile" type="file" accept="application/json" hidden />
+
 <script>
-const BUNDLED_ARCHIVE = {"schemaVersion": 1, "athleteProfile": {"name": "Marco", "age": 33, "heightCm": 185, "weightKg": 86.6, "bodyFatPct": 22.9, "muscleMassKg": 63.1, "restingHr": 49, "maxHr": 190, "lthr": 168, "goals": {"10k": "< 59:50", "half": "< 1:59:00"}}, "reports": {"2026-03-17": {"title": "Report tecnico 10K • stato al 17 marzo 2026", "subtitle": "Aggiornamento del report con VO₂max, Training Readiness, Training Status, FC media/max 4 settimane e nuove zone cardio basate su SAFC 168 bpm.", "heroTags": ["Garmin Coach Greg • settimana 8/12", "3–4 uscite/settimana", "Target A-race: Tuttadritta 10 maggio", "Nuove zone corsa basate su SAFC 168 bpm"], "summaryCards": [{"label": "Stato forma", "value": "In crescita", "text": "Base aerobica, durata e passo facile sono migliorati in modo netto. La nuova evidenza chiave è la 5.01 km in 29:35."}, {"label": "Training Readiness", "value": "69/100", "text": "Moderato: sonno buono, recupero completato, HRV bilanciata. Il corpo appare fresco più che affaticato."}, {"label": "Training Status", "value": "Non produttivo", "text": "Non significa regressione: Garmin segnala che il carico è troppo sbilanciato sulle basse intensità rispetto al mix ideale."}, {"label": "10K realistico oggi", "value": "60:45–62:30", "text": "Il sub 60 è diventato molto più credibile. I 55' restano però una stima troppo aggressiva per maggio."}], "quickFacts": [["VO₂max", "51 attuale • lieve calo 51.5 → 51.0 → 50.6 in 4 settimane"], ["HRV Status", "69 ms • bilanciato"], ["Carico acuto", "157 • basso"], ["Sonno", "84 punteggio notte • media 7 giorni 6h31"], ["FC corsa (ultime 4 settimane)", "FC media 141 bpm • FC max media 159 bpm"], ["Zone corsa", "ricalcolate su SAFC 168 bpm"], ["PB funzionale 5K", "5.01 km in 29:35 il 7 marzo, molto più rappresentativo del vecchio 39:30"], ["Bilancia", "BMI 25.3 = sovrastima grossolana del rischio se letto da solo"]], "data": {"easyRuns": [{"date": "2026-01-28", "label": "28 gen", "paceSec": 523, "distance": 3.45}, {"date": "2026-01-31", "label": "31 gen", "paceSec": 471, "distance": 3.85}, {"date": "2026-02-01", "label": "1 feb", "paceSec": 457, "distance": 5.42}, {"date": "2026-02-04", "label": "4 feb", "paceSec": 475, "distance": 3.81}, {"date": "2026-02-06", "label": "6 feb", "paceSec": 478, "distance": 4.54}, {"date": "2026-02-11", "label": "11 feb", "paceSec": 403, "distance": 5.96}, {"date": "2026-02-15", "label": "15 feb", "paceSec": 445, "distance": 6.76}, {"date": "2026-02-18", "label": "18 feb", "paceSec": 440, "distance": 4.28}, {"date": "2026-02-19", "label": "19 feb", "paceSec": 446, "distance": 3.7}, {"date": "2026-02-20", "label": "20 feb", "paceSec": 494, "distance": 3.65}, {"date": "2026-02-23", "label": "23 feb", "paceSec": 458, "distance": 4.78}, {"date": "2026-03-01", "label": "1 mar", "paceSec": 444, "distance": 6.77}, {"date": "2026-03-03", "label": "3 mar", "paceSec": 441, "distance": 6.83}, {"date": "2026-03-13", "label": "13 mar", "paceSec": 408, "distance": 8.02}, {"date": "2026-03-15", "label": "15 mar", "paceSec": 415, "distance": 8.68}], "weeklyVolume": [{"label": "26 gen–1 feb", "km": 14.16}, {"label": "2–8 feb", "km": 12.48}, {"label": "9–15 feb", "km": 16.78}, {"label": "16–22 feb", "km": 11.63}, {"label": "23 feb–1 mar", "km": 23.86}, {"label": "2–8 mar", "km": 18.38}, {"label": "9–15 mar", "km": 30.04}], "vo2Trend": [{"date": "2026-02-23", "label": "23 feb", "value": 51.5}, {"date": "2026-03-02", "label": "2 mar", "value": 51.0}, {"date": "2026-03-09", "label": "9 mar", "value": 50.6}], "zoneBands": [{"label": "Z1 Recupero", "low": 109, "high": 133, "note": "65–79% SAFC"}, {"label": "Z2 Facile", "low": 134, "high": 148, "note": "80–88% SAFC"}, {"label": "Z3 Aerobica", "low": 150, "high": 158, "note": "89–94% SAFC"}, {"label": "Z4 Soglia", "low": 160, "high": 166, "note": "95–99% SAFC"}, {"label": "Z5 Sopra soglia", "low": 168, "high": 190, "note": "100–113% SAFC"}], "sessions": [{"name": "Prima corsa facile", "date": "28 gen", "distance": 3.45, "time": "30:03", "pace": "8:43/km", "paceSec": 523, "avgHr": 124, "maxHr": 132, "power": 237, "cadence": 156, "stride": 0.74, "te": "1.4 aerobico basso", "load": 14, "rpe": "Molto facile", "type": "easy"}, {"name": "5K di riferimento", "date": "7 mar", "distance": 5.01, "time": "29:35", "pace": "5:54/km", "paceSec": 354, "avgHr": 154, "maxHr": 176, "power": 334, "cadence": 176, "stride": 0.96, "te": "3.3 miglioramento aerobico", "load": 92, "rpe": "4/10 abbastanza duro", "type": "fast"}, {"name": "Ultima corsa facile", "date": "15 mar", "distance": 8.68, "time": "1:00:05", "pace": "6:55/km", "paceSec": 415, "avgHr": 137, "maxHr": 151, "power": 285, "cadence": 173, "stride": 0.84, "te": "2.8 mantenimento", "load": 54, "rpe": "2/10 leggero", "type": "easy"}], "bodyComp": {"weight": 86.7, "bmi": 25.3, "bodyFat": 22.8, "fatMass": 19.8, "muscleMass": 63.1, "skeletalMusclePct": 38.1, "visceralFat": 7, "waterPct": 59.1, "bmr": 1815, "ffm": 66.9}}, "sections": {"executive": "\n                <p>Con i dati nuovi il quadro cambia in meglio: il report precedente era prudente perché mancava un riferimento prestativo reale. La corsa del <strong>7 marzo da 5.01 km in 29:35</strong> sposta l’analisi. Non dimostra ancora che oggi hai già il sub 60 “in mano”, ma dimostra che il vecchio PB 5K da 39:30 non è più un benchmark utile.</p>\n                <p>Qui c’è il punto da mettere alla prova: raddoppiare una 5K a <strong>5:54/km</strong> non equivale automaticamente a tenere <strong>5:59/km</strong> per 10 km. Però ci dice che il target è entrato nella zona del plausibile. La differenza tra desiderio e dato si è ridotta parecchio.</p>\n                <div class=\"quote\">Conclusione aggiornata: il sub 60 non va più trattato come target “ottimistico”, ma come obiettivo realistico se nelle prossime settimane inserisci un po’ più di lavoro vicino alla soglia e proteggi il recupero.</div>\n                ", "physiology": "\n                <p><strong>Training Readiness 69</strong> con sonno 84, recupero completato, HRV 69 ms bilanciata e carico acuto basso significa una cosa abbastanza chiara: il tuo problema oggi non sembra essere la stanchezza sistemica. Semmai il contrario: sei abbastanza fresco, ma lo stimolo recente è stato un po’ troppo facile per far dire a Garmin che sei “produttivo”.</p>\n                <p>Il <strong>VO₂max sceso da 51.5 a 50.6</strong> nelle ultime 4 settimane va letto con cautela. È un calo piccolo, mentre sul campo hai migliorato passo, durata e benchmark 5K. Questo è un classico caso in cui l’algoritmo può reagire a combinazione di caldo, sedute facili, HR più alta in alcune giornate o finestra temporale breve. Non lo leggerei come peggioramento reale della forma.</p>\n                <p><strong>Training Status “Non produttivo”</strong> non è una bocciatura del piano: è un feedback sul mix. Garmin ti sta dicendo che il carico c’è, ma che è troppo concentrato in basso. Quindi la conclusione non è “stai sbagliando tutto”; la conclusione corretta è “per rendere il blocco più 10K-specifico serve un pizzico di intensità qualitativa in più”.</p>\n                ", "zones": "\n                <p>La correzione delle zone da <strong>% FC max</strong> a <strong>% SAFC/LTHR 168 bpm</strong> per te ha senso. Il tuo vecchio vincolo psicologico di stare sotto <strong>130 bpm</strong> per sentirti in Z2 probabilmente era troppo restrittivo rispetto a come realmente risponde il tuo corpo adesso.</p>\n                <p>Detto questo, non fare l’errore opposto. Il fatto che ora tu possa parlare o respirare col naso a ritmi un po’ più sostenuti <em>non</em> significa che ogni corsa a 145–150 bpm sia automaticamente “facile”. Le nuove zone sono più credibili, ma non sono un lasciapassare per trasformare ogni easy run in medio mascherato.</p>\n                <p>Il dato forte è che la tua <strong>ultima corsa facile a 137 bpm medi</strong> cade perfettamente dentro la nuova <strong>Z2 (134–148)</strong>. Questo rende il feeling della seduta coerente con il modello fisiologico aggiornato. È la prima volta che Garmin e la tua percezione soggettiva sembrano allinearsi davvero.</p>\n                ", "technique": "\n                <p>La tecnica sta migliorando senza che tu sembri averla “forzata”. Passi da <strong>156 spm e 0.74 m</strong> nella prima corsa facile a <strong>173 spm e 0.84 m</strong> nell’ultima facile, fino a <strong>176 spm e 0.96 m</strong> nel 5K veloce. Questo è il pattern sano: la meccanica migliora come effetto della forma, non come tentativo artificiale di inseguire un numero.</p>\n                <p>Il margine più utile non è rincorrere ancora più cadenza, ma consolidare la capacità di mantenere una buona lunghezza del passo quando il ritmo sale verso il passo gara 10K. La tua 5K mostra già che quando spingi, la gamba “si apre” meglio e la potenza sale parecchio. Ora manca soprattutto la tenuta metabolica, non il gesto di base.</p>\n                ", "estimates": "\n                <p><strong>Stima 10K oggi:</strong> 60:45–62:30. La corsa da 5.01 km in 29:35 suggerisce, con una normale penalità di fatica sul raddoppio distanza, una proiezione intorno ai 61 minuti e mezzo. Quindi sì: sei vicino. Ma vicino non significa già automatico.</p>\n                <p><strong>Stima 10K a maggio:</strong> 58:45–60:30 se continui con 3–4 uscite, una seduta di soglia a settimana e un medio/lungo facile che salga in modo stabile. Il vero rischio non è il motore: è arrivare in gara con troppo poco lavoro specifico a ritmo 10K.</p>\n                <p><strong>Stima mezza di ottobre:</strong> target sub 2h plausibile, ma solo se da maggio in poi sposti il focus su volume e lungo. Per stare sotto 2h ti serve meno brillantezza pura di oggi e più tenuta strutturale.</p>\n                ", "strategy": "\n                <p><strong>Io non butterei Garmin Greg.</strong> Lo terrei, ma correggerei il mix. In pratica: una seduta davvero facile, una seduta qualitativa alternando soglia e 10K-specifico, e una terza/quarta uscita dedicata a far salire il tempo totale sulle gambe.</p>\n                <ul>\n                  <li><strong>Seduta soglia:</strong> 3×8' oppure 2×12' a ritmo controllato-duro, non all-out.</li>\n                  <li><strong>Seduta 10K specifica:</strong> 5×3' o 4×5' vicino a ritmo gara con recuperi brevi.</li>\n                  <li><strong>Easy run:</strong> tienila davvero facile, spesso dentro Z2 nuova, non sempre al bordo alto.</li>\n                  <li><strong>Lungo/medio lungo:</strong> spingi gradualmente verso 75–85' facili.</li>\n                  <li><strong>Forza:</strong> 2 richiami brevi a settimana, soprattutto polpacci, glutei, core.</li>\n                </ul>\n                <p>In sintesi: la tua limitazione non sembra più “non ho motore”. Sembra piuttosto “ho motore in crescita, ma devo renderlo più specifico sul passo gara”.</p>\n                ", "health": "\n                <p>Hai ragione a contestare la dicitura “obeso” della bilancia: con i dati che hai fornito è semplicemente una lettura sbagliata. <strong>BMI 25.3</strong> vuol dire fascia <em>sovrappeso statistico</em>, non obesità; e in più il BMI ignora del tutto la tua massa muscolare e la storia di calisthenics.</p>\n                <p>Questo non significa che la composizione corporea sia irrilevante per la corsa. Con <strong>22.8% di body fat</strong> c’è probabilmente ancora margine per migliorare l’economia di corsa nel medio periodo, ma non lo inseguirei con un taglio aggressivo in piena preparazione 10K. La priorità resta allenarti bene e recuperare bene.</p>\n                ", "workflow": "\n                <p>Questa web-app ora è strutturata come <strong>archivio di report per data</strong>. Il report di oggi è salvato sul <strong>17 marzo 2026</strong> e il calendario è già pronto a ospitare i prossimi aggiornamenti.</p>\n                <p><strong>Workflow consigliato per ora:</strong> tu continui a mandarmi qui screenshot e dati; io ti aggiorno l’archivio e ti restituisco la web-app aggiornata. In più puoi <strong>esportare/importare il JSON</strong> direttamente dall’app per non perdere la storicità.</p>\n                <p><strong>Integrazione AI direttamente nella web-app:</strong> fattibile, ma non come semplice file HTML statico. Per farla bene serve un piccolo backend o funzione serverless che riceva gli screenshot, usi un modello vision per estrarre i dati, aggiorni il JSON storico e rigeneri il report. È la strada giusta se vuoi automatizzare davvero; è una fase successiva, non una toppa da mettere nel front-end da solo.</p>\n                "}}, "2026-03-19": {"title": "Report tecnico 10K • stato al 19 marzo 2026", "subtitle": "Aggiornamento con allenamento del 18 marzo, tempo in zona FC, Training Readiness del 19 marzo e nuovi dati di bilancia.", "heroTags": ["Garmin Coach Greg • blocco 10K in corso", "Ripetute di passo falcato • 7.21 km", "Training Readiness 49/100", "Carico acuto 184 • ottimale", "Ultima seduta: 75% del tempo in Z2"], "summaryCards": [{"label": "Stato forma", "value": "Buono ma da rifinire", "text": "La forma resta in crescita, ma l'ultima seduta conferma più economia e controllo che stress metabolico elevato."}, {"label": "Training Readiness", "value": "49/100", "text": "Bassa soprattutto per qualità del sonno non ottimale. Il recupero e l'HRV non suggeriscono sovraccarico importante."}, {"label": "Training Status", "value": "Non produttivo", "text": "Il messaggio Garmin non cambia: il mix resta ancora troppo spostato su intensità basse rispetto a un blocco 10K più specifico."}, {"label": "10K realistico oggi", "value": "60:30–62:00", "text": "Stima sostanzialmente stabile: il sub 60 resta vicino, ma questa seduta da sola non basta a dimostrarlo."}], "quickFacts": [["VO₂max", "51 attuale • trend sostanzialmente stabile nelle ultime settimane"], ["HRV Status", "69 ms • bilanciato"], ["Carico acuto", "184 • ottimale"], ["Sonno", "75 punteggio notte • readiness penalizzata soprattutto dal sonno"], ["Ultima seduta FC", "139 bpm media • 151 bpm max"], ["Tempo in zona FC", "Z2 35:47 (75%) • Z1 9:56 (21%) • Z3 0:32 (1%)"], ["Bilancia", "87.3 kg • 23.1% body fat • massa muscolare 63.3 kg"], ["Lettura corretta", "La bilancia parla di overweight/obese, ma il dato va contestualizzato con muscolatura e andamento sportivo"]], "data": {"easyRuns": [{"date": "2026-01-28", "label": "28 gen", "paceSec": 523, "distance": 3.45}, {"date": "2026-01-31", "label": "31 gen", "paceSec": 471, "distance": 3.85}, {"date": "2026-02-01", "label": "1 feb", "paceSec": 457, "distance": 5.42}, {"date": "2026-02-04", "label": "4 feb", "paceSec": 475, "distance": 3.81}, {"date": "2026-02-06", "label": "6 feb", "paceSec": 478, "distance": 4.54}, {"date": "2026-02-11", "label": "11 feb", "paceSec": 403, "distance": 5.96}, {"date": "2026-02-15", "label": "15 feb", "paceSec": 445, "distance": 6.76}, {"date": "2026-02-18", "label": "18 feb", "paceSec": 440, "distance": 4.28}, {"date": "2026-02-19", "label": "19 feb", "paceSec": 446, "distance": 3.7}, {"date": "2026-02-20", "label": "20 feb", "paceSec": 494, "distance": 3.65}, {"date": "2026-02-23", "label": "23 feb", "paceSec": 458, "distance": 4.78}, {"date": "2026-03-01", "label": "1 mar", "paceSec": 444, "distance": 6.77}, {"date": "2026-03-03", "label": "3 mar", "paceSec": 441, "distance": 6.83}, {"date": "2026-03-13", "label": "13 mar", "paceSec": 408, "distance": 8.02}, {"date": "2026-03-15", "label": "15 mar", "paceSec": 415, "distance": 8.68}], "weeklyVolume": [{"label": "26 gen–1 feb", "km": 14.16}, {"label": "2–8 feb", "km": 12.48}, {"label": "9–15 feb", "km": 16.78}, {"label": "16–22 feb", "km": 11.63}, {"label": "23 feb–1 mar", "km": 23.86}, {"label": "2–8 mar", "km": 18.38}, {"label": "9–15 mar", "km": 30.04}, {"label": "16–22 mar", "km": 7.87}], "vo2Trend": [{"date": "2026-02-23", "label": "23 feb", "value": 51.5}, {"date": "2026-03-02", "label": "2 mar", "value": 51.0}, {"date": "2026-03-09", "label": "9 mar", "value": 50.6}, {"date": "2026-03-19", "label": "19 mar", "value": 50.6}], "zoneBands": [{"label": "Z1 Recupero", "low": 109, "high": 133, "note": "65–79% SAFC"}, {"label": "Z2 Facile", "low": 134, "high": 148, "note": "80–88% SAFC"}, {"label": "Z3 Aerobica", "low": 150, "high": 158, "note": "89–94% SAFC"}, {"label": "Z4 Soglia", "low": 160, "high": 166, "note": "95–99% SAFC"}, {"label": "Z5 Sopra soglia", "low": 168, "high": 190, "note": "100–113% SAFC"}], "sessions": [{"name": "Prima corsa facile", "date": "28 gen", "distance": 3.45, "time": "30:03", "pace": "8:43/km", "paceSec": 523, "avgHr": 124, "maxHr": 132, "power": 237, "cadence": 156, "stride": 0.74, "te": "1.4 aerobico basso", "load": 14, "rpe": "Molto facile", "type": "easy"}, {"name": "5K di riferimento", "date": "7 mar", "distance": 5.01, "time": "29:35", "pace": "5:54/km", "paceSec": 354, "avgHr": 154, "maxHr": 176, "power": 334, "cadence": 176, "stride": 0.96, "te": "3.3 miglioramento aerobico", "load": 92, "rpe": "4/10 abbastanza duro", "type": "fast"}, {"name": "Ripetute di passo falcato", "date": "18 mar", "distance": 7.21, "time": "47:16", "pace": "6:33/km", "paceSec": 393, "avgHr": 139, "maxHr": 151, "power": 307, "cadence": 180, "stride": 0.85, "te": "3.1 miglioramento aerobico", "load": 70, "rpe": "Facile/controllato", "type": "intervals"}], "bodyComp": {"weight": 87.3, "bmi": 25.5, "bodyFat": 23.1, "fatMass": 20.2, "muscleMass": 63.3, "skeletalMusclePct": null, "skeletalMuscleMass": 38.2, "visceralFat": 8, "waterPct": 58.8, "waterMass": 51.3, "proteinMass": 11.2, "proteinPct": 12.8, "boneMineralKg": 3.8, "boneMineralPct": 4.4, "bmr": 1819, "ffm": 67.1, "bodyAge": 30, "whr": 0.8, "bodyScore": 79, "scaleHeartRate": 77}, "latestHrZones": [{"zone": "Z1", "time": "9:56", "seconds": 596, "pct": 21}, {"zone": "Z2", "time": "35:47", "seconds": 2147, "pct": 75}, {"zone": "Z3", "time": "0:32", "seconds": 32, "pct": 1}, {"zone": "Z4", "time": "0:00", "seconds": 0, "pct": 0}, {"zone": "Z5", "time": "0:00", "seconds": 0, "pct": 0}], "trainingReadiness": {"date": "2026-03-19", "value": 49, "label": "Bassa", "sleepScore": 75, "sleepLabel": "Accettabile", "recoveryHours": 2, "recoveryLabel": "Necessità bassa", "hrvMs": 69, "hrvLabel": "Bilanciato", "acuteLoad": 184, "acuteLoadLabel": "Ottimale"}, "trainingStatus": {"date": "2026-03-19", "label": "Non produttivo", "vo2max": 51, "vo2Label": "Eccellente", "hrvMs": 69, "hrvLabel": "Bilanciato"}}, "sections": {"executive": "\n                <p>L’allenamento del <strong>18 marzo</strong> aggiunge un’informazione importante: il tuo blocco sta diventando più ordinato e più efficiente, ma non ancora nettamente più specifico per il 10K. Le <strong>ripetute di passo falcato</strong> sono state eseguite bene sul piano tecnico, ma il costo cardiovascolare è rimasto contenuto.</p>\n                <p>Questo è il punto da non fraintendere: vedere la parola <em>ripetute</em> non significa automaticamente che la seduta abbia prodotto uno stimolo soglia o VO₂. Qui i dati raccontano altro: <strong>139 bpm medi, 151 bpm massimi e 75% del tempo in Z2</strong>. Quindi seduta utile, ma più neurale/economica che metabolica.</p>\n                <div class=\"quote\">Conclusione aggiornata: stai costruendo bene, senza eccesso di fatica. Però Garmin continua a dirti “non produttivo” perché, ad oggi, il mix resta ancora troppo facile per trasformare il miglioramento generale in specificità 10K piena.</div>\n                ", "physiology": "\n                <p><strong>Training Readiness 49</strong> potrebbe sembrare un peggioramento netto rispetto al 69 del report precedente, ma il dato va letto bene: il fattore limitante oggi è soprattutto il <strong>sonno (75, accettabile)</strong>, non un collasso del recupero. Hai solo <strong>2 ore</strong> di necessità di recupero residua, <strong>HRV 69 ms bilanciata</strong> e <strong>carico acuto 184 ottimale</strong>.</p>\n                <p>Questo significa che il corpo non appare in stato di affaticamento sistemico marcato. Piuttosto, sei in una giornata in cui la prontezza è abbassata dal recupero notturno non perfetto. È una differenza importante: non serve “scaricare” a caso, serve proteggere la qualità del sonno.</p>\n                <p>Il <strong>VO₂max a 51</strong> resta buono e coerente con il quadro generale. Il messaggio Garmin di <strong>Training Status non produttivo</strong> continua a essere più una critica al mix di intensità che alla tua forma complessiva.</p>\n                ", "zones": "\n                <p>L’ultima seduta è molto istruttiva proprio perché demolisce un equivoco comune: <strong>seduta con ripetute</strong> non equivale sempre a <strong>seduta ad alta intensità cardiovascolare</strong>. Nei fatti hai passato <strong>35:47 in Z2</strong>, <strong>9:56 in Z1</strong> e solo <strong>0:32 in Z3</strong>, senza tempo significativo in Z4-Z5.</p>\n                <p>Per un lavoro di <em>passo falcato</em> questo non è per forza un difetto. Anzi: indica che l’obiettivo della seduta era probabilmente migliorare coordinazione, frequenza di passo, elasticità e feeling del gesto senza produrre un grosso debito metabolico.</p>\n                <p>Il punto critico è un altro: se troppe sedute qualitative finiscono per assomigliare a un grande Z1-Z2 con piccoli richiami, allora il sistema Garmin continuerà a leggerti come poco produttivo per il 10K. Per cambiare davvero quel segnale serve almeno una seduta settimanale che tocchi in modo più chiaro soglia o ritmo gara.</p>\n                ", "technique": "\n                <p>Dal punto di vista meccanico la seduta è buona. <strong>Cadenza media 180 spm</strong>, <strong>cadenza massima 199</strong>, <strong>lunghezza passo 0.85 m</strong> e <strong>passo migliore 5:02/km</strong> dicono che il lavoro ha acceso bene la parte neuromuscolare senza disgregare il gesto.</p>\n                <p>Qui però bisogna evitare un errore di interpretazione: numeri tecnici buoni <em>non</em> significano automaticamente che la seduta abbia spinto la forma aerobica quanto un medio o un lavoro di soglia. Ti ha probabilmente aiutato di più su economia e coordinazione che su tenuta lattacida o tenuta a ritmo 10K.</p>\n                ", "estimates": "\n                <p><strong>Stima 10K oggi:</strong> 60:30–62:00. L’intervallo è quasi invariato rispetto al report precedente, perché questa seduta aggiunge soprattutto qualità tecnica e controllo del gesto, non una prova prestativa nuova paragonabile al 5K del 7 marzo.</p>\n                <p><strong>Stima 10K a maggio:</strong> il sub 60 resta realistico, ma dipende ancora dalla capacità di mettere dentro un po’ più di lavoro specifico vicino alla soglia e al passo gara. Il quadro complessivo resta favorevole, solo non ancora conclusivo.</p>\n                <p><strong>Mezza di ottobre:</strong> resta plausibile il sub 2h, ma il ragionamento non cambia: da dopo la 10K dovrai spostare il focus da brillantezza/qualità a volume e tenuta.</p>\n                ", "strategy": "\n                <p><strong>Continuerei con Garmin Greg</strong>, ma con una lettura più consapevole delle sedute. Le ripetute di passo falcato vanno bene come richiamo tecnico, ma da sole non cambieranno molto il tuo Training Status.</p>\n                <ul>\n                  <li><strong>1 seduta easy vera</strong> per consolidare la base e preservare il recupero.</li>\n                  <li><strong>1 seduta tecnica/neuromuscolare</strong> come questa, utile per economia e agilità.</li>\n                  <li><strong>1 seduta più specifica</strong> a settimana con blocchi vicini alla soglia o al ritmo 10K reale.</li>\n                  <li><strong>1 uscita più lunga facile</strong> quando il calendario lo permette.</li>\n                  <li><strong>Priorità sonno</strong>: oggi la readiness è bassa più per qualità del sonno che per carico eccessivo.</li>\n                </ul>\n                <p>In sostanza: la seduta del 18 marzo è utile, ma non basta da sola per spostare il sistema da “in crescita” a “specificamente pronto per correre forte 10K”.</p>\n                ", "health": "\n                <p>La bilancia del <strong>19 marzo</strong> mostra <strong>87.3 kg</strong>, <strong>23.1% di body fat</strong> e <strong>63.3 kg di massa muscolare</strong>. Il punto importante è non sovrainterpretare il micro-aumento di peso di pochi decimi: su scale di 24–72 ore è spesso soprattutto acqua, glicogeno, sale, orario della misura e residuo digestivo.</p>\n                <p>Resta valido anche oggi il caveat principale: la classificazione grafica della bilancia che tende verso “overweight/obese” è semplicistica e fuorviante se letta senza contesto. Con la tua statura, la storia di allenamento e la massa muscolare presente, quel giudizio va ridimensionato parecchio.</p>\n                <p>Più utile osservare il trend: peso stabile alto ma non fuori controllo, massa muscolare sostanzialmente conservata, body fat leggermente sopra il punto ideale per la corsa ma non tale da giustificare tagli aggressivi nel pieno della preparazione.</p>\n                ", "workflow": "\n                <p><strong>Sì, possiamo continuare così.</strong> Il workflow che hai usato in questo aggiornamento è abbastanza solido: mi mandi <strong>Activities.csv</strong>, il <strong>JSON archivio corrente</strong> e gli screenshot solo per le sezioni che il CSV non contiene (tempo in zona, readiness, training status, bilancia).</p>\n                <p>In questo modo io posso aggiornarti il <strong>JSON storico</strong> in modo coerente con la tua web-app, senza dover ricostruire ogni volta tutto da zero. È un compromesso migliore rispetto al solo screenshot o al solo CSV.</p>\n                <p>L’unico limite da ricordare è questo: se un giorno mi mandi <em>solo</em> il CSV, potrò aggiornare molto bene la parte prestativa e storica, ma non tutte le sezioni fisiologiche avanzate. Finché restiamo su questo protocollo misto, il report resta consistente.</p>\n                "}}, "2026-03-20": {"title": "Report tecnico 10K • stato al 20 marzo 2026", "subtitle": "Aggiornamento con richiamo passo gara del 19 marzo, corsa in progressione del 20 marzo, nuova bilancia e calendario dei prossimi allenamenti fino alla Deejay Ten.", "heroTags": ["Richiamo passo gara 19 mar • 4.34 km", "Corsa in progressione 20 mar • 4.84 km", "Peso 86.6 kg • body fat 22.9%", "Settimana in corso: 17.05 km", "Prossimi focus: 22 easy • 27 falcato • 29 Deejay Ten"], "summaryCards": [{"label": "Stato forma", "value": "In crescita, ma non ancora rifinita", "text": "I dati di ieri e oggi confermano progresso reale, ma mostrano anche che il passo 10K ideale non è ancora stabilizzato."}, {"label": "Recupero di giornata", "value": "Da proteggere", "text": "Oggi il sonno è stato scarso (59) e il Body Battery è 40: non è allarme rosso, ma spiega la fatica anticipata nella progressione."}, {"label": "Training Status", "value": "Ancora non produttivo", "text": "Il quadro sta migliorando, ma Garmin continua a leggere troppo poco lavoro chiaramente a soglia rispetto al volume facile."}, {"label": "10K realistico oggi", "value": "60:00–61:15", "text": "Il sub 60 è vicino, ma i dati non dicono ancora che 5:30/km sia un passo gara sostenibile per 10 km."}], "quickFacts": [["Seduta 19 marzo", "4.34 km • 26:11 • 6:02/km • FC 144/163"], ["Seduta 20 marzo", "4.84 km • 29:18 • 6:03/km • FC 143/164"], ["Progressione odierna", "blocco corsa 18:02 per 3.05 km @ 5:55/km"], ["Peso", "86.6 kg il 20 marzo (-0.7 kg vs giorno prima)"], ["Body fat", "22.9% • fat mass 19.8 kg • FFM 66.8 kg"], ["Massa muscolare", "63.1 kg • muscolo da preservare, non da sacrificare"], ["Settimana 16–22 mar", "17.05 km finora"], ["Calendario", "22 mar easy • 25 mar easy • 27 mar falcato • 29 mar Deejay Ten"]], "data": {"easyRuns": [{"date": "2026-01-28", "label": "28 gen", "paceSec": 523, "distance": 3.45}, {"date": "2026-01-31", "label": "31 gen", "paceSec": 471, "distance": 3.85}, {"date": "2026-02-01", "label": "1 feb", "paceSec": 457, "distance": 5.42}, {"date": "2026-02-04", "label": "4 feb", "paceSec": 475, "distance": 3.81}, {"date": "2026-02-06", "label": "6 feb", "paceSec": 478, "distance": 4.54}, {"date": "2026-02-11", "label": "11 feb", "paceSec": 403, "distance": 5.96}, {"date": "2026-02-15", "label": "15 feb", "paceSec": 445, "distance": 6.76}, {"date": "2026-02-18", "label": "18 feb", "paceSec": 440, "distance": 4.28}, {"date": "2026-02-19", "label": "19 feb", "paceSec": 446, "distance": 3.7}, {"date": "2026-02-20", "label": "20 feb", "paceSec": 494, "distance": 3.65}, {"date": "2026-02-23", "label": "23 feb", "paceSec": 458, "distance": 4.78}, {"date": "2026-03-01", "label": "1 mar", "paceSec": 444, "distance": 6.77}, {"date": "2026-03-03", "label": "3 mar", "paceSec": 441, "distance": 6.83}, {"date": "2026-03-13", "label": "13 mar", "paceSec": 408, "distance": 8.02}, {"date": "2026-03-15", "label": "15 mar", "paceSec": 415, "distance": 8.68}], "weeklyVolume": [{"label": "26 gen–1 feb", "km": 14.16}, {"label": "2–8 feb", "km": 12.48}, {"label": "9–15 feb", "km": 16.78}, {"label": "16–22 feb", "km": 11.63}, {"label": "23 feb–1 mar", "km": 23.86}, {"label": "2–8 mar", "km": 23.39}, {"label": "9–15 mar", "km": 30.04}, {"label": "16–22 mar", "km": 17.05}], "vo2Trend": [{"date": "2026-02-23", "label": "23 feb", "value": 51.5}, {"date": "2026-03-02", "label": "2 mar", "value": 51.0}, {"date": "2026-03-09", "label": "9 mar", "value": 50.6}, {"date": "2026-03-19", "label": "19 mar", "value": 50.6}], "zoneBands": [{"label": "Z1 Recupero", "low": 109, "high": 133, "note": "65–79% SAFC"}, {"label": "Z2 Facile", "low": 134, "high": 148, "note": "80–88% SAFC"}, {"label": "Z3 Aerobica", "low": 150, "high": 158, "note": "89–94% SAFC"}, {"label": "Z4 Soglia", "low": 160, "high": 166, "note": "95–99% SAFC"}, {"label": "Z5 Sopra soglia", "low": 168, "high": 190, "note": "100–113% SAFC"}], "sessions": [{"name": "Prima corsa facile", "date": "28 gen", "distance": 3.45, "time": "30:03", "pace": "8:43/km", "paceSec": 523, "avgHr": 124, "maxHr": 132, "power": 237, "cadence": 156, "stride": 0.74, "te": "1.4 aerobico basso", "load": 14, "rpe": "Molto facile", "type": "easy"}, {"name": "Ripetute di passo falcato", "date": "25 feb", "distance": 5.68, "time": "45:15", "pace": "7:58/km", "paceSec": 478, "avgHr": 139, "maxHr": 164, "power": 264, "cadence": 167, "stride": 0.76, "te": "3.0 miglioramento aerobico", "rpe": "Facile/controllato", "type": "intervals"}, {"name": "Corsa in progressione", "date": "27 feb", "distance": 5.46, "time": "35:04", "pace": "6:25/km", "paceSec": 385, "avgHr": 148, "maxHr": 166, "power": 305, "cadence": 176, "stride": 0.88, "te": "3.1 miglioramento aerobico", "rpe": "Medio/controllato", "type": "progression"}, {"name": "Ripetute di passo falcato", "date": "4 mar", "distance": 5.69, "time": "42:05", "pace": "7:24/km", "paceSec": 444, "avgHr": 141, "maxHr": 163, "power": 263, "cadence": 163, "stride": 0.83, "te": "2.7 miglioramento aerobico", "rpe": "Facile/controllato", "type": "intervals"}, {"name": "Corsa in progressione", "date": "6 mar", "distance": 5.86, "time": "40:02", "pace": "6:50/km", "paceSec": 410, "avgHr": 144, "maxHr": 166, "power": 293, "cadence": 173, "stride": 0.84, "te": "3.0 miglioramento aerobico", "rpe": "Progressivo controllato", "type": "progression"}, {"name": "5K di riferimento", "date": "7 mar", "distance": 5.01, "time": "29:35", "pace": "5:54/km", "paceSec": 354, "avgHr": 154, "maxHr": 176, "power": 334, "cadence": 176, "stride": 0.96, "te": "3.3 miglioramento aerobico", "rpe": "4/10 abbastanza duro", "type": "fast"}, {"name": "Ripetute di passo falcato", "date": "9 mar", "distance": 7.01, "time": "45:30", "pace": "6:29/km", "paceSec": 389, "avgHr": 141, "maxHr": 169, "power": 308, "cadence": 174, "stride": 0.89, "te": "3.1 miglioramento aerobico", "rpe": "Moderato/controllato", "type": "intervals"}, {"name": "Corsa in progressione", "date": "11 mar", "distance": 6.33, "time": "42:22", "pace": "6:41/km", "paceSec": 401, "avgHr": 143, "maxHr": 158, "power": 300, "cadence": 168, "stride": 0.88, "te": "3.1 miglioramento aerobico", "rpe": "Controllato con finale più brillante", "type": "progression"}, {"name": "Ultima corsa facile lunga", "date": "15 mar", "distance": 8.68, "time": "1:00:05", "pace": "6:55/km", "paceSec": 415, "avgHr": 137, "maxHr": 151, "power": 285, "cadence": 173, "stride": 0.84, "te": "2.8 mantenimento", "load": 54, "rpe": "2/10 leggero", "type": "easy"}, {"name": "Ripetute di passo falcato", "date": "18 mar", "distance": 7.21, "time": "47:16", "pace": "6:33/km", "paceSec": 393, "avgHr": 139, "maxHr": 151, "power": 307, "cadence": 180, "stride": 0.85, "te": "3.1 miglioramento aerobico", "rpe": "Facile/controllato", "type": "intervals"}, {"name": "Richiamo passo gara 2×8'", "date": "19 mar", "distance": 4.34, "time": "26:11", "pace": "6:02/km", "paceSec": 362, "avgHr": 144, "maxHr": 163, "power": 317, "cadence": 171, "stride": 0.97, "te": "3.1 miglioramento aerobico", "rpe": "3/10 moderato", "type": "intervals"}, {"name": "Corsa in progressione", "date": "20 mar", "distance": 4.84, "time": "29:18", "pace": "6:03/km", "paceSec": 363, "avgHr": 143, "maxHr": 164, "power": 319, "cadence": 180, "stride": 0.92, "te": "3.0 miglioramento aerobico", "rpe": "Fatica crescente, progressione interrotta", "type": "progression"}], "bodyComp": {"weight": 86.6, "bmi": 25.3, "bodyFat": 22.9, "fatMass": 19.8, "muscleMass": 63.1, "musclePct": 72.9, "skeletalMuscleMass": 37.7, "visceralFat": 8, "waterPct": 58.7, "waterMass": 50.8, "proteinMass": 11.5, "proteinPct": 13.3, "boneMineralKg": 3.7, "boneMineralPct": 4.3, "bmr": 1813, "ffm": 66.8, "bodyAge": 30, "whr": 0.7, "bodyScore": 79, "scaleHeartRate": 68}, "latestHrZones": [{"zone": "Z1", "time": "3:44", "seconds": 224, "pct": 12}, {"zone": "Z2", "time": "17:50", "seconds": 1070, "pct": 60}, {"zone": "Z3", "time": "5:41", "seconds": 341, "pct": 19}, {"zone": "Z4", "time": "1:54", "seconds": 114, "pct": 6}, {"zone": "Z5", "time": "0:00", "seconds": 0, "pct": 0}], "trainingReadiness": {"date": "2026-03-19", "value": 49, "label": "Bassa", "sleepScore": 75, "sleepLabel": "Accettabile", "recoveryHours": 2, "recoveryLabel": "Necessità bassa", "hrvMs": 69, "hrvLabel": "Bilanciato", "acuteLoad": 184, "acuteLoadLabel": "Ottimale"}, "trainingStatus": {"date": "2026-03-19", "label": "Non produttivo", "vo2max": 51, "vo2Label": "Eccellente", "hrvMs": 69, "hrvLabel": "Bilanciato"}, "recoverySnapshot": {"date": "2026-03-20", "sleepScore": 59, "sleepLabel": "Scarso", "bodyBattery": 40, "stepsToday": 11009, "coachWeek": "8 di 12"}, "plannedWorkouts": {"2026-03-22": {"typeKey": "easy", "label": "Corsa facile"}, "2026-03-25": {"typeKey": "easy", "label": "Corsa facile"}, "2026-03-27": {"typeKey": "quality", "label": "Ripetute di passo falcato"}, "2026-03-29": {"typeKey": "race", "label": "Deejay Ten 2026"}}}, "sections": {"executive": "<p>Le due sedute del <strong>19 e 20 marzo</strong> spostano il quadro in modo utile ma non magico. Ieri hai fatto il primo lavoro davvero vicino all’idea di <strong>passo gara</strong>: non perfetto, ma molto più specifico di una semplice corsa facile o di un falcato tecnico. Oggi, invece, la progressione è servita soprattutto a mostrarti un limite pratico: se parti già un po’ troppo forte e arrivi con fatica residua, il finale salta prima del previsto.</p><p>La lettura onesta è questa: il <strong>sub 60</strong> è ancora assolutamente vivo, ma il <strong>5:30/km</strong> come passo gara 10K oggi resta un obiettivo troppo aggressivo. Il dato reale non dice che sei fermo; dice che stai entrando nella zona in cui devi smettere di inseguire il passo ideale e iniziare a consolidare il passo sostenibile.</p><div class=\"quote\">Conclusione aggiornata: la forma cresce, la specificità 10K cresce, ma il miglioramento più importante adesso non è andare ancora più forte per 2 minuti; è tenere meglio un ritmo buono per più minuti, arrivando meno cotto al finale.</div>", "physiology": "<p>Ieri hai corso <strong>4.34 km in 26:11</strong> a <strong>6:02/km</strong> con <strong>144 bpm medi</strong> e <strong>163 bpm massimi</strong>; oggi <strong>4.84 km in 29:18</strong> a <strong>6:03/km</strong> con <strong>143 bpm medi</strong> e <strong>164 bpm massimi</strong>. Il punto interessante è che due sedute diverse hanno prodotto una risposta cardiaca simile: questo suggerisce che non sei ancora andato davvero vicino al tuo tetto fisiologico, ma che la fatica si è manifestata più come perdita di qualità del blocco che come esplosione della frequenza cardiaca.</p><p>Qui entra in gioco il recupero. Oggi il contesto era peggiore: <strong>sonno scarso 59</strong> e <strong>Body Battery 40</strong>. Non basta per dire che eri svuotato, ma basta per spiegare perché la progressione sia stata meno rifinita e più faticosa del previsto. In altre parole: non vedo un crollo della forma, vedo una giornata con recupero parziale e pacing un po’ troppo ambizioso.</p><p>Il dato Garmin più recente che resta forte è ancora quello del <strong>19 marzo</strong>: <strong>Readiness 49</strong>, <strong>HRV 69 ms bilanciata</strong>, <strong>carico acuto 184 ottimale</strong> e <strong>Training Status non produttivo</strong>. Non leggo questo come allarme, ma come conferma che il tuo sistema sta chiedendo più precisione nelle sedute specifiche, non più caos.</p>", "zones": "<p>Le zone finalmente raccontano una storia più interessante. Il <strong>19 marzo</strong> eri molto più dentro una logica 10K-specifica: circa <strong>41% in Z2</strong>, <strong>31% in Z3</strong> e <strong>11% in Z4</strong>. Questo è un salto netto rispetto al falcato del 18 marzo, dove eri rimasto quasi tutto in basso. È il primo segnale concreto che il lavoro vicino al passo gara ti smuove davvero la seduta sul piano metabolico.</p><p>Oggi invece la progressione è stata più ibrida: <strong>60% in Z2</strong>, <strong>19% in Z3</strong> e solo <strong>6% in Z4</strong>. Questo non significa che la seduta sia stata inutile. Significa che la progressione è stata interrotta prima che lo stimolo diventasse pienamente specifico. È un dato utile perché ti dice che il problema non è 'non riesco a correre forte', ma 'se gestisco male la distribuzione dello sforzo, consumo presto il margine'.</p><p>Tradotto operativamente: il lavoro di ieri va tenuto come riferimento di specificità; quello di oggi come promemoria sul pacing. Il tuo prossimo salto non è alzare tutte le zone, ma passare più tempo continuo in <strong>Z3 alta / Z4 bassa</strong> senza pagarlo subito.</p>", "technique": "<p>La meccanica continua a essere una parte positiva del quadro. Ieri hai corso con <strong>171 spm</strong> e <strong>0.97 m</strong> di passo medio; oggi con <strong>180 spm</strong> e <strong>0.92 m</strong>. Questo vuol dire che quando cerchi brillantezza aumenti di più la frequenza, ma non sempre riesci a mantenere la stessa efficacia della falcata. Non è un difetto grave: è esattamente il tipo di oscillazione che ci si aspetta quando il motore cresce ma la tenuta specifica non è ancora completa.</p><p>Il segnale da non fraintendere è questo: il tuo corpo <strong>sa già correre a ritmi da 5:30–5:35</strong> per tratti, ma oggi lo fa meglio a blocchi che in modo uniforme. Questo è il motivo per cui parlare di 5:30 come passo gara pieno è prematuro. Non perché il gesto non esista, ma perché manca ancora la tenuta per renderlo stabile.</p>", "estimates": "<p><strong>Stima 10K oggi:</strong> <strong>60:00–61:15</strong>. Restringo il range rispetto al report precedente, ma non lo abbasso in modo aggressivo. Le sedute del 19 e 20 marzo mostrano che la tua specificità è migliorata, ma non abbastanza da dire che il sub 60 sia già 'automatico'.</p><p><strong>Stima 10K per la Deejay Ten del 29 marzo:</strong> se la usi come test intelligente e non come sparata iniziale, il riferimento più sensato è partire in controllo e provare a stare intorno a <strong>5:58–6:03/km</strong> nei primi km, per poi decidere se scendere. Partire a <strong>5:30/km</strong> sarebbe, ad oggi, più una scommessa che una strategia.</p><p><strong>Stima 10K per la Tuttadritta del 10 maggio:</strong> <strong>58:45–60:00</strong> se fai bene tre cose: continui a mettere lavori specifici, arrivi con un paio di kg in meno di sola zavorra e smetti di confondere il passo ideale col passo sostenibile. Il 55' oggi non è supportato dai dati.</p>", "strategy": "<p>La tua settimana ora va letta così: il <strong>19 marzo</strong> è stato un richiamo più utile del previsto, il <strong>20 marzo</strong> una progressione buona ma incompleta. Il prossimo blocco va gestito in modo molto pulito:</p><ul><li><strong>22 marzo easy:</strong> davvero facile, senza trasformarla in medio mascherato.</li><li><strong>25 marzo easy:</strong> controllata e regolare, utile più a recuperare che a dimostrare qualcosa.</li><li><strong>27 marzo falcato:</strong> seduta da fare bene ma senza strafare, perché deve lasciarti brillante, non cotto.</li><li><strong>29 marzo Deejay Ten:</strong> trattala come test serio o gara B, non come all-in suicida.</li></ul><p>La strategia più intelligente per il 29 è un <strong>negative split leggero</strong>: primi 3 km prudenti, blocco centrale solido, finale dove provi ad aprire se ne hai davvero. Se invece vuoi usare la Deejay Ten solo come allenamento di qualità, allora la corri in controllo vicino al ritmo sub-60 senza forzare tutto il finale.</p>", "health": "<p>La bilancia del <strong>20 marzo</strong> segna <strong>86.6 kg</strong>, <strong>22.9% body fat</strong> e <strong>66.8 kg di massa magra</strong>. La discesa di <strong>0.7 kg in 24 ore</strong> non va letta come grasso perso: è quasi certamente un mix di acqua, glicogeno, residuo digestivo e sale. Però il segnale utile è un altro: il tuo peso non sta scappando verso l’alto e la body fat si muove nella direzione giusta.</p><p>Il grafico della bilancia che ti colloca verso 'obese' resta fuorviante. Con la tua altezza, la massa magra attuale e il fatto che ti alleni regolarmente, quel giudizio grafico ha poco valore operativo. Quello che conta davvero per la gara è portare il rapporto tra <strong>massa magra e massa grassa</strong> in una zona un po’ migliore senza perdere gamba.</p><p>In pratica: per la <strong>Tuttadritta</strong> il target realistico non è inseguire i <strong>73.5 kg</strong> suggeriti dalla bilancia, che per il tuo contesto sono un numero astratto. Il target serio per inizio maggio è arrivare circa tra <strong>84.0 e 84.8 kg</strong>, con body fat orientativamente verso <strong>20.5–21.5%</strong>, mantenendo il più possibile la massa magra. Questo sì sarebbe un miglioramento che aiuta davvero la corsa.</p>", "workflow": "<p>Con il file CSV, gli screenshot Garmin e la bilancia, adesso il tuo archivio è abbastanza ricco per fare confronti sempre più credibili. La cosa importante è che i nuovi allenamenti vadano nominati bene nel JSON: il <strong>19 marzo</strong> non è una semplice 'Torino Corsa', ma un <strong>richiamo passo gara 2×8'</strong>; il <strong>20 marzo</strong> è una <strong>corsa in progressione</strong>. Se li lasci nominati in modo generico, la dashboard perde capacità di distinguere le tipologie davvero utili.</p><p>Per i prossimi aggiornamenti, il protocollo migliore resta questo: <strong>CSV completo + JSON attuale + screenshot delle sezioni che il CSV non contiene</strong> (zone, readiness/status, bilancia, eventuali lap o ripetute). Così il report può continuare a diventare più preciso senza fare assunzioni inutili.</p>"}}}};
-const STORAGE_KEY = 'marco_running_report_archive_v1';
-const STORAGE_SELECTED_KEY = 'marco_running_report_selected_date_v1';
-const PLANNED_WORKOUTS = {
-  "2026-03-22": { typeKey: "easy", label: "Corsa facile" },
-  "2026-03-25": { typeKey: "easy", label: "Corsa facile" },
-  "2026-03-27": { typeKey: "quality", label: "Ripetute di passo falcato" },
-  "2026-03-29": { typeKey: "race", label: "Deejay Ten 2026" }
+const ARCHIVE_URL = './report-archive.json';
+
+const state = {
+  archive: null,
+  selectedDate: null,
+  monthCursor: null,
+  loading: true,
+  error: null
 };
-const state = { archive: loadArchive(), selectedDate: loadSelectedDate(), monthCursor: null };
-function structuredCloneSafe(obj) { return JSON.parse(JSON.stringify(obj)); }
-function loadArchive() { try { const raw = localStorage.getItem(STORAGE_KEY); if (!raw) return structuredCloneSafe(BUNDLED_ARCHIVE); const parsed = JSON.parse(raw); return parsed && parsed.reports ? parsed : structuredCloneSafe(BUNDLED_ARCHIVE); } catch (err) { return structuredCloneSafe(BUNDLED_ARCHIVE); } }
-function saveArchive() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.archive)); }
-function loadSelectedDate() { const saved = localStorage.getItem(STORAGE_SELECTED_KEY); const dates = Object.keys(BUNDLED_ARCHIVE.reports).sort(); return saved || dates[dates.length - 1]; }
-function saveSelectedDate() { localStorage.setItem(STORAGE_SELECTED_KEY, state.selectedDate); }
-function getReportDates() { return Object.keys(state.archive.reports).sort(); }
-function isoToDate(iso) { const [y,m,d] = iso.split('-').map(Number); return new Date(y, m - 1, d); }
-function formatMonth(date) { return date.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' }); }
-function fmtPace(sec) { if (sec == null || Number.isNaN(sec)) return 'n.d.'; const m = Math.floor(sec / 60); const s = Math.round(sec % 60).toString().padStart(2, '0'); return `${m}:${s}/km`; }
-function latestSession(report) { const sessions = report?.data?.sessions || []; return sessions.length ? sessions[sessions.length - 1] : null; }
-function latestEasyRun(report) { const easy = report?.data?.easyRuns || []; return easy.length ? easy[easy.length - 1] : null; }
-function latestVo2(report) { const statusVo2 = report?.data?.trainingStatus?.vo2max; if (statusVo2 != null) return statusVo2; const trend = report?.data?.vo2Trend || []; return trend.length ? trend[trend.length - 1].value : null; }
-function latestReadiness(report) { return report?.data?.trainingReadiness?.value ?? null; }
-function latestWeight(report) { return report?.data?.bodyComp?.weight ?? null; }
-function latestBodyFat(report) { return report?.data?.bodyComp?.bodyFat ?? null; }
-function ensureSelectedDateValid() { const dates = getReportDates(); if (!dates.length) return; if (!state.archive.reports[state.selectedDate]) { state.selectedDate = dates[dates.length - 1]; saveSelectedDate(); } state.monthCursor = new Date(isoToDate(state.selectedDate).getFullYear(), isoToDate(state.selectedDate).getMonth(), 1); }
-function createSVG(el, width = 900, height = 280) { el.setAttribute('viewBox', `0 0 ${width} ${height}`); el.innerHTML = ''; return { width, height }; }
+
+function getReportDates() {
+  return state.archive ? Object.keys(state.archive.reports).sort() : [];
+}
+
+function isoToDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+
+function formatMonth(date) {
+  return date.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+}
+
+function fmtPace(sec) {
+  if (sec == null || Number.isNaN(sec)) return 'n.d.';
+  const m = Math.floor(sec / 60);
+  const s = Math.round(sec % 60).toString().padStart(2, '0');
+  return `${m}:${s}/km`;
+}
+
+function readSelectedDateFromHash() {
+  const match = window.location.hash.match(/date=(\d{4}-\d{2}-\d{2})/);
+  return match ? match[1] : null;
+}
+
+function writeSelectedDateToHash(iso) {
+  const url = `${window.location.pathname}${window.location.search}#date=${iso}`;
+  history.replaceState(null, '', url);
+}
+
+async function loadArchive() {
+  const res = await fetch(ARCHIVE_URL, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`Impossibile caricare ${ARCHIVE_URL} (${res.status})`);
+  const parsed = await res.json();
+  if (!parsed || !parsed.reports) throw new Error('Formato JSON non valido: manca la chiave "reports".');
+  return parsed;
+}
+
+function ensureSelectedDateValid() {
+  const dates = getReportDates();
+  if (!dates.length) return;
+  if (!state.selectedDate || !state.archive.reports[state.selectedDate]) {
+    state.selectedDate = dates[dates.length - 1];
+  }
+  writeSelectedDateToHash(state.selectedDate);
+  const selected = isoToDate(state.selectedDate);
+  state.monthCursor = new Date(selected.getFullYear(), selected.getMonth(), 1);
+}
+
+function latestSession(report) {
+  const sessions = report?.data?.sessions || [];
+  return sessions.length ? sessions[sessions.length - 1] : null;
+}
+
+function latestVo2(report) {
+  const statusVo2 = report?.data?.trainingStatus?.vo2max;
+  if (statusVo2 != null) return statusVo2;
+  const trend = report?.data?.vo2Trend || [];
+  return trend.length ? trend[trend.length - 1].value : null;
+}
+
+function latestReadiness(report) {
+  return report?.data?.trainingReadiness?.value ?? null;
+}
+
+function latestWeight(report) {
+  return report?.data?.bodyComp?.weight ?? null;
+}
+
+function latestBodyFat(report) {
+  return report?.data?.bodyComp?.bodyFat ?? null;
+}
+
+function createSVG(el, width = 900, height = 280) {
+  el.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  el.innerHTML = '';
+  return { width, height };
+}
+
 function lineChart(svgId, data, valueAccessor, opts = {}) {
-  const svg = document.getElementById(svgId); if (!svg || !data?.length) return;
-  const { width, height } = createSVG(svg, opts.width || 900, opts.height || 280); const m = { top: 18, right: 18, bottom: 44, left: 54 };
-  const innerW = width - m.left - m.right; const innerH = height - m.top - m.bottom; const values = data.map(valueAccessor).filter(v => v != null); if (!values.length) return;
-  let minY = Math.min(...values), maxY = Math.max(...values); const pad = (maxY - minY) * 0.15 || 1; const y0 = minY - pad; const y1 = maxY + pad;
-  const x = i => m.left + (i / Math.max(data.length - 1, 1)) * innerW; const y = v => m.top + innerH - ((v - y0) / (y1 - y0)) * innerH;
-  for (let i = 0; i < 5; i++) { const gy = m.top + (innerH / 4) * i; const val = y1 - ((y1 - y0) / 4) * i; svg.insertAdjacentHTML('beforeend', `<line x1="${m.left}" y1="${gy}" x2="${width-m.right}" y2="${gy}" stroke="rgba(255,255,255,.08)" />`); svg.insertAdjacentHTML('beforeend', `<text x="${m.left-10}" y="${gy+4}" text-anchor="end" fill="rgba(235,241,255,.62)" font-size="12">${opts.formatY ? opts.formatY(val) : Math.round(val)}</text>`); }
-  data.forEach((d, i) => { if (i % Math.max(1, Math.ceil(data.length / 6)) === 0 || i === data.length - 1) svg.insertAdjacentHTML('beforeend', `<text x="${x(i)}" y="${height-14}" text-anchor="middle" fill="rgba(235,241,255,.62)" font-size="12">${d.label || d.date}</text>`); });
-  let path = ''; data.forEach((d, i) => { const v = valueAccessor(d); if (v == null) return; path += `${path ? 'L' : 'M'} ${x(i)} ${y(v)} `; }); svg.insertAdjacentHTML('beforeend', `<path d="${path}" fill="none" stroke="${opts.color || '#ff7a00'}" stroke-width="3.25" />`);
-  data.forEach((d, i) => { const v = valueAccessor(d); if (v == null) return; svg.insertAdjacentHTML('beforeend', `<circle cx="${x(i)}" cy="${y(v)}" r="4.5" fill="${opts.color || '#ff7a00'}" />`); });
-}
-function barChart(svgId, data, valueKey, opts = {}) {
-  const svg = document.getElementById(svgId); if (!svg || !data?.length) return;
-  const { width, height } = createSVG(svg, opts.width || 900, opts.height || 280); const m = { top: 18, right: 18, bottom: 48, left: 48 };
-  const innerW = width - m.left - m.right; const innerH = height - m.top - m.bottom; const maxVal = Math.max(...data.map(d => d[valueKey] || 0)) * 1.2 || 1; const step = innerW / data.length; const barW = step * 0.58;
-  for (let i = 0; i < 5; i++) { const val = (maxVal / 4) * (4-i); const gy = m.top + (innerH / 4) * i; svg.insertAdjacentHTML('beforeend', `<line x1="${m.left}" y1="${gy}" x2="${width-m.right}" y2="${gy}" stroke="rgba(255,255,255,.08)" />`); svg.insertAdjacentHTML('beforeend', `<text x="${m.left-10}" y="${gy+4}" text-anchor="end" fill="rgba(235,241,255,.62)" font-size="12">${Math.round(val)}</text>`); }
-  data.forEach((d, i) => { const x = m.left + (i + 0.5) * step - barW / 2; const h = ((d[valueKey] || 0) / maxVal) * innerH; const y = m.top + innerH - h; svg.insertAdjacentHTML('beforeend', `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="8" fill="${opts.color || '#4ea6ff'}" />`); svg.insertAdjacentHTML('beforeend', `<text x="${x + barW/2}" y="${height-14}" text-anchor="middle" fill="rgba(235,241,255,.62)" font-size="12">${d.label}</text>`); });
-}
-function buildCalendarMarkup() {
-  const reportDates = new Set(getReportDates()); const first = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth(), 1); const startOffset = (first.getDay() + 6) % 7; const gridStart = new Date(first); gridStart.setDate(first.getDate() - startOffset); let cells = '';
-  const weekdays = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'].map(d => `<div class="wd">${d}</div>`).join('');
-  for (let i = 0; i < 42; i++) { const d = new Date(gridStart); d.setDate(gridStart.getDate() + i); const iso = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; const sameMonth = d.getMonth() === state.monthCursor.getMonth(); const hasReport = reportDates.has(iso); const selected = iso === state.selectedDate; cells += `<button type="button" class="day ${sameMonth ? '' : 'other'} ${hasReport ? 'has-report' : ''} ${selected ? 'selected' : ''}" data-date="${iso}">${d.getDate()}</button>`; }
-  return `<div class="d-flex align-items-center justify-content-between mb-3"><button class="btn btn-soft btn-sm" id="prevMonthBtn">‹</button><div class="fw-semibold text-capitalize">${formatMonth(state.monthCursor)}</div><button class="btn btn-soft btn-sm" id="nextMonthBtn">›</button></div><div class="calendar">${weekdays}${cells}</div>`;
-}
-function renderSidebar(targetId) {
-  const root = document.getElementById(targetId);
-  root.innerHTML = `<section class="card-panel p-3 mb-3"><div class="eyebrow mb-2">Archivio report</div><div class="fw-semibold mb-2">Sorgente JSON invariata</div><p class="small-note mb-3">L’interfaccia è stata semplificata: stesso archivio, meno dispersione, più confronto nel tempo. La selezione avviene direttamente dal calendario.</p><div class="d-grid gap-2"><button id="${targetId}-export" class="btn btn-soft btn-accent">Esporta JSON</button><button id="${targetId}-import" class="btn btn-soft">Importa JSON</button><button id="${targetId}-reset" class="btn btn-soft">Reset archivio</button></div></section><section class="card-panel p-3">${buildCalendarMarkup()}</section>`;
-  root.querySelector(`#${targetId}-export`).addEventListener('click', exportArchive); root.querySelector(`#${targetId}-import`).addEventListener('click', () => document.getElementById('importFile').click()); root.querySelector(`#${targetId}-reset`).addEventListener('click', resetArchive);
-  root.querySelectorAll('[data-date]').forEach(btn => btn.addEventListener('click', () => { state.selectedDate = btn.dataset.date; state.monthCursor = new Date(isoToDate(state.selectedDate).getFullYear(), isoToDate(state.selectedDate).getMonth(), 1); saveSelectedDate(); renderAll(); }));
-  root.querySelector('#prevMonthBtn').addEventListener('click', () => { state.monthCursor = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth() - 1, 1); renderSidebar(targetId); });
-  root.querySelector('#nextMonthBtn').addEventListener('click', () => { state.monthCursor = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth() + 1, 1); renderSidebar(targetId); });
-}
-function parseSessionDateLabel(label, fallbackYear = 2026) { if (!label) return null; const m = String(label).toLowerCase().match(/(\d{1,2})\s+([a-zà]+)/i); if (!m) return null; const months = { gen:0, feb:1, mar:2, apr:3, mag:4, giu:5, lug:6, ago:7, set:8, ott:9, nov:10, dic:11 }; const monthKey = m[2].slice(0,3); if (!(monthKey in months)) return null; return new Date(fallbackYear, months[monthKey], Number(m[1])); }
-function sessionKey(s) { return [s?.name || '', s?.date || '', s?.distance || '', s?.pace || ''].join('|'); }
-function inferSessionCategory(session) { const name = String(session?.name || '').toLowerCase(); const type = String(session?.type || '').toLowerCase(); if (type === 'intervals' || type === 'tempo' || name.includes('ripet') || name.includes('passo gara')) return 'intervals'; if (type === 'progression' || name.includes('progress')) return 'progression'; if (name.includes('gara') || name.includes('test') || name.includes('riferimento') || type === 'fast' || type === 'race') return 'race'; if (name.includes('lung') || name.includes('long')) return 'long'; if (type === 'easy' || name.includes('facile')) return 'easy'; return type || 'other'; }
-function collectAllSessions(cutoffIso = state.selectedDate) { const seen = new Set(); const out = []; const cutoff = cutoffIso ? isoToDate(cutoffIso) : null; if (cutoff) cutoff.setHours(23,59,59,999); getReportDates().forEach(reportIso => { if (cutoffIso && isoToDate(reportIso) > cutoff) return; const rep = state.archive.reports[reportIso]; (rep?.data?.sessions || []).forEach(s => { const key = sessionKey(s); if (seen.has(key)) return; seen.add(key); const parsed = parseSessionDateLabel(s.date, isoToDate(reportIso).getFullYear()) || isoToDate(reportIso); if (cutoff && parsed > cutoff) return; out.push({ ...s, _parsedDate: parsed, _reportIso: reportIso, _category: inferSessionCategory(s) }); }); }); return out.sort((a, b) => a._parsedDate - b._parsedDate); }
-function getCategorySessions(category, cutoffIso = state.selectedDate) { return collectAllSessions(cutoffIso).filter(s => s._category === category); }
-function collectSundayLongSeries(report) { return (report?.data?.easyRuns || []).map(r => ({ ...r, _date: isoToDate(r.date) })).filter(r => r._date.getDay() === 0).sort((a, b) => a._date - b._date).map(r => ({ ...r, label: r._date.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' }) })); }
-function buildSessionSeries(category, cutoffIso = state.selectedDate) { return getCategorySessions(category, cutoffIso).map(s => ({ label: s._parsedDate.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' }), paceSec: s.paceSec, distance: s.distance, avgHr: s.avgHr, date: s.date, name: s.name })); }
-function buildArchiveWeightSeries(cutoffIso = state.selectedDate) { const cutoff = cutoffIso ? isoToDate(cutoffIso) : null; if (cutoff) cutoff.setHours(23,59,59,999); return getReportDates().filter(date => !cutoff || isoToDate(date) <= cutoff).map(date => ({ label: isoToDate(date).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' }), date, weight: latestWeight(state.archive.reports[date]), bodyFat: latestBodyFat(state.archive.reports[date]), readiness: latestReadiness(state.archive.reports[date]), vo2: latestVo2(state.archive.reports[date]) })).filter(d => d.weight != null); }
-function findPreviousSameCategorySession(currentSession, cutoffIso = state.selectedDate) { if (!currentSession) return null; const category = inferSessionCategory(currentSession); const all = getCategorySessions(category, cutoffIso); if (!all.length) return null; const currentKey = sessionKey(currentSession); const idx = all.findIndex(s => sessionKey(s) === currentKey); if (idx > 0) return all[idx - 1]; if (idx === -1 && all.length) { const before = all.filter(s => s._parsedDate < (parseSessionDateLabel(currentSession.date, isoToDate(cutoffIso).getFullYear()) || isoToDate(cutoffIso))); return before.length ? before[before.length - 1] : null; } return null; }
-function firstLast(arr) { return { first: arr?.length ? arr[0] : null, last: arr?.length ? arr[arr.length - 1] : null }; }
-function sessionDeltaText(current, previous) { if (!current || !previous) return 'Nessun confronto omogeneo ancora disponibile.'; const paceDiff = previous.paceSec != null && current.paceSec != null ? current.paceSec - previous.paceSec : null; const hrDiff = previous.avgHr != null && current.avgHr != null ? current.avgHr - previous.avgHr : null; let parts = []; if (paceDiff != null) parts.push(paceDiff < 0 ? `passo medio più rapido di ${fmtPace(Math.abs(paceDiff)).replace('/km','')}` : `passo medio più lento di ${fmtPace(Math.abs(paceDiff)).replace('/km','')}`); if (hrDiff != null) parts.push(hrDiff < 0 ? `con ${Math.abs(hrDiff)} bpm in meno` : `con ${Math.abs(hrDiff)} bpm in più`); return parts.length ? parts.join(', ') + '.' : 'Confronto disponibile ma non completo sui delta principali.'; }
-function buildLastWorkoutOverview(report) { const latest = latestSession(report); if (!latest) return `<p class="muted mb-0">Per questa data non è presente una seduta campione descrivibile nel report.</p>`; const previousSame = findPreviousSameCategorySession(latest, state.selectedDate); const zones = report?.data?.latestHrZones || []; const z2 = zones.find(z => z.zone === 'Z2')?.pct ?? 0; const z3 = zones.find(z => z.zone === 'Z3')?.pct ?? 0; const z4 = zones.find(z => z.zone === 'Z4')?.pct ?? 0; const category = inferSessionCategory(latest); let verdict = ''; if (category === 'intervals') verdict = `L’ultima attività è stata <strong>${latest.name}</strong> e, letta dai numeri, è uscita come richiamo specifico più vicino al passo gara rispetto ai falcati tecnici precedenti: <strong>${latest.distance.toFixed(2)} km</strong> in <strong>${latest.pace}</strong>, FC media <strong>${latest.avgHr} bpm</strong>, TE <strong>${latest.te || 'n.d.'}</strong>, cadenza <strong>${latest.cadence} spm</strong>.`; else if (category === 'progression') verdict = `L’ultima attività è una progressione: <strong>${latest.distance.toFixed(2)} km</strong> in <strong>${latest.pace}</strong> con FC media <strong>${latest.avgHr} bpm</strong>. La distribuzione in zona (${z2}% Z2, ${z3}% Z3, ${z4}% Z4) suggerisce stimolo utile ma incompleto, coerente con una progressione interrotta in anticipo.`; else if (category === 'easy') verdict = `L’ultima attività è una corsa facile: <strong>${latest.distance.toFixed(2)} km</strong> in <strong>${latest.pace}</strong> con FC media <strong>${latest.avgHr} bpm</strong>.`; else if (category === 'race') verdict = `L’ultima attività è un riferimento prestativo: <strong>${latest.distance.toFixed(2)} km</strong> in <strong>${latest.pace}</strong> con FC media <strong>${latest.avgHr} bpm</strong>.`; else verdict = `L’ultima attività registrata è <strong>${latest.name}</strong>: <strong>${latest.distance.toFixed(2)} km</strong> in <strong>${latest.pace}</strong> con FC media <strong>${latest.avgHr} bpm</strong>.`; const compare = previousSame ? `<p class="mini-note mb-0">Confrontata con la precedente seduta della stessa famiglia (<strong>${previousSame.name}</strong>, ${previousSame.date}), questa uscita risulta ${sessionDeltaText(latest, previousSame)} Questo aiuta a leggere il trend senza confrontare sedute troppo diverse tra loro.</p>` : `<p class="mini-note mb-0">Nel JSON attuale non c’è ancora una seduta precedente della stessa tipologia abbastanza omogenea da confrontare in modo serio. Appena lo storico si allunga, qui il confronto diventa molto più utile.</p>`; return `<p class="muted mb-3">${verdict}</p>${compare}`; }
-function buildStateFormText(report) { const vo2 = latestVo2(report); const readiness = report?.data?.trainingReadiness; const body = report?.data?.bodyComp || {}; const hrv = readiness?.hrvMs ?? report?.data?.trainingStatus?.hrvMs; const acute = readiness?.acuteLoad; const recoverySnapshot = report?.data?.recoverySnapshot; let recoveryText = ''; if (recoverySnapshot) recoveryText = ` Oggi il contesto di recupero è meno brillante: sonno <strong>${recoverySnapshot.sleepScore}</strong> e Body Battery <strong>${recoverySnapshot.bodyBattery}</strong>, quindi la fatica anticipata nella progressione ha una spiegazione plausibile.`; else if (readiness?.value != null) recoveryText = ` La readiness <strong>${readiness.value}/100</strong> va letta soprattutto insieme al sonno: il fattore limitante sembra più la qualità del recupero notturno che un vero sovraccarico.`; return `Il quadro attuale è <strong>complessivamente favorevole</strong>: VO₂max <strong>${vo2 ?? 'n.d.'}</strong>${hrv != null ? `, HRV <strong>${hrv} ms</strong>` : ''}${acute != null ? ` e carico acuto <strong>${acute}</strong>` : ''} non raccontano un atleta scarico o in regressione.${recoveryText} Sul versante composizione corporea hai <strong>${body.weight != null ? body.weight.toFixed(1) + ' kg' : 'n.d.'}</strong>, body fat <strong>${body.bodyFat != null ? body.bodyFat.toFixed(1) + '%' : 'n.d.'}</strong> e massa muscolare <strong>${body.muscleMass != null ? body.muscleMass.toFixed(1) + ' kg' : 'n.d.'}</strong>: c’è margine per migliorare l’economia di corsa, ma senza inseguire tagli drastici durante la preparazione.`; }
-function buildRaceForecastText(report) {
-  const goals = report?.data?.raceGoals || {};
-  const deejay = goals?.deejayTen?.realistic || '58:50–59:30';
-  const tuttadritta = goals?.tuttadritta?.realistic || '58:15–59:00';
+  const svg = document.getElementById(svgId);
+  if (!svg || !data?.length) return;
+  const { width, height } = createSVG(svg, opts.width || 900, opts.height || 280);
+  const m = { top: 18, right: 18, bottom: 44, left: 54 };
+  const innerW = width - m.left - m.right;
+  const innerH = height - m.top - m.bottom;
+  const values = data.map(valueAccessor).filter(v => v != null);
+  if (!values.length) return;
 
-  return `Il sub-60 non è più il traguardo da inseguire: è già stato fatto. Adesso il focus si sposta su due livelli. 
-  Per la <strong>Deejay Ten</strong>, l’obiettivo realistico è <strong>${deejay}</strong>, con gara corsa in controllo all’inizio e finale più deciso solo se il margine c’è davvero. 
-  Per la <strong>Tuttadritta</strong>, il target realistico sale a <strong>${tuttadritta}</strong>. 
-  Il punto non è inventarsi ritmi da 52 minuti perché Garmin li spara nelle previsioni, ma consolidare il tuo passo reale e presentarti un po’ più leggero, senza perdere qualità nelle sedute chiave.`;
-}
-function computeTargetWeightRange(report) { const ffm = report?.data?.bodyComp?.ffm ?? null; if (ffm == null) return { low: 84.0, high: 84.8 }; const low = ffm / 0.795; const high = ffm / 0.787; return { low: +low.toFixed(1), high: +high.toFixed(1) }; }
-function buildBodyCompText(report) {
-  const body = report?.data?.bodyComp || {};
-  const wt = body.weight != null ? body.weight.toFixed(1) + ' kg' : 'n.d.';
-  const bf = body.bodyFat != null ? body.bodyFat.toFixed(1) + '%' : 'n.d.';
-  const mus = body.muscleMass != null ? body.muscleMass.toFixed(1) + ' kg' : 'n.d.';
-  const ffm = body.ffm ?? null;
+  let minY = Math.min(...values);
+  let maxY = Math.max(...values);
+  const pad = (maxY - minY) * 0.15 || 1;
+  const y0 = minY - pad;
+  const y1 = maxY + pad;
 
-  let targetLow = 84.5;
-  let targetHigh = 85.5;
+  const x = i => m.left + (i / Math.max(data.length - 1, 1)) * innerW;
+  const y = v => m.top + innerH - ((v - y0) / (y1 - y0)) * innerH;
 
-  if (ffm != null) {
-    targetLow = +(ffm / 0.79).toFixed(1);
-    targetHigh = +(ffm / 0.775).toFixed(1);
+  for (let i = 0; i < 5; i++) {
+    const gy = m.top + (innerH / 4) * i;
+    const val = y1 - ((y1 - y0) / 4) * i;
+    svg.insertAdjacentHTML('beforeend', `<line x1="${m.left}" y1="${gy}" x2="${width - m.right}" y2="${gy}" stroke="rgba(255,255,255,.08)" />`);
+    svg.insertAdjacentHTML('beforeend', `<text x="${m.left - 10}" y="${gy + 4}" text-anchor="end" fill="rgba(235,241,255,.62)" font-size="12">${opts.formatY ? opts.formatY(val) : Math.round(val)}</text>`);
   }
 
-  return `Il peso attuale è <strong>${wt}</strong>, con body fat <strong>${bf}</strong> e massa muscolare <strong>${mus}</strong>. 
-  La lettura corretta è questa: non hai bisogno di un taglio aggressivo da bodybuilder, ma neppure di raccontarti che basta “mangiare pulito”. 
-  Per arrivare meglio alla <strong>Tuttadritta</strong>, il target serio è iniziare a togliere grasso in modo più leggibile mantenendo la gamba. 
-  Un range fisico sensato da qui alle prossime settimane può essere circa <strong>${targetLow}–${targetHigh} kg</strong>, mantenendo il più possibile la massa magra. 
-  Tradotto: proteine alte, più precisione sulle calorie invisibili, giorni easy un po’ più tirati, giorni qualità e gara protetti meglio.`;
-}
-function buildTechnicalSummaryHTML(report) {
-  const zones = report?.data?.latestHrZones || [];
-  const z2 = zones.find(z => z.zone === 'Z2')?.pct ?? null;
-  const z3 = zones.find(z => z.zone === 'Z3')?.pct ?? 0;
-  const z4 = zones.find(z => z.zone === 'Z4')?.pct ?? 0;
-  const rec = report?.data?.trainingReadiness;
-
-  return `<p class="muted">Il quadro è cambiato davvero: il <strong>sub-60 è già stato centrato</strong>, quindi il report non deve più ragionare come se fossi ancora “quasi pronto”. Adesso il focus giusto è doppio: <strong>difendere e limare la prestazione</strong> sulle prossime 10K, e contemporaneamente iniziare un lavoro più serio sulla <strong>massa grassa</strong> senza compromettere la corsa.</p>
-  
-  <p class="muted">Questa è la parte da non raccontarti male: arrivare meglio per la <strong>Tuttadritta</strong> non significa fare una dieta feroce. Significa creare un deficit più preciso, soprattutto nei giorni facili, e smettere di regalare calorie invisibili a olio, pesto, pane extra, biscotti o porzioni casuali. Sul lato corsa, il passo reale oggi è molto più vicino a <strong>5:57/km</strong> che a fantasie da 5:15/km. Questo non ridimensiona il progresso: lo rende più utile.</p>
-
-  <p class="muted">Dal lato recupero, il contesto attuale resta buono: ${rec ? `readiness <strong>${rec.value}</strong>, HRV <strong>${rec.hrvMs}</strong>, carico acuto <strong>${rec.acuteLoad}</strong>` : 'recupero complessivamente solido'}. Questo ti permette di lavorare bene nelle prossime settimane, ma senza l’errore di tagliare troppo il carburante proprio quando vuoi correre meglio.</p>
-
-  <ul class="list-clean mt-3">
-    <li><strong>Performance:</strong> consolidare il sub-60 e scendere verso 59 basso / 58 alto.</li>
-    <li><strong>Composizione corporea:</strong> deficit più preciso, non più severo a caso.</li>
-    <li><strong>Dieta:</strong> più leggibile, più corta, solo i 3 giorni davvero utili dopo il report.</li>
-    <li><strong>Cosa evitare:</strong> tagliare troppo nei giorni qualità o convincerti che un singolo numero della bilancia dica la verità completa.</li>
-  </ul>`;
-}
-function addDays(date, days) { const d = new Date(date); d.setDate(d.getDate() + days); return d; }
-function getComingSunday(date) { const d = new Date(date); const delta = (7 - d.getDay()) % 7; d.setDate(d.getDate() + delta); return d; }
-function formatShortDayDate(date) { return date.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short' }); }
-function meal(text, kcal, swaps = []) { return { text, kcal, swaps }; }
-function sumMealsKcal(dayPlan) { return dayPlan.breakfast.kcal + dayPlan.lunch.kcal + dayPlan.dinner.kcal + dayPlan.snack.kcal; }
-function renderSwaps(swaps) { if (!swaps || !swaps.length) return ''; return `<div class="small-note mt-2"><strong>Sostituzioni:</strong> ${swaps.join(' • ')}</div>`; }
-function getNutritionTemplateByWeekday(dayNumber) {
-  switch (dayNumber) {
-    case 0: return { typeLabel: 'Lungo / ricarica controllata', breakfast: meal('250 ml latte + 50 g cereali + 1 banana + caffè', 380, ['200 g yogurt greco + 35 g cereali + banana (~360 kcal)', '5 gallette di mais + 25 g marmellata + yogurt greco 170 g (~350 kcal)']), lunch: meal('100 g pasta al tonno + 15 g grana + 10 g olio + misticanza', 730, ['100 g pasta al sugo + 20 g grana + 10 g olio (~680 kcal)', '90 g pasta al pesto + tonno naturale 80 g (~700 kcal)']), dinner: meal('200 g pesce + zucchine o carote + 80 g pane + 10 g olio', 680, ['180 g pollo + 80 g pane + verdura + 10 g olio (~700 kcal)', 'Hamburger magro 180 g + 70 g pane + misticanza (~680 kcal)']), snack: meal('170 g yogurt greco + banana + 2 gallette', 260, ['250 ml latte + banana (~200 kcal)', '170 g yogurt greco + 20 g marmellata (~180 kcal)']), note: 'Giorno più alto in carboidrati, ma senza sforare: qui il cibo serve anche a recuperare bene.' };
-    case 1: return { typeLabel: 'Recupero attivo', breakfast: meal('200 g yogurt greco + 30 g cereali + caffè', 280, ['250 ml latte + 4 Nascondini (~300 kcal)', '4 gallette + 20 g marmellata + yogurt greco 150 g (~280 kcal)']), lunch: meal('90 g pasta al tonno + 10 g olio + misticanza', 620, ['90 g pasta al sugo + 15 g grana + 10 g olio (~560 kcal)', '90 g pasta allo sgombro (~640 kcal)']), dinner: meal('180 g pollo + zucchine + 70 g pane + 10 g olio', 650, ['200 g pesce + 70 g pane + verdura (~620 kcal)', '3 uova + 150 g albumi + 60 g pane + verdura (~610 kcal)']), snack: meal('170 g yogurt greco + 1 frutto', 180, ['4 gallette + 20 g marmellata (~160 kcal)', 'Banana + caffè (~110 kcal)']), note: 'Giorno da deficit leggero ma non estremo.' };
-    case 2: return { typeLabel: 'Qualità / seduta chiave', breakfast: meal('250 ml latte + 50 g cereali + banana + caffè', 370, ['200 g yogurt greco + 35 g cereali + banana (~360 kcal)', '250 ml latte + 5 Nascondini + banana (~390 kcal)']), lunch: meal('100 g pasta con sgombro + 10 g olio + carote', 710, ['100 g pasta al tonno + 15 g grana (~730 kcal)', '100 g pasta al sugo + 20 g grana + 10 g olio (~680 kcal)']), dinner: meal('Hamburger magro 180 g + misticanza + 70 g pane', 660, ['180 g pollo + 70 g pane + verdura (~650 kcal)', '3 uova + 150 g albumi + 60 g pane (~610 kcal)']), snack: meal('170 g yogurt greco + banana', 220, ['250 ml latte + 4 gallette (~220 kcal)', 'Yogurt greco 170 g + 20 g marmellata (~180 kcal)']), note: 'Qui non tagliare troppo: meglio proteggere la seduta.' };
-    case 3: return { typeLabel: 'Corsa facile', breakfast: meal('250 ml latte + 45 g cereali + caffè', 300, ['200 g yogurt greco + 30 g cereali (~280 kcal)', '250 ml latte + 4 Nascondini (~300 kcal)']), lunch: meal('90 g pasta al sugo + 15 g grana + 10 g olio + carote', 590, ['90 g pasta al tonno (~620 kcal)', '90 g pasta al pesto (~620 kcal)']), dinner: meal('200 g pesce + zucchine + 70 g pane + 10 g olio', 620, ['180 g pollo + 70 g pane + verdura (~650 kcal)', 'Hamburger magro 180 g + 60 g pane (~640 kcal)']), snack: meal('170 g yogurt greco + banana oppure 4 gallette + marmellata', 220, ['Banana sola (~90 kcal)', 'Yogurt greco 170 g (~100 kcal)']), note: 'Equilibrato: più leggero del giorno qualità, ma senza scendere troppo.' };
-    case 4: return { typeLabel: 'Recupero / sonno da proteggere', breakfast: meal('200 g yogurt greco + 30 g cereali + caffè', 280, ['250 ml latte + 4 Nascondini (~300 kcal)', '4 gallette + 20 g marmellata + yogurt greco 150 g (~280 kcal)']), lunch: meal('90 g pasta al tonno + 10 g olio + misticanza', 620, ['90 g pasta al sugo + 15 g grana + 10 g olio (~560 kcal)', '90 g pasta allo sgombro (~640 kcal)']), dinner: meal('180 g pollo + zucchine + 70 g pane + 10 g olio', 650, ['200 g pesce + 70 g pane + verdura (~620 kcal)', '3 uova + 150 g albumi + 60 g pane + verdura (~610 kcal)']), snack: meal('170 g yogurt greco + 1 frutto', 180, ['4 gallette + 20 g marmellata (~160 kcal)', 'Banana + caffè (~110 kcal)']), note: 'Perfetto per tenere il deficit senza rovinare il recupero.' };
-    case 5: return { typeLabel: 'Base aerobica', breakfast: meal('250 ml latte + 45 g cereali + caffè', 300, ['200 g yogurt greco + 30 g cereali (~280 kcal)', '250 ml latte + 4 Nascondini (~300 kcal)']), lunch: meal('90 g pasta al sugo e formaggio + 10 g olio', 600, ['90 g pasta al tonno (~620 kcal)', '90 g pasta allo sgombro (~640 kcal)']), dinner: meal('Hamburger magro 180 g + misticanza + 70 g pane', 660, ['180 g pollo + 70 g pane + verdura (~650 kcal)', '200 g pesce + 70 g pane + verdura (~620 kcal)']), snack: meal('170 g yogurt greco + banana', 220, ['4 gallette + 20 g marmellata (~160 kcal)', 'Banana sola (~90 kcal)']), note: 'Pulito e sostenibile: qui puoi stare leggermente sotto senza problemi.' };
-    case 6: return { typeLabel: 'Riposo / scarico leggero', breakfast: meal('250 ml latte + 4 Nascondini + caffè', 300, ['200 g yogurt greco + 25 g cereali (~250 kcal)', '4 gallette + 20 g marmellata + yogurt greco 150 g (~280 kcal)']), lunch: meal('90 g pasta allo sgombro oppure al pesto + misticanza', 620, ['90 g pasta al tonno (~620 kcal)', '90 g pasta al sugo + 15 g grana + 10 g olio (~560 kcal)']), dinner: meal('200 g pesce oppure 3 uova + verdura + 60 g pane + 10 g olio', 590, ['180 g pollo + 60 g pane + verdura (~600 kcal)', 'Hamburger magro 180 g + 50 g pane (~600 kcal)']), snack: meal('170 g yogurt greco oppure 1 frutto + 2 gallette', 150, ['Banana sola (~90 kcal)', '4 gallette + 20 g marmellata (~160 kcal)']), note: 'Qui il deficit può essere un po’ più netto, ma senza scendere troppo.' };
-    default: return { typeLabel: 'Giorno standard', breakfast: meal('250 ml latte + 45 g cereali + caffè', 300), lunch: meal('90 g pasta con condimento semplice', 600), dinner: meal('Secondo + verdura + 60 g pane', 600), snack: meal('Yogurt greco o frutto', 180), note: 'Giorno bilanciato.' };
-  }
-}
-function getNutritionTemplateByType(typeKey) { if (typeKey === 'race') return { typeLabel: 'Gara / test 10K', breakfast: meal('3 ore prima: 250 ml latte oppure yogurt greco leggero + 50 g cereali o 4 gallette con marmellata + banana + caffè', 360, ['Latte + 4–5 biscotti + banana (~360 kcal)', 'Yogurt greco 170 g + 35 g cereali + banana (~340 kcal)']), lunch: meal('Se la gara è al mattino: pranzo post-gara con 100 g pasta al tonno o al sugo + 15 g grana + 10 g olio + carote', 700, ['100 g pasta allo sgombro (~720 kcal)', '100 g pasta al pesto, ma meglio solo se porzione controllata (~700 kcal)']), dinner: meal('180–200 g pollo o pesce + verdura + 70 g pane + 10 g olio', 650, ['Hamburger magro 180 g + 60 g pane (~620 kcal)', '3 uova + 60 g pane + verdura (~590 kcal)']), snack: meal('Post-gara: yogurt greco 170–200 g + banana', 220, ['Latte + banana (~200 kcal)', 'Yogurt greco + 20 g marmellata (~180 kcal)']), note: 'Giorno da tenere più alto in carboidrati, ma senza abbuffate.' }; return getNutritionTemplateByWeekday(3); }
-function buildNutritionPlanData(report) {
-  const body = report?.data?.bodyComp || {};
-  const weight = body.weight ?? state.archive?.athleteProfile?.weightKg ?? 86.9;
-  const proteinLow = Math.round(weight * 1.6);
-  const proteinHigh = Math.round(weight * 1.8);
-
-  const start = isoToDate(state.selectedDate);
-  const days = [];
-
-  for (let i = 0; i < 3; i++) {
-    const current = addDays(start, i);
-    const iso = `${current.getFullYear()}-${String(current.getMonth() + 1).padStart(2, '0')}-${String(current.getDate()).padStart(2, '0')}`;
-    const planned = PLANNED_WORKOUTS[iso] || null;
-
-    let typeLabel = 'Giorno standard';
-    let breakfast, lunch, dinner, snack, note;
-
-    // Colazione fissa richiesta da te
-    breakfast = meal(
-      '150 g yogurt greco 0% + 1 banana + 1 caffè espresso senza zucchero',
-      180,
-      [
-        'Aggiungi 20–30 g fiocchi d’avena o cereali semplici se hai fame presto o devi allenarti entro poche ore (~70–110 kcal)',
-        'Se lo yogurt è troppo poco per sazietà, sali a 170–200 g'
-      ]
-    );
-
-    if (planned?.typeKey === 'race') {
-      typeLabel = `Gara / test • ${planned.label}`;
-      lunch = meal(
-        '100 g pasta al tonno o al sugo + 10 g olio + carote o zucchine',
-        650,
-        [
-          'Meglio evitare il pesto se vuoi restare più preciso con le kcal',
-          'Se la gara è al mattino, questo diventa il pasto di recupero principale'
-        ]
-      );
-      dinner = meal(
-        '180–200 g pollo o pesce + verdura + 60–70 g pane',
-        560,
-        [
-          'Se sei molto affamato post-gara, aumenta leggermente il pane ma non sforare con condimenti e dolci'
-        ]
-      );
-      snack = meal(
-        '170 g yogurt greco 0% oppure 1 frutto',
-        100,
-        [
-          'Se hai corso forte e senti fame vera, yogurt + banana'
-        ]
-      );
-      note = 'Giorno da non rendere ipocalorico in modo stupido: l’obiettivo è correre bene e recuperare, non svuotarti.';
-    } else if (planned?.typeKey === 'quality') {
-      typeLabel = `Qualità • ${planned.label}`;
-      lunch = meal(
-        '90–100 g pasta al tonno / sgombro / sugo semplice + 10 g olio',
-        620,
-        [
-          'Più pulito del pesto a parità di sazietà',
-          'Se la seduta è lontana dal pranzo, puoi stare sui 90 g; se è vicina o senti bisogno di carburante, 100 g'
-        ]
-      );
-      dinner = meal(
-        '180 g pollo oppure 200 g pesce + verdura abbondante + 60 g pane',
-        540,
-        [
-          'Cena proteica e più asciutta, senza trasformarla in fame notturna'
-        ]
-      );
-      snack = meal(
-        '170 g yogurt greco 0% oppure 2 gallette + marmellata',
-        100,
-        [
-          'Usa le gallette solo se ti servono come ponte verso allenamento o fame vera'
-        ]
-      );
-      note = 'Qui il deficit deve esserci, ma non troppo: se tagli male, rovini la seduta.';
-    } else if (planned?.typeKey === 'easy') {
-      typeLabel = `Easy day • ${planned.label}`;
-      lunch = meal(
-        '80–90 g pasta al sugo o tonno + 10 g olio + verdura',
-        560,
-        [
-          '80 g se vuoi essere più aggressivo sul deficit',
-          '90 g se senti fame forte e rischi di compensare più tardi'
-        ]
-      );
-      dinner = meal(
-        '180–200 g pesce o pollo + verdure abbondanti + 50–60 g pane',
-        500,
-        [
-          'È qui che puoi tirare di più senza compromettere troppo la corsa'
-        ]
-      );
-      snack = meal(
-        '1 yogurt greco 0% oppure 1 frutto',
-        90,
-        [
-          'Se non hai fame vera, puoi anche saltarlo'
-        ]
-      );
-      note = 'Questo è il giorno migliore per creare un deficit più netto ma ancora sostenibile.';
-    } else {
-      typeLabel = 'Giorno standard / recupero';
-      lunch = meal(
-        '80–90 g pasta semplice + 10 g olio + verdura',
-        540,
-        [
-          'Tieni il piatto semplice e preciso'
-        ]
-      );
-      dinner = meal(
-        '180 g pollo o 200 g pesce + verdure + 50–60 g pane',
-        500,
-        [
-          'Pasto leggero ma non punitivo'
-        ]
-      );
-      snack = meal(
-        '1 yogurt greco 0% oppure 1 frutto',
-        90,
-        [
-          'Solo se ti serve davvero'
-        ]
-      );
-      note = 'Giorno utile per restare in deficit senza sentirti in castigo.';
+  data.forEach((d, i) => {
+    if (i % Math.max(1, Math.ceil(data.length / 6)) === 0 || i === data.length - 1) {
+      svg.insertAdjacentHTML('beforeend', `<text x="${x(i)}" y="${height - 14}" text-anchor="middle" fill="rgba(235,241,255,.62)" font-size="12">${d.label || d.date}</text>`);
     }
+  });
 
-    const kcal = breakfast.kcal + lunch.kcal + dinner.kcal + snack.kcal;
+  let path = '';
+  data.forEach((d, i) => {
+    const v = valueAccessor(d);
+    if (v == null) return;
+    path += `${path ? 'L' : 'M'} ${x(i)} ${y(v)} `;
+  });
 
-    days.push({
-      label: formatShortDayDate(current),
-      iso,
-      isToday: i === 0,
-      plannedLabel: planned?.label || null,
-      kcal,
-      typeLabel,
-      breakfast,
-      lunch,
-      dinner,
-      snack,
-      note
-    });
+  svg.insertAdjacentHTML('beforeend', `<path d="${path}" fill="none" stroke="${opts.color || '#ff7a00'}" stroke-width="3.25" />`);
+  data.forEach((d, i) => {
+    const v = valueAccessor(d);
+    if (v == null) return;
+    svg.insertAdjacentHTML('beforeend', `<circle cx="${x(i)}" cy="${y(v)}" r="4.5" fill="${opts.color || '#ff7a00'}" />`);
+  });
+}
+
+function barChart(svgId, data, valueKey, opts = {}) {
+  const svg = document.getElementById(svgId);
+  if (!svg || !data?.length) return;
+  const { width, height } = createSVG(svg, opts.width || 900, opts.height || 280);
+  const m = { top: 18, right: 18, bottom: 48, left: 48 };
+  const innerW = width - m.left - m.right;
+  const innerH = height - m.top - m.bottom;
+  const maxVal = Math.max(...data.map(d => d[valueKey] || 0)) * 1.2 || 1;
+  const step = innerW / data.length;
+  const barW = step * 0.58;
+
+  for (let i = 0; i < 5; i++) {
+    const val = (maxVal / 4) * (4 - i);
+    const gy = m.top + (innerH / 4) * i;
+    svg.insertAdjacentHTML('beforeend', `<line x1="${m.left}" y1="${gy}" x2="${width - m.right}" y2="${gy}" stroke="rgba(255,255,255,.08)" />`);
+    svg.insertAdjacentHTML('beforeend', `<text x="${m.left - 10}" y="${gy + 4}" text-anchor="end" fill="rgba(235,241,255,.62)" font-size="12">${Math.round(val)}</text>`);
   }
 
-  const avgTargetKcal = Math.round(days.reduce((sum, day) => sum + day.kcal, 0) / days.length);
+  data.forEach((d, i) => {
+    const x = m.left + (i + 0.5) * step - barW / 2;
+    const h = ((d[valueKey] || 0) / maxVal) * innerH;
+    const y = m.top + innerH - h;
+    svg.insertAdjacentHTML('beforeend', `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="8" fill="${opts.color || '#4ea6ff'}" />`);
+    svg.insertAdjacentHTML('beforeend', `<text x="${x + barW / 2}" y="${height - 14}" text-anchor="middle" fill="rgba(235,241,255,.62)" font-size="12">${d.label}</text>`);
+  });
+}
 
+function parseSessionDateLabel(label, fallbackYear = 2026) {
+  if (!label) return null;
+  const m = String(label).toLowerCase().match(/(\d{1,2})\s+([a-zà]+)/i);
+  if (!m) return null;
+  const months = { gen:0, feb:1, mar:2, apr:3, mag:4, giu:5, lug:6, ago:7, set:8, ott:9, nov:10, dic:11 };
+  const monthKey = m[2].slice(0,3);
+  if (!(monthKey in months)) return null;
+  return new Date(fallbackYear, months[monthKey], Number(m[1]));
+}
+
+function sessionKey(s) {
+  return [s?.name || '', s?.date || '', s?.distance || '', s?.pace || ''].join('|');
+}
+
+function inferSessionCategory(session) {
+  const name = String(session?.name || '').toLowerCase();
+  const type = String(session?.type || '').toLowerCase();
+  if (type === 'intervals' || type === 'tempo' || name.includes('ripet') || name.includes('passo gara')) return 'intervals';
+  if (type === 'progression' || name.includes('progress')) return 'progression';
+  if (name.includes('gara') || name.includes('test') || name.includes('riferimento') || type === 'fast' || type === 'race') return 'race';
+  if (name.includes('lung') || name.includes('long')) return 'long';
+  if (type === 'easy' || name.includes('facile')) return 'easy';
+  return type || 'other';
+}
+
+function collectAllSessions(cutoffIso = state.selectedDate) {
+  const seen = new Set();
+  const out = [];
+  const cutoff = cutoffIso ? isoToDate(cutoffIso) : null;
+  if (cutoff) cutoff.setHours(23, 59, 59, 999);
+
+  getReportDates().forEach(reportIso => {
+    if (cutoff && isoToDate(reportIso) > cutoff) return;
+    const rep = state.archive.reports[reportIso];
+    (rep?.data?.sessions || []).forEach(s => {
+      const key = sessionKey(s);
+      if (seen.has(key)) return;
+      seen.add(key);
+      const parsed = parseSessionDateLabel(s.date, isoToDate(reportIso).getFullYear()) || isoToDate(reportIso);
+      if (cutoff && parsed > cutoff) return;
+      out.push({ ...s, _parsedDate: parsed, _reportIso: reportIso, _category: inferSessionCategory(s) });
+    });
+  });
+
+  return out.sort((a, b) => a._parsedDate - b._parsedDate);
+}
+
+function timeStrToSeconds(value) {
+  if (!value) return null;
+  const parts = String(value).split(':').map(Number);
+  if (parts.some(Number.isNaN)) return null;
+  if (parts.length === 2) return parts[0] * 60 + parts[1];
+  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  return null;
+}
+
+function inferFallbackCompareGroup(session) {
+  const type = inferSessionCategory(session);
+  const snap = session?.comparisonSnapshot || {};
+  const distance = Number(snap.distance ?? session.distance ?? 0);
+  const durationMin = (timeStrToSeconds(snap.time ?? session.time) ?? 0) / 60;
+  const name = String(session?.name || '').toLowerCase();
+
+  if (type === 'race') {
+    if (distance >= 9.5 && distance <= 10.5) return { key: 'race_10k', label: 'Gare / test 10K', family: 'race' };
+    if (distance >= 4.7 && distance <= 5.3) return { key: 'race_5k', label: 'Gare / test 5K', family: 'race' };
+  }
+
+  if (type === 'easy') {
+    if (distance >= 7 && distance <= 10.5) return { key: 'easy_7_10k', label: 'Corse facili 7–10 km', family: 'easy' };
+    if (distance >= 3 && distance < 5.5) return { key: 'easy_3_5k', label: 'Corse facili 3–5 km', family: 'easy' };
+  }
+
+  if (type === 'progression') {
+    if (durationMin >= 28 && durationMin <= 32) return { key: 'prog_28_32', label: 'Progressioni 28–32 min', family: 'progression' };
+    if (durationMin >= 30 && durationMin <= 36) return { key: 'prog_30_36', label: 'Progressioni 30–36 min', family: 'progression' };
+    if (durationMin > 36 && durationMin <= 45) return { key: 'prog_36_45', label: 'Progressioni 36–45 min', family: 'progression' };
+  }
+
+  if (type === 'intervals') {
+    if (name.includes('2×8') || name.includes('2x8')) return { key: 'int_2x8', label: 'Richiami passo gara 2×8′', family: 'intervals' };
+    if (name.includes('falcato')) return { key: 'int_falcato', label: 'Ripetute di passo falcato', family: 'intervals' };
+  }
+
+  return { key: `${type || 'other'}_generic`, label: 'Sedute comparabili', family: type || 'other' };
+}
+
+function getComparisonView(session) {
+  const fallback = inferFallbackCompareGroup(session);
+  const snap = session?.comparisonSnapshot || {};
   return {
-    proteinLow,
-    proteinHigh,
-    avgTargetKcal,
-    days,
-    endLabel: days[days.length - 1]?.label || ''
+    ...session,
+    _compareKey: session.compareGroup || fallback.key,
+    _compareLabel: session.compareLabel || fallback.label,
+    _compareFamily: session.compareFamily || fallback.family,
+    _compareBasis: snap.basis || 'mixed',
+    _compareDistance: snap.distance ?? session.distance ?? null,
+    _compareTime: snap.time ?? session.time ?? null,
+    _comparePace: snap.pace ?? session.pace ?? null,
+    _comparePaceSec: snap.paceSec ?? session.paceSec ?? null,
+    _compareAvgHr: snap.avgHr ?? session.avgHr ?? null,
+    _compareMaxHr: snap.maxHr ?? session.maxHr ?? null,
+    _compareName: snap.label ? `${session.name} • ${snap.label}` : session.name
   };
 }
 
+function buildComparableGroups(cutoffIso = state.selectedDate) {
+  const groups = new Map();
+  collectAllSessions(cutoffIso).forEach(session => {
+    const s = getComparisonView(session);
+    if (!groups.has(s._compareKey)) {
+      groups.set(s._compareKey, {
+        key: s._compareKey,
+        label: s._compareLabel,
+        family: s._compareFamily,
+        basis: s._compareBasis,
+        sessions: []
+      });
+    }
+    groups.get(s._compareKey).sessions.push(s);
+  });
+
+  return Array.from(groups.values())
+    .map(g => ({ ...g, sessions: g.sessions.sort((a, b) => a._parsedDate - b._parsedDate) }))
+    .sort((a, b) => a.label.localeCompare(b.label, 'it'));
+}
+
+function pickBestComparableGroup(family) {
+  return buildComparableGroups(state.selectedDate)
+    .filter(g => g.family === family && g.sessions.length >= 2)
+    .sort((a, b) => b.sessions.length - a.sessions.length)[0] || null;
+}
+
+function groupToSeries(group) {
+  if (!group) return [];
+  return group.sessions.map(s => ({
+    label: s._parsedDate.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' }),
+    paceSec: s._comparePaceSec,
+    avgHr: s._compareAvgHr,
+    distance: s._compareDistance,
+    name: s._compareName
+  }));
+}
+
+function buildArchiveWeightSeries(cutoffIso = state.selectedDate) {
+  const cutoff = cutoffIso ? isoToDate(cutoffIso) : null;
+  if (cutoff) cutoff.setHours(23, 59, 59, 999);
+
+  return getReportDates()
+    .filter(date => !cutoff || isoToDate(date) <= cutoff)
+    .map(date => ({
+      label: isoToDate(date).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' }),
+      date,
+      weight: latestWeight(state.archive.reports[date]),
+      bodyFat: latestBodyFat(state.archive.reports[date]),
+      readiness: latestReadiness(state.archive.reports[date]),
+      vo2: latestVo2(state.archive.reports[date])
+    }))
+    .filter(d => d.weight != null);
+}
+
+function collectSundayLongSeries(report) {
+  return (report?.data?.easyRuns || [])
+    .map(r => ({ ...r, _date: isoToDate(r.date) }))
+    .filter(r => r._date.getDay() === 0)
+    .sort((a, b) => a._date - b._date)
+    .map(r => ({ ...r, label: r._date.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' }) }));
+}
+
+function buildCalendarMarkup() {
+  const reportDates = new Set(getReportDates());
+  const first = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth(), 1);
+  const startOffset = (first.getDay() + 6) % 7;
+  const gridStart = new Date(first);
+  gridStart.setDate(first.getDate() - startOffset);
+
+  let cells = '';
+  const weekdays = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'].map(d => `<div class="wd">${d}</div>`).join('');
+
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(gridStart);
+    d.setDate(gridStart.getDate() + i);
+    const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const sameMonth = d.getMonth() === state.monthCursor.getMonth();
+    const hasReport = reportDates.has(iso);
+    const selected = iso === state.selectedDate;
+    cells += `<button type="button" class="day ${sameMonth ? '' : 'other'} ${hasReport ? 'has-report' : ''} ${selected ? 'selected' : ''}" data-date="${iso}">${d.getDate()}</button>`;
+  }
+
+  return `<div class="d-flex align-items-center justify-content-between mb-3">
+      <button class="btn btn-soft btn-sm" id="prevMonthBtn">‹</button>
+      <div class="fw-semibold text-capitalize">${formatMonth(state.monthCursor)}</div>
+      <button class="btn btn-soft btn-sm" id="nextMonthBtn">›</button>
+    </div>
+    <div class="calendar">${weekdays}${cells}</div>`;
+}
+
+function exportArchive() {
+  const blob = new Blob([JSON.stringify(state.archive, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'report-archive.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function renderSidebar(targetId) {
+  const root = document.getElementById(targetId);
+  if (!root || !state.archive) return;
+
+  root.innerHTML = `<section class="card-panel p-3 mb-3">
+      <div class="eyebrow mb-2">Archivio report</div>
+      <div class="fw-semibold mb-2">Sorgente unica remota</div>
+      <p class="small-note mb-3">
+        L’interfaccia legge un solo file JSON remoto, mantenendo tutti i report storici consultabili dal calendario.
+        Nessun import manuale o localStorage operativo nel flusso standard.
+      </p>
+      <div class="d-grid">
+        <button id="${targetId}-export" class="btn btn-soft btn-accent">Esporta JSON corrente</button>
+      </div>
+    </section>
+    <section class="card-panel p-3">${buildCalendarMarkup()}</section>`;
+
+  root.querySelector(`#${targetId}-export`).addEventListener('click', exportArchive);
+
+  root.querySelectorAll('[data-date]').forEach(btn => btn.addEventListener('click', () => {
+    state.selectedDate = btn.dataset.date;
+    writeSelectedDateToHash(state.selectedDate);
+    state.monthCursor = new Date(isoToDate(state.selectedDate).getFullYear(), isoToDate(state.selectedDate).getMonth(), 1);
+    renderAll();
+  }));
+
+  root.querySelector('#prevMonthBtn').addEventListener('click', () => {
+    state.monthCursor = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth() - 1, 1);
+    renderSidebar(targetId);
+  });
+
+  root.querySelector('#nextMonthBtn').addEventListener('click', () => {
+    state.monthCursor = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth() + 1, 1);
+    renderSidebar(targetId);
+  });
+}
+
+function basisLabel(basis) {
+  if (basis === 'distance') return 'stessa distanza netta';
+  if (basis === 'time') return 'stesso blocco temporale';
+  if (basis === 'structure') return 'stessa struttura seduta';
+  return 'criterio misto / fallback';
+}
+
+function buildAxisNote(group, yLabel, fallbackLabel) {
+  if (!group) return `Ascissa: data delle sedute disponibili. Ordinata: ${yLabel}. ${fallbackLabel}`;
+  return `Ascissa: data delle sedute del gruppo “${group.label}”. Ordinata: ${yLabel}. Confronto normalizzato su ${basisLabel(group.basis)}.`;
+}
+
+function renderChartOrNote(svgId, series, type, opts = {}) {
+  const svg = document.getElementById(svgId);
+  if (!svg) return;
+  if (!series || series.length < 2) {
+    svg.outerHTML = `<div class="small-note pt-2">Dati ancora insufficienti per un confronto serio e normalizzato di questa tipologia.</div>`;
+    return;
+  }
+  if (type === 'bar') barChart(svgId, series, opts.valueKey, opts);
+  else lineChart(svgId, series, opts.valueAccessor, opts);
+}
+
+function buildLastWorkoutOverview(report) {
+  if (report?.ui?.lastWorkoutHtml) return report.ui.lastWorkoutHtml;
+  const latest = latestSession(report);
+  if (!latest) return `<p class="muted mb-0">Per questa data non è presente una seduta campione descrivibile nel report.</p>`;
+  const view = getComparisonView(latest);
+  return `<p class="muted mb-3">L’ultima attività registrata è <strong>${latest.name}</strong>: <strong>${latest.distance.toFixed(2)} km</strong> in <strong>${latest.pace}</strong> con FC media <strong>${latest.avgHr} bpm</strong>.</p>
+  <p class="mini-note mb-0">Questa seduta viene letta dentro il gruppo comparabile <strong>${view._compareLabel}</strong>, con normalizzazione su <strong>${basisLabel(view._compareBasis)}</strong>.</p>`;
+}
+
+function buildStateFormText(report) {
+  if (report?.ui?.stateFormHtml) return report.ui.stateFormHtml;
+  const vo2 = latestVo2(report);
+  const readiness = report?.data?.trainingReadiness;
+  const hrv = readiness?.hrvMs ?? report?.data?.trainingStatus?.hrvMs;
+  const acute = readiness?.acuteLoad;
+  return `Quadro complessivamente favorevole: VO₂max <strong>${vo2 ?? 'n.d.'}</strong>${hrv != null ? `, HRV <strong>${hrv} ms</strong>` : ''}${acute != null ? `, carico acuto <strong>${acute}</strong>` : ''}.`;
+}
+
+function buildRaceForecastText(report) {
+  if (report?.ui?.raceForecastHtml) return report.ui.raceForecastHtml;
+  const goals = report?.data?.raceGoals || {};
+  const deejay = goals?.deejayTen?.realistic || 'n.d.';
+  const tuttadritta = goals?.tuttadritta?.realistic || 'n.d.';
+  return `Deejay Ten: <strong>${deejay}</strong>. Tuttadritta: <strong>${tuttadritta}</strong>.`;
+}
+
+function buildBodyCompText(report) {
+  if (report?.ui?.bodyCompHtml) return report.ui.bodyCompHtml;
+  const body = report?.data?.bodyComp || {};
+  return `Peso <strong>${body.weight ?? 'n.d.'} kg</strong>, body fat <strong>${body.bodyFat ?? 'n.d.'}%</strong>, massa muscolare <strong>${body.muscleMass ?? 'n.d.'} kg</strong>.`;
+}
+
+function buildTechnicalSummaryHTML(report) {
+  if (report?.ui?.technicalSummaryHtml) return report.ui.technicalSummaryHtml;
+  return `<p class="muted">Nessuna sintesi tecnica personalizzata disponibile per questo report.</p>`;
+}
+
+function renderSwaps(swaps) {
+  if (!swaps || !swaps.length) return '';
+  return `<div class="small-note mt-2"><strong>Sostituzioni:</strong> ${swaps.join(' • ')}</div>`;
+}
+
+function getNutritionPlan(report) {
+  return report?.nutritionPlan || null;
+}
+
 function buildNutritionHTML(report) {
-  const plan = buildNutritionPlanData(report);
+  const plan = getNutritionPlan(report);
+  if (!plan) {
+    return `<div class="card-panel p-4 h-100"><div class="eyebrow mb-2">Nutrizione</div><h2 class="section-title mb-3">Dati non disponibili</h2><p class="muted mb-0">Per questo report non è presente un piano nutrizionale a 3 giorni.</p></div>`;
+  }
 
   return `<div class="card-panel p-4 h-100">
     <div class="eyebrow mb-2">Nutrizione</div>
     <h2 class="section-title mb-3">Solo i 3 giorni successivi al report</h2>
-
     <p class="muted mb-3">
-      Questa parte è stata resa più pratica: niente settimana lunga che poi non leggi.
-      Da ora vedi solo i <strong>primi 3 giorni successivi</strong> alla data del report, con una logica più coerente con i tuoi obiettivi:
-      <strong>correre bene alla Tuttadritta</strong> e <strong>iniziare a scendere davvero di massa grassa</strong>.
+      Piano sintetico su <strong>3 giorni</strong>, con variazione reale delle colazioni e protezione energetica maggiore nei giorni qualitativi.
+      L’obiettivo resta ridurre massa grassa entro fine giugno senza compromettere la qualità del lavoro.
     </p>
-
     <div class="d-flex flex-wrap gap-2 mb-3">
       <span class="delta-badge">Target medio ~${plan.avgTargetKcal} kcal</span>
       <span class="delta-badge">Proteine ${plan.proteinLow}–${plan.proteinHigh} g</span>
-      <span class="delta-badge">Colazione base: yogurt greco 150 g + banana + caffè</span>
-      <span class="delta-badge">Deficit più netto nei giorni easy</span>
+      <span class="delta-badge">${plan.badgeLabel || 'Colazioni variate'}</span>
     </div>
-
     <div class="row g-3">
       ${plan.days.map(day => `
         <div class="col-md-6 col-xl-4">
           <div class="metric-item h-100">
-            <div class="label">${day.label}${day.isToday ? ' • oggi' : ''}</div>
+            <div class="label">${day.label}</div>
             ${day.plannedLabel ? `<div class="small-note mt-1">Allenamento previsto: <strong>${day.plannedLabel}</strong></div>` : ''}
             <div class="value">${day.kcal} kcal</div>
-
             <div class="mini-note mt-2"><strong>${day.typeLabel}</strong></div>
 
-            <div class="mini-note mt-3">
-              <strong>Colazione:</strong> ${day.breakfast.text} <em>(~${day.breakfast.kcal} kcal)</em>
-            </div>
+            <div class="mini-note mt-3"><strong>Colazione:</strong> ${day.breakfast.text} <em>(~${day.breakfast.kcal} kcal)</em></div>
             ${renderSwaps(day.breakfast.swaps)}
 
-            <div class="mini-note mt-3">
-              <strong>Pranzo:</strong> ${day.lunch.text} <em>(~${day.lunch.kcal} kcal)</em>
-            </div>
+            <div class="mini-note mt-3"><strong>Pranzo:</strong> ${day.lunch.text} <em>(~${day.lunch.kcal} kcal)</em></div>
             ${renderSwaps(day.lunch.swaps)}
 
-            <div class="mini-note mt-3">
-              <strong>Cena:</strong> ${day.dinner.text} <em>(~${day.dinner.kcal} kcal)</em>
-            </div>
+            <div class="mini-note mt-3"><strong>Cena:</strong> ${day.dinner.text} <em>(~${day.dinner.kcal} kcal)</em></div>
             ${renderSwaps(day.dinner.swaps)}
 
-            <div class="mini-note mt-3">
-              <strong>Spuntino:</strong> ${day.snack.text} <em>(~${day.snack.kcal} kcal)</em>
-            </div>
+            <div class="mini-note mt-3"><strong>Spuntino:</strong> ${day.snack.text} <em>(~${day.snack.kcal} kcal)</em></div>
             ${renderSwaps(day.snack.swaps)}
 
             <div class="small-note mt-3">${day.note}</div>
@@ -631,27 +741,206 @@ function buildNutritionHTML(report) {
         </div>
       `).join('')}
     </div>
-
-    <p class="small-note mt-3 mb-2">
-      Correzione importante: la tua colazione con <strong>150 g yogurt greco 0% + banana + caffè</strong> è una buona base per dimagrire,
-      ma non devi trasformarla in una gara a chi mangia meno. La vera differenza la fanno:
-      <strong>olio</strong>, <strong>pesto</strong>, <strong>pane extra</strong>, <strong>biscotti</strong> e porzioni poco controllate.
-    </p>
-
-    <p class="small-note mb-0">
-      Strategia pratica: nei <strong>giorni easy o riposo</strong> puoi stare un po’ più basso con le calorie.
-      Nei <strong>giorni qualità o gara</strong> non devi svuotarti, altrimenti peggiori la corsa e poi compensi con la fame.
-    </p>
+    <p class="small-note mt-3 mb-2">${plan.footerNote1 || ''}</p>
+    <p class="small-note mb-0">${plan.footerNote2 || ''}</p>
   </div>`;
 }
-function formatCompareCell(item, mode) { if (!item) return 'n.d.'; if (mode === 'pace') return item.pace ? item.pace : (item.paceSec != null ? fmtPace(item.paceSec) : 'n.d.'); if (mode === 'hr') return item.avgHr != null ? `${item.avgHr} bpm` : 'n.d.'; if (mode === 'distance') return item.distance != null ? `${Number(item.distance).toFixed(2)} km` : 'n.d.'; if (mode === 'date') return item.date || item.label || 'n.d.'; return 'n.d.'; }
-function buildComparisonRows(report) { const easySet = firstLast(getCategorySessions('easy', state.selectedDate)); const intervalSet = firstLast(getCategorySessions('intervals', state.selectedDate)); const progSet = firstLast(getCategorySessions('progression', state.selectedDate)); const raceSet = firstLast(getCategorySessions('race', state.selectedDate)); const longSet = firstLast(collectSundayLongSeries(report)); const rows = [{ label: 'Corse facili', first: easySet.first, last: easySet.last }, { label: 'Ripetute / passo gara', first: intervalSet.first, last: intervalSet.last }, { label: 'Progressioni', first: progSet.first, last: progSet.last }, { label: 'Gare / test di riferimento', first: raceSet.first, last: raceSet.last }, { label: 'Lunghi domenicali', first: longSet.first, last: longSet.last }]; return rows.map(r => `<tr><td><strong>${r.label}</strong></td><td>${formatCompareCell(r.first, 'date')}</td><td>${formatCompareCell(r.first, 'pace')}</td><td>${formatCompareCell(r.first, 'hr')}</td><td>${formatCompareCell(r.first, 'distance')}</td><td>${formatCompareCell(r.last, 'date')}</td><td>${formatCompareCell(r.last, 'pace')}</td><td>${formatCompareCell(r.last, 'hr')}</td><td>${formatCompareCell(r.last, 'distance')}</td></tr>`).join(''); }
-function buildComparisonComment(report) { const easy = firstLast(getCategorySessions('easy', state.selectedDate)); const race = firstLast(getCategorySessions('race', state.selectedDate)); const prog = firstLast(getCategorySessions('progression', state.selectedDate)); let parts = []; if (easy.first && easy.last) parts.push(`sulle corse facili il salto è netto: da ${easy.first.pace} a ${easy.last.pace}` + (easy.first.avgHr != null && easy.last.avgHr != null ? `, con una lettura cardiaca oggi molto più coerente` : '')); if (prog.first && prog.last && sessionKey(prog.first) !== sessionKey(prog.last)) parts.push(`nelle progressioni si vede un cambio di specificità, ma anche che la gestione del ritmo iniziale conta parecchio`); if (race.first && race.last && sessionKey(race.first) !== sessionKey(race.last)) parts.push(`i riferimenti prestativi mostrano che il benchmark gara è salito davvero, non solo a sensazione`); if (!parts.length) return `Il confronto rapido è già utile per le corse facili, ma per ripetute, progressioni e gare hai ancora bisogno di uno storico un po’ più pieno nel JSON per far emergere un confronto davvero robusto.`; return `Il quadro d’insieme dice che ${parts.join('; ')}. In sintesi: la crescita più evidente è sulla base aerobica, mentre l’area da rifinire resta la specificità 10K e la distribuzione dello sforzo.`; }
-function renderChartOrNote(svgId, series, type, opts = {}) { const svg = document.getElementById(svgId); if (!svg) return; if (!series || series.length < 2) { svg.outerHTML = `<div class="small-note pt-2">Dati non ancora sufficienti per un confronto nel tempo di questa tipologia.</div>`; return; } if (type === 'bar') barChart(svgId, series, opts.valueKey, opts); else lineChart(svgId, series, opts.valueAccessor, opts); }
+
+function formatCompareCell(item, mode) {
+  if (!item) return 'n.d.';
+  if (mode === 'pace') return item._comparePace || item.pace || 'n.d.';
+  if (mode === 'hr') return item._compareAvgHr != null ? `${item._compareAvgHr} bpm` : (item.avgHr != null ? `${item.avgHr} bpm` : 'n.d.');
+  if (mode === 'date') return item.date || item.label || 'n.d.';
+  return 'n.d.';
+}
+
+function buildComparisonRows() {
+  const groups = buildComparableGroups(state.selectedDate).filter(g => g.sessions.length >= 2);
+  if (!groups.length) {
+    return `<tr><td colspan="7" class="small-note">Storico ancora insufficiente per confronti normalizzati robusti.</td></tr>`;
+  }
+
+  return groups.map(group => {
+    const first = group.sessions[0];
+    const last = group.sessions[group.sessions.length - 1];
+    return `<tr>
+      <td><strong>${group.label}</strong></td>
+      <td>${basisLabel(group.basis)}</td>
+      <td>${formatCompareCell(first, 'date')}</td>
+      <td>${formatCompareCell(first, 'pace')}</td>
+      <td>${formatCompareCell(first, 'hr')}</td>
+      <td>${formatCompareCell(last, 'date')}</td>
+      <td>${formatCompareCell(last, 'pace')}</td>
+      <td>${formatCompareCell(last, 'hr')}</td>
+    </tr>`;
+  }).join('');
+}
+
+function buildComparisonComment() {
+  const groups = buildComparableGroups(state.selectedDate).filter(g => g.sessions.length >= 2);
+  if (!groups.length) {
+    return 'Il confronto rapido usa solo gruppi omogenei. In questa fase lo storico è ancora troppo corto per tutte le famiglie.';
+  }
+  return `Il confronto rapido è costruito prima su <strong>comparisonSnapshot</strong> e <strong>compareGroup</strong>, e solo in fallback sulla famiglia generica. In questo modo 5K e 10K, oppure progressioni di durata molto diversa, non vengono mescolati in modo improprio.`;
+}
+
 function renderMain() {
-  const root = document.getElementById('mainContent'); const report = state.archive.reports[state.selectedDate]; if (!report) { root.innerHTML = `<section class="card-panel p-4"><h2 class="section-title">Nessun report disponibile</h2><p class="muted mb-0">Importa un JSON valido oppure seleziona una data disponibile.</p></section>`; return; }
-  const currentSummary = report.summaryCards?.[0]; const easySeries = (report.data?.easyRuns || []).map(r => ({ ...r, label: isoToDate(r.date).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' }) })); const intervalSeries = buildSessionSeries('intervals', state.selectedDate); const progressionSeries = buildSessionSeries('progression', state.selectedDate); const longSeries = collectSundayLongSeries(report); const weeklySeries = report.data?.weeklyVolume || []; const weightSeries = buildArchiveWeightSeries(state.selectedDate);
-  root.innerHTML = `<section class="card-panel hero-card mb-4"><div class="row g-4 align-items-start"><div class="col-xl-7"><div class="eyebrow mb-2">Report selezionato</div><h1 class="section-title mb-2">${report.title}</h1>${buildLastWorkoutOverview(report)}<div class="d-flex flex-wrap gap-2 mt-3">${(report.heroTags || []).slice(0, 5).map(tag => `<span class="delta-badge">${tag}</span>`).join('')}</div></div><div class="col-xl-5"><div class="d-grid gap-3"><div class="metric-item"><div class="label">Stato forma</div><div class="value">${currentSummary?.value || 'n.d.'}</div><div class="mini-note mt-2">${buildStateFormText(report)}</div></div><div class="metric-item"><div class="label">10K realistico e prossime gare</div><div class="value">${report.summaryCards?.find(c => c.label.toLowerCase().includes('10k'))?.value || 'n.d.'}</div><div class="mini-note mt-2">${buildRaceForecastText(report)}</div></div><div class="metric-item"><div class="label">Peso attuale e composizione</div><div class="value">${latestWeight(report) != null ? latestWeight(report).toFixed(1) + ' kg' : 'n.d.'}</div><div class="mini-note mt-2">${buildBodyCompText(report)}</div></div></div></div></div></section><section class="row g-4 mb-4"><div class="col-12"><div class="card-panel p-4 h-100"><div class="eyebrow mb-2">Sintesi tecnica</div><h2 class="section-title mb-3">Relazione medico-sportiva e operativa</h2>${buildTechnicalSummaryHTML(report)}</div></div><div class="col-12">${buildNutritionHTML(report)}</div></section><section class="mb-4"><div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3"><div><h2 class="section-title mb-1">Grafici chiave di tendenza</h2><div class="muted">Confronto nel tempo tra easy, ripetute, progressioni, lunghi domenicali, volume settimanale e peso corporeo.</div></div></div><div class="row g-4"><div class="col-xl-6"><div class="card-panel chart-card"><h3>Easy run</h3><div class="chart-sub">Il grafico più importante per leggere crescita aerobica, controllo del passo e tenuta.</div><svg id="easyPaceChart" class="chart" aria-label="Trend easy"></svg></div></div><div class="col-xl-6"><div class="card-panel chart-card"><h3>Ripetute / passo gara</h3><div class="chart-sub">Utile per vedere se la qualità sta diventando più efficiente e più specifica nel tempo.</div><svg id="intervalChart" class="chart" aria-label="Trend ripetute"></svg></div></div><div class="col-xl-6"><div class="card-panel chart-card"><h3>Progressioni</h3><div class="chart-sub">Mostra se stai imparando ad aumentare il ritmo senza rompere il gesto e la FC.</div><svg id="progressionChart" class="chart" aria-label="Trend progressioni"></svg></div></div><div class="col-xl-6"><div class="card-panel chart-card"><h3>Lunghi domenicali</h3><div class="chart-sub">Confronto dei lavori domenicali lunghi per capire tenuta e base nel tempo.</div><svg id="longChart" class="chart" aria-label="Trend lunghi"></svg></div></div><div class="col-xl-6"><div class="card-panel chart-card"><h3>Volume settimanale</h3><div class="chart-sub">Serve a leggere continuità e carico, senza farti perdere nel dettaglio delle singole sedute.</div><svg id="weeklyVolumeChart" class="chart" aria-label="Trend volume settimanale"></svg></div></div><div class="col-xl-6"><div class="card-panel chart-card"><h3>Peso corporeo</h3><div class="chart-sub">Conta il trend, non il singolo decimo. Qui osservi la direzione del rapporto peso/prestazione.</div><svg id="weightChart" class="chart" aria-label="Trend peso"></svg></div></div></div></section><section class="row g-4"><div class="col-12"><div class="card-panel p-4 h-100"><div class="eyebrow mb-2">Confronto rapido</div><h2 class="section-title mb-3">Prima vs ultima per tipologia</h2><div class="table-responsive"><table class="table table-dark table-borderless table-tight align-middle mb-0"><thead><tr><th>Tipologia</th><th>Prima data</th><th>Primo passo</th><th>Prima FC</th><th>Prima distanza</th><th>Ultima data</th><th>Ultimo passo</th><th>Ultima FC</th><th>Ultima distanza</th></tr></thead><tbody>${buildComparisonRows(report)}</tbody></table></div><p class="small-note mt-3 mb-0">${buildComparisonComment(report)}</p></div></div></section>`;
+  const root = document.getElementById('mainContent');
+
+  if (state.loading) {
+    root.innerHTML = `<section class="card-panel loading-box"><h2 class="section-title mb-2">Caricamento archivio</h2><p class="muted mb-0">Lettura del JSON remoto in corso.</p></section>`;
+    return;
+  }
+
+  if (state.error) {
+    root.innerHTML = `<section class="card-panel error-box"><h2 class="section-title mb-2">Errore di caricamento</h2><p class="mb-0">${state.error}</p></section>`;
+    return;
+  }
+
+  const report = state.archive?.reports?.[state.selectedDate];
+  if (!report) {
+    root.innerHTML = `<section class="card-panel p-4"><h2 class="section-title">Nessun report disponibile</h2><p class="muted mb-0">La data selezionata non contiene un report valido.</p></section>`;
+    return;
+  }
+
+  const currentSummary = report.summaryCards?.[0];
+  const easyGroup = pickBestComparableGroup('easy');
+  const intervalsGroup = pickBestComparableGroup('intervals');
+  const progressionGroup = pickBestComparableGroup('progression');
+  const easySeries = groupToSeries(easyGroup);
+  const intervalSeries = groupToSeries(intervalsGroup);
+  const progressionSeries = groupToSeries(progressionGroup);
+  const longSeries = collectSundayLongSeries(report);
+  const weeklySeries = report.data?.weeklyVolume || [];
+  const weightSeries = buildArchiveWeightSeries(state.selectedDate);
+
+  root.innerHTML = `
+    <section class="card-panel hero-card mb-4">
+      <div class="row g-4 align-items-start">
+        <div class="col-xl-7">
+          <div class="eyebrow mb-2">Report selezionato</div>
+          <h1 class="section-title mb-2">${report.title}</h1>
+          <p class="muted mb-3">${report.subtitle || ''}</p>
+          ${buildLastWorkoutOverview(report)}
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            ${(report.heroTags || []).slice(0, 6).map(tag => `<span class="delta-badge">${tag}</span>`).join('')}
+          </div>
+        </div>
+        <div class="col-xl-5">
+          <div class="d-grid gap-3">
+            <div class="metric-item">
+              <div class="label">Stato forma</div>
+              <div class="value">${currentSummary?.value || 'n.d.'}</div>
+              <div class="mini-note mt-2">${buildStateFormText(report)}</div>
+            </div>
+            <div class="metric-item">
+              <div class="label">10K realistico e gare</div>
+              <div class="value">${report.summaryCards?.find(c => c.label.toLowerCase().includes('10k'))?.value || 'n.d.'}</div>
+              <div class="mini-note mt-2">${buildRaceForecastText(report)}</div>
+            </div>
+            <div class="metric-item">
+              <div class="label">Peso e composizione</div>
+              <div class="value">${latestWeight(report) != null ? latestWeight(report).toFixed(1) + ' kg' : 'n.d.'}</div>
+              <div class="mini-note mt-2">${buildBodyCompText(report)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-4 mb-4">
+      <div class="col-12">
+        <div class="card-panel p-4 h-100">
+          <div class="eyebrow mb-2">Sintesi tecnica</div>
+          <h2 class="section-title mb-3">Relazione medico-sportiva e operativa</h2>
+          ${buildTechnicalSummaryHTML(report)}
+        </div>
+      </div>
+      <div class="col-12">
+        ${buildNutritionHTML(report)}
+      </div>
+    </section>
+
+    <section class="mb-4">
+      <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3">
+        <div>
+          <h2 class="section-title mb-1">Grafici chiave di tendenza</h2>
+          <div class="muted">Ogni grafico esplicita ascissa, ordinata e criterio di normalizzazione del confronto.</div>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-xl-6">
+          <div class="card-panel chart-card">
+            <h3>Easy run</h3>
+            <div class="chart-sub">${buildAxisNote(easyGroup, 'passo medio normalizzato (sec/km)', 'Nessun gruppo easy omogeneo sufficiente.')}</div>
+            <svg id="easyPaceChart" class="chart" aria-label="Trend easy"></svg>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <div class="card-panel chart-card">
+            <h3>Ripetute / passo gara</h3>
+            <div class="chart-sub">${buildAxisNote(intervalsGroup, 'passo medio del blocco comparabile (sec/km)', 'Nessun gruppo di ripetute omogenee sufficiente.')}</div>
+            <svg id="intervalChart" class="chart" aria-label="Trend ripetute"></svg>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <div class="card-panel chart-card">
+            <h3>Progressioni</h3>
+            <div class="chart-sub">${buildAxisNote(progressionGroup, 'passo medio del blocco comparabile (sec/km)', 'Nessun gruppo di progressioni omogenee sufficiente.')}</div>
+            <svg id="progressionChart" class="chart" aria-label="Trend progressioni"></svg>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <div class="card-panel chart-card">
+            <h3>Lunghi domenicali</h3>
+            <div class="chart-sub">Ascissa: data dei lunghi domenicali. Ordinata: passo medio della seduta. Confronto descrittivo, non pienamente normalizzato.</div>
+            <svg id="longChart" class="chart" aria-label="Trend lunghi"></svg>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <div class="card-panel chart-card">
+            <h3>Volume settimanale</h3>
+            <div class="chart-sub">Ascissa: settimana di allenamento. Ordinata: chilometri settimanali.</div>
+            <svg id="weeklyVolumeChart" class="chart" aria-label="Trend volume settimanale"></svg>
+          </div>
+        </div>
+        <div class="col-xl-6">
+          <div class="card-panel chart-card">
+            <h3>Peso corporeo</h3>
+            <div class="chart-sub">Ascissa: data del report. Ordinata: peso corporeo in kg. Qui conta il trend, non il singolo decimale.</div>
+            <svg id="weightChart" class="chart" aria-label="Trend peso"></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-4">
+      <div class="col-12">
+        <div class="card-panel p-4 h-100">
+          <div class="eyebrow mb-2">Confronto rapido</div>
+          <h2 class="section-title mb-3">Prima vs ultima per gruppo comparabile</h2>
+          <div class="table-responsive">
+            <table class="table table-dark table-borderless table-tight align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Gruppo</th>
+                  <th>Normalizzazione</th>
+                  <th>Prima data</th>
+                  <th>Primo passo</th>
+                  <th>Prima FC</th>
+                  <th>Ultima data</th>
+                  <th>Ultimo passo</th>
+                  <th>Ultima FC</th>
+                </tr>
+              </thead>
+              <tbody>${buildComparisonRows()}</tbody>
+            </table>
+          </div>
+          <p class="small-note mt-3 mb-0">${buildComparisonComment()}</p>
+        </div>
+      </div>
+    </section>`;
+
   renderChartOrNote('easyPaceChart', easySeries, 'line', { color: '#ff7a00', valueAccessor: d => d.paceSec, formatY: v => fmtPace(v).replace('/km', '') });
   renderChartOrNote('intervalChart', intervalSeries, 'line', { color: '#4ea6ff', valueAccessor: d => d.paceSec, formatY: v => fmtPace(v).replace('/km', '') });
   renderChartOrNote('progressionChart', progressionSeries, 'line', { color: '#32c48d', valueAccessor: d => d.paceSec, formatY: v => fmtPace(v).replace('/km', '') });
@@ -659,11 +948,43 @@ function renderMain() {
   renderChartOrNote('weeklyVolumeChart', weeklySeries, 'bar', { color: '#4ea6ff', valueKey: 'km' });
   renderChartOrNote('weightChart', weightSeries, 'line', { color: '#a855f7', valueAccessor: d => d.weight, formatY: v => Number(v).toFixed(1) });
 }
-function exportArchive() { const blob = new Blob([JSON.stringify(state.archive, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'marco-running-report-archive.json'; a.click(); URL.revokeObjectURL(a.href); }
-function resetArchive() { if (!confirm('Vuoi ripristinare l’archivio incluso in questa pagina?')) return; state.archive = structuredCloneSafe(BUNDLED_ARCHIVE); saveArchive(); state.selectedDate = getReportDates().slice(-1)[0]; saveSelectedDate(); state.monthCursor = new Date(isoToDate(state.selectedDate).getFullYear(), isoToDate(state.selectedDate).getMonth(), 1); renderAll(); }
-document.getElementById('importFile').addEventListener('change', async (e) => { const file = e.target.files?.[0]; if (!file) return; try { const text = await file.text(); const parsed = JSON.parse(text); if (!parsed.reports) throw new Error('Formato non valido: manca la chiave reports'); state.archive = parsed; saveArchive(); state.selectedDate = getReportDates().slice(-1)[0]; saveSelectedDate(); state.monthCursor = new Date(isoToDate(state.selectedDate).getFullYear(), isoToDate(state.selectedDate).getMonth(), 1); renderAll(); alert('Archivio importato correttamente.'); } catch (err) { alert('Import fallito: ' + err.message); } finally { e.target.value = ''; } });
-function renderAll() { ensureSelectedDateValid(); renderSidebar('sidebarDesktop'); renderSidebar('sidebarMobile'); renderMain(); }
-renderAll();
+
+function renderAll() {
+  ensureSelectedDateValid();
+  renderSidebar('sidebarDesktop');
+  renderSidebar('sidebarMobile');
+  renderMain();
+}
+
+async function initApp() {
+  try {
+    state.loading = true;
+    state.error = null;
+    renderMain();
+
+    state.archive = await loadArchive();
+    state.selectedDate = readSelectedDateFromHash() || getReportDates().slice(-1)[0];
+
+    ensureSelectedDateValid();
+    state.loading = false;
+    renderAll();
+  } catch (err) {
+    state.loading = false;
+    state.error = err.message || 'Errore sconosciuto nel caricamento archivio.';
+    renderAll();
+  }
+}
+
+window.addEventListener('hashchange', () => {
+  const next = readSelectedDateFromHash();
+  if (next && state.archive?.reports?.[next]) {
+    state.selectedDate = next;
+    ensureSelectedDateValid();
+    renderAll();
+  }
+});
+
+initApp();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
