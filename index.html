@@ -162,6 +162,149 @@ svg.chart {
   text-transform: uppercase;
   letter-spacing: .08em;
 }
+.training-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: .85rem;
+}
+
+.plan-day-btn {
+  width: 100%;
+  text-align: left;
+  padding: 1rem;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.03);
+  color: var(--text);
+  transition: .18s ease;
+}
+
+.plan-day-btn:hover {
+  background: rgba(255,255,255,.06);
+  transform: translateY(-1px);
+}
+
+.plan-day-btn.active {
+  border-color: rgba(255,122,0,.45);
+  background: rgba(255,122,0,.10);
+  box-shadow: inset 0 0 0 1px rgba(255,122,0,.18);
+}
+
+.plan-day-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+}
+
+.plan-day-date {
+  font-size: .78rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.plan-day-title {
+  margin-top: .55rem;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.plan-day-sub {
+  margin-top: .45rem;
+  font-size: .9rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.plan-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .28rem .55rem;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 700;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.plan-tag.easy,
+.plan-tag.easy_taper {
+  background: rgba(50,196,141,.12);
+  color: #cff7e5;
+  border-color: rgba(50,196,141,.28);
+}
+
+.plan-tag.quality,
+.plan-tag.quality_taper,
+.plan-tag.specific {
+  background: rgba(78,166,255,.12);
+  color: #d8ebff;
+  border-color: rgba(78,166,255,.28);
+}
+
+.plan-tag.long {
+  background: rgba(255,176,32,.12);
+  color: #ffe7b6;
+  border-color: rgba(255,176,32,.28);
+}
+
+.plan-tag.race {
+  background: rgba(255,122,0,.14);
+  color: #ffe2cc;
+  border-color: rgba(255,122,0,.28);
+}
+
+.plan-tag.recovery {
+  background: rgba(255,255,255,.06);
+  color: var(--text);
+  border-color: rgba(255,255,255,.12);
+}
+
+.plan-detail-summary {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.plan-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.plan-block {
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,.025);
+  min-width: 0;
+}
+
+.plan-step + .plan-step {
+  margin-top: .9rem;
+  padding-top: .9rem;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+.plan-step-title {
+  font-weight: 700;
+  margin-bottom: .25rem;
+}
+
+.plan-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.plan-empty-note {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+
 .small-note { color: var(--muted); font-size: .85rem; line-height: 1.55; }
 .hero-card, .calendar, .mini-note, .muted, .chart-sub, .section-title, .metric-item .value { min-width: 0; overflow-wrap: anywhere; }
 .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -189,6 +332,10 @@ svg.chart {
   .hero-card, .chart-card, .metric-item { padding-left: .9rem; padding-right: .9rem; }
   .card-panel { border-radius: 18px; }
   svg.chart { height: 240px; }
+  .training-plan-grid,
+  .plan-detail-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -228,6 +375,7 @@ const state = {
   archive: null,
   selectedDate: null,
   monthCursor: null,
+  selectedPlanDate: null,
   loading: true,
   error: null
 };
@@ -784,6 +932,281 @@ function buildComparisonComment() {
   return `Il confronto rapido è costruito prima su <strong>comparisonSnapshot</strong> e <strong>compareGroup</strong>, e solo in fallback sulla famiglia generica. In questo modo 5K e 10K, oppure progressioni di durata molto diversa, non vengono mescolati in modo improprio.`;
 }
 
+const WORKOUT_TYPE_META = {
+  easy: { label: 'Easy', className: 'easy' },
+  easy_taper: { label: 'Attivazione', className: 'easy_taper' },
+  quality: { label: 'Qualità', className: 'quality' },
+  quality_taper: { label: 'Richiamo', className: 'quality_taper' },
+  specific: { label: 'Specifico 10K', className: 'specific' },
+  long: { label: 'Lungo', className: 'long' },
+  race: { label: 'Gara', className: 'race' },
+  recovery: { label: 'Recupero', className: 'recovery' },
+  other: { label: 'Seduta', className: 'recovery' }
+};
+
+function getWorkoutTypeMeta(typeKey) {
+  return WORKOUT_TYPE_META[typeKey] || WORKOUT_TYPE_META.other;
+}
+
+function formatPlanDateLong(iso) {
+  return isoToDate(iso).toLocaleDateString('it-IT', {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long'
+  });
+}
+
+function formatPlanDateShort(iso) {
+  return isoToDate(iso).toLocaleDateString('it-IT', {
+    weekday: 'short',
+    day: '2-digit',
+    month: '2-digit'
+  });
+}
+
+function buildTrainingCalendarEntries(report) {
+  const detailedPlan = report?.data?.tuttadrittaBuildPlan;
+  if (Array.isArray(detailedPlan) && detailedPlan.length) {
+    return detailedPlan
+      .map(item => ({
+        iso: item.date,
+        typeKey: item.type || 'other',
+        title: item.sessionTitle || 'Seduta',
+        summary: item.session || '',
+        priority: item.priority || null,
+        totalDurationMin: item.totalDurationMin ?? null,
+        estimatedDistanceKm: item.estimatedDistanceKm ?? null,
+        warmup: item.warmup || null,
+        mainSet: Array.isArray(item.mainSet) ? item.mainSet : [],
+        cooldown: item.cooldown || null,
+        paceGuidance: item.paceGuidance || null,
+        recovery: item.recovery || null,
+        objective: item.objective || null,
+        successCriteria: item.successCriteria || null,
+        downgradeRule: item.downgradeRule || null,
+        notes: item.notes || null,
+        isDetailed: true
+      }))
+      .sort((a, b) => a.iso.localeCompare(b.iso));
+  }
+
+  const planned = report?.data?.plannedWorkouts || {};
+  const plannedEntries = Object.entries(planned)
+    .map(([iso, item]) => ({
+      iso,
+      typeKey: item.typeKey || 'other',
+      title: item.label || 'Allenamento',
+      summary: item.label || 'Dettaglio non disponibile',
+      priority: null,
+      totalDurationMin: null,
+      estimatedDistanceKm: null,
+      warmup: null,
+      mainSet: [],
+      cooldown: null,
+      paceGuidance: null,
+      recovery: null,
+      objective: null,
+      successCriteria: null,
+      downgradeRule: null,
+      notes: null,
+      isDetailed: false
+    }))
+    .sort((a, b) => a.iso.localeCompare(b.iso));
+
+  if (plannedEntries.length) return plannedEntries;
+
+  const micro = report?.data?.recommendedMicrocycle || [];
+  return micro
+    .map(item => ({
+      iso: item.date,
+      typeKey: 'recovery',
+      title: item.label || 'Seduta',
+      summary: item.label || '',
+      priority: null,
+      totalDurationMin: null,
+      estimatedDistanceKm: null,
+      warmup: null,
+      mainSet: [],
+      cooldown: null,
+      paceGuidance: null,
+      recovery: null,
+      objective: null,
+      successCriteria: null,
+      downgradeRule: null,
+      notes: null,
+      isDetailed: false
+    }))
+    .sort((a, b) => a.iso.localeCompare(b.iso));
+}
+
+function ensureSelectedPlanValid(report) {
+  const entries = buildTrainingCalendarEntries(report);
+  if (!entries.length) {
+    state.selectedPlanDate = null;
+    return;
+  }
+
+  const hasCurrent = entries.some(e => e.iso === state.selectedPlanDate);
+  if (hasCurrent) return;
+
+  const firstFutureOrSame = entries.find(e => e.iso >= state.selectedDate);
+  state.selectedPlanDate = (firstFutureOrSame || entries[0]).iso;
+}
+
+function renderPlanBadge(text) {
+  return text ? `<span class="delta-badge">${text}</span>` : '';
+}
+
+function renderPlanBlock(title, content) {
+  return `
+    <div class="plan-block">
+      <div class="label mb-2">${title}</div>
+      ${content}
+    </div>
+  `;
+}
+
+function renderWarmupBlock(warmup) {
+  if (!warmup) {
+    return `<div class="plan-empty-note">Riscaldamento non specificato nel JSON.</div>`;
+  }
+
+  return `
+    <div class="plan-step">
+      <div class="plan-step-title">Warm-up</div>
+      <div class="small-note">${warmup.instruction || 'Dettaglio non disponibile.'}</div>
+      <div class="plan-metrics mt-2">
+        ${warmup.duration ? renderPlanBadge(warmup.duration) : ''}
+        ${warmup.pace ? renderPlanBadge(`Passo ${warmup.pace}`) : ''}
+      </div>
+    </div>
+  `;
+}
+
+function renderMainSetBlock(mainSet) {
+  if (!mainSet || !mainSet.length) {
+    return `<div class="plan-empty-note">Blocco centrale non dettagliato nel JSON.</div>`;
+  }
+
+  return mainSet.map(block => `
+    <div class="plan-step">
+      <div class="plan-step-title">${block.segment || 'Blocco'}</div>
+      <div class="small-note">${block.instruction || 'Dettaglio non disponibile.'}</div>
+      <div class="plan-metrics mt-2">
+        ${block.duration ? renderPlanBadge(block.duration) : ''}
+        ${block.pace ? renderPlanBadge(`Passo ${block.pace}`) : ''}
+        ${block.hr ? renderPlanBadge(`FC ${block.hr}`) : ''}
+        ${block.rpe ? renderPlanBadge(`RPE ${block.rpe}`) : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCooldownBlock(cooldown) {
+  if (!cooldown) {
+    return `<div class="plan-empty-note">Defaticamento non specificato nel JSON.</div>`;
+  }
+
+  return `
+    <div class="plan-step">
+      <div class="plan-step-title">Cool-down</div>
+      <div class="small-note">${cooldown.instruction || 'Dettaglio non disponibile.'}</div>
+      <div class="plan-metrics mt-2">
+        ${cooldown.duration ? renderPlanBadge(cooldown.duration) : ''}
+      </div>
+    </div>
+  `;
+}
+
+function buildTrainingPlanHTML(report) {
+  const entries = buildTrainingCalendarEntries(report);
+
+  if (!entries.length) {
+    return `
+      <div class="card-panel p-4 h-100">
+        <div class="eyebrow mb-2">Calendario allenamenti</div>
+        <h2 class="section-title mb-3">Pianificazione giornaliera</h2>
+        <p class="muted mb-0">
+          In questo report non è presente alcun planning futuro renderizzabile.
+        </p>
+      </div>
+    `;
+  }
+
+  const selected = entries.find(e => e.iso === state.selectedPlanDate) || entries[0];
+  const meta = getWorkoutTypeMeta(selected.typeKey);
+
+  return `
+    <div class="card-panel p-4 h-100">
+      <div class="eyebrow mb-2">Calendario allenamenti</div>
+      <h2 class="section-title mb-3">Pianificazione giornaliera dettagliata</h2>
+      <p class="muted mb-4">
+        La sezione usa prima <strong>tuttadrittaBuildPlan</strong> se presente, altrimenti <strong>plannedWorkouts</strong>.
+        Quando il JSON contiene solo una label sintetica, il dettaglio completo di warm-up, blocchi, recuperi e defaticamento non può essere inventato.
+      </p>
+
+      <div class="training-plan-grid mb-4">
+        ${entries.map(entry => {
+          const itemMeta = getWorkoutTypeMeta(entry.typeKey);
+          return `
+            <button type="button"
+                    class="plan-day-btn ${entry.iso === selected.iso ? 'active' : ''}"
+                    data-plan-date="${entry.iso}">
+              <div class="plan-day-head">
+                <div class="plan-day-date">${formatPlanDateShort(entry.iso)}</div>
+                <span class="plan-tag ${itemMeta.className}">${itemMeta.label}</span>
+              </div>
+              <div class="plan-day-title">${entry.title}</div>
+              <div class="plan-day-sub">${entry.summary || 'Seduta pianificata'}</div>
+            </button>
+          `;
+        }).join('')}
+      </div>
+
+      <div class="plan-block mb-4">
+        <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+          <div>
+            <div class="label mb-1">${formatPlanDateLong(selected.iso)}</div>
+            <div class="h4 fw-bold mb-2">${selected.title}</div>
+            <div class="plan-detail-summary">${selected.summary || 'Seduta pianificata.'}</div>
+          </div>
+          <span class="plan-tag ${meta.className}">${meta.label}</span>
+        </div>
+
+        <div class="plan-metrics mt-3">
+          ${selected.priority ? renderPlanBadge(`Priorità ${selected.priority}`) : ''}
+          ${selected.totalDurationMin ? renderPlanBadge(`${selected.totalDurationMin} min`) : ''}
+          ${selected.estimatedDistanceKm != null ? renderPlanBadge(`${Number(selected.estimatedDistanceKm).toFixed(1)} km stimati`) : ''}
+          ${selected.paceGuidance ? renderPlanBadge('Passo guidato') : ''}
+          ${selected.recovery ? renderPlanBadge('Recuperi specificati') : ''}
+        </div>
+      </div>
+
+      <div class="plan-detail-grid">
+        ${renderPlanBlock('Riscaldamento', renderWarmupBlock(selected.warmup))}
+        ${renderPlanBlock('Blocco centrale', renderMainSetBlock(selected.mainSet))}
+        ${renderPlanBlock('Defaticamento', renderCooldownBlock(selected.cooldown))}
+        ${renderPlanBlock('Parametri operativi', `
+          <div class="small-note"><strong>Guida passo:</strong> ${selected.paceGuidance || 'n.d.'}</div>
+          <div class="small-note mt-3"><strong>Recupero:</strong> ${selected.recovery || 'n.d.'}</div>
+        `)}
+        ${renderPlanBlock('Obiettivo e criteri', `
+          <div class="small-note"><strong>Obiettivo:</strong> ${selected.objective || 'n.d.'}</div>
+          <div class="small-note mt-3"><strong>Criterio di riuscita:</strong> ${selected.successCriteria || 'n.d.'}</div>
+          <div class="small-note mt-3"><strong>Downgrade rule:</strong> ${selected.downgradeRule || 'n.d.'}</div>
+        `)}
+        ${renderPlanBlock('Note tecniche', `
+          <div class="small-note">
+            ${selected.notes || (selected.isDetailed
+              ? 'Nessuna nota aggiuntiva.'
+              : 'Per questa data il JSON contiene solo una pianificazione sintetica. Per mostrare passo, FC, blocchi, recuperi, warm-up e cool-down serve arricchire il dato con una struttura dettagliata come quella del report 2026-04-20.')}
+          </div>
+        `)}
+      </div>
+    </div>
+  `;
+}
+
 function renderMain() {
   const root = document.getElementById('mainContent');
 
@@ -802,6 +1225,8 @@ function renderMain() {
     root.innerHTML = `<section class="card-panel p-4"><h2 class="section-title">Nessun report disponibile</h2><p class="muted mb-0">La data selezionata non contiene un report valido.</p></section>`;
     return;
   }
+
+  ensureSelectedPlanValid(report);
 
   const currentSummary = report.summaryCards?.[0];
   const easyGroup = pickBestComparableGroup('easy');
@@ -858,6 +1283,9 @@ function renderMain() {
       </div>
       <div class="col-12">
         ${buildNutritionHTML(report)}
+      </div>
+      <div class="col-12">
+        ${buildTrainingPlanHTML(report)}
       </div>
     </section>
 
@@ -947,6 +1375,13 @@ function renderMain() {
   renderChartOrNote('longChart', longSeries, 'line', { color: '#ffb020', valueAccessor: d => d.paceSec, formatY: v => fmtPace(v).replace('/km', '') });
   renderChartOrNote('weeklyVolumeChart', weeklySeries, 'bar', { color: '#4ea6ff', valueKey: 'km' });
   renderChartOrNote('weightChart', weightSeries, 'line', { color: '#a855f7', valueAccessor: d => d.weight, formatY: v => Number(v).toFixed(1) });
+
+  root.querySelectorAll('[data-plan-date]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.selectedPlanDate = btn.dataset.planDate;
+      renderMain();
+    });
+  });
 }
 
 function renderAll() {
