@@ -11,7 +11,7 @@
     "maxHr": 190,
     "lthr": 168,
     "goals": {
-      "10k": "55:56 achieved on 2026-04-19 • next target 55:10–55:40 • stretch < 55:00",
+      "10k": "55:56 achieved on 2026-04-19 • next target < 55:30",
       "deejayTen": "57:40 achieved on 2026-03-29",
       "dieciDiTorino": "55:56 achieved on 2026-04-19",
       "tuttadritta": "55:10–55:50 realistico • stretch < 55:00",
@@ -5566,481 +5566,97 @@
             "date": "2026-04-20",
             "weekday": "Lunedì",
             "type": "recovery",
-            "priority": "obbligatoria",
-            "sessionTitle": "Scarico post-gara completo",
-            "session": "Riposo totale oppure 30–40′ camminata sciolta + 12–15′ mobilità",
-            "totalDurationMin": 0,
-            "estimatedDistanceKm": 0.0,
-            "warmup": null,
-            "mainSet": [
-              {
-                "segment": "Riposo",
-                "instruction": "Nessuna corsa. In alternativa sola camminata sciolta.",
-                "duration": "30–40′ opzionali"
-              },
-              {
-                "segment": "Mobilità",
-                "instruction": "Caviglie, anche, polpacci, glutei, 2 serie leggere per distretto.",
-                "duration": "12–15′"
-              }
-            ],
-            "cooldown": null,
-            "paceGuidance": "Nessun passo target.",
-            "recovery": "Recupero tra esercizi libero; evitare qualsiasi lavoro lattacido o di forza pesante.",
-            "objective": "Scarico neurale e muscolare dopo la Dieci di Torino.",
-            "successCriteria": "Il giorno dopo gambe meno legnose e nessun dolore crescente.",
-            "downgradeRule": "Se compaiono fastidi articolari o DOMS marcati, eliminare anche la camminata.",
-            "notes": "La readiness 15 non va combattuta con un allenamento: va assecondata."
+            "session": "Riposo totale oppure 30–40′ camminata sciolta + mobilità",
+            "purpose": "Scarico neurale e muscolare dopo la gara",
+            "notes": "Nessun lavoro di qualità. Se le gambe sono legnose, niente corsa."
           },
           {
             "date": "2026-04-22",
             "weekday": "Mercoledì",
             "type": "easy",
-            "priority": "obbligatoria",
-            "sessionTitle": "Riattivazione meccanica",
             "session": "40′ easy @ 6:05–6:25/km + 6×20″ allunghi rilassati",
-            "totalDurationMin": 52,
-            "estimatedDistanceKm": 6.6,
-            "warmup": {
-              "duration": "10′",
-              "instruction": "Partire a 6:20–6:30/km e lasciare salire il passo solo in modo naturale."
-            },
-            "mainSet": [
-              {
-                "segment": "Corsa facile",
-                "instruction": "30′ a ritmo conversazione piena.",
-                "pace": "6:05–6:25/km",
-                "hr": "idealmente <145 bpm",
-                "rpe": "2–3/10"
-              },
-              {
-                "segment": "Allunghi",
-                "instruction": "6×20″ in progressione fluida, non sprint; ritorno camminando o 60–75″ jogging.",
-                "pace": "sensazione brillante, non massimale"
-              }
-            ],
-            "cooldown": {
-              "duration": "5′",
-              "instruction": "Jog molto facile + 2′ di respirazione calma."
-            },
-            "paceGuidance": "Se fa caldo o le gambe sono pesanti, privilegiare l’HR e la scioltezza invece del cronometro.",
-            "recovery": "60–75″ facili tra gli allunghi.",
-            "objective": "Riaccendere la gamba senza caricare il sistema metabolico.",
-            "successCriteria": "Allunghi simili tra loro, percezione di elasticità crescente.",
-            "downgradeRule": "Se la corsa resta rigida dopo 20′, chiudere a 30–35′ e togliere 2 allunghi.",
-            "notes": "Seduta di rientro, non prova di forma."
+            "purpose": "Riattivare meccanica e ritmo senza accumulare fatica",
+            "notes": "Gli allunghi vanno corsi sciolti, non in sprint."
           },
           {
             "date": "2026-04-24",
             "weekday": "Venerdì",
             "type": "quality",
-            "priority": "obbligatoria",
-            "sessionTitle": "Primo richiamo vero a ritmo gara",
-            "session": "15′ warm-up + 2×2 km @ 5:28–5:32/km, rec 2′30″ jog + 10′ cool-down",
-            "totalDurationMin": 58,
-            "estimatedDistanceKm": 8.7,
-            "warmup": {
-              "duration": "15′",
-              "instruction": "10′ facili + 3′ mobilità dinamica + 2×20″ progressivi con 40″ facili.",
-              "pace": "6:10–6:25/km"
-            },
-            "mainSet": [
-              {
-                "segment": "Ripetuta 1",
-                "instruction": "2 km nel corridoio 5:28–5:32/km. Primo 500 m volutamente prudente.",
-                "pace": "5:28–5:32/km",
-                "rpe": "6.5/10"
-              },
-              {
-                "segment": "Recupero 1",
-                "instruction": "Jog molto facile senza fermarsi.",
-                "duration": "2′30″",
-                "pace": "6:35–7:00/km"
-              },
-              {
-                "segment": "Ripetuta 2",
-                "instruction": "2 km uguali o appena più compatti della prima, non più veloci di 5:27/km di media.",
-                "pace": "5:28–5:32/km",
-                "rpe": "7/10"
-              }
-            ],
-            "cooldown": {
-              "duration": "10′",
-              "instruction": "Defaticamento sciolto + 3′ cammino."
-            },
-            "paceGuidance": "Guardare il passo lap medio, non l’istantaneo. Obiettivo: due blocchi quasi sovrapponibili.",
-            "recovery": "2′30″ jogging continuo.",
-            "objective": "Rientrare sul ritmo obiettivo 10K senza creare fatica residua eccessiva.",
-            "successCriteria": "Differenza tra i due 2 km ≤ 4–5″ totali.",
-            "downgradeRule": "Se il primo 2 km appare già duro, trasformare in 2×1.5 km allo stesso ritmo.",
-            "notes": "Seduta chiave non per la velocità assoluta, ma per la precisione del corridoio di passo."
+            "session": "Riscaldamento 15′ + 2×2 km @ 5:28–5:32/km, rec 2′30 jog + defaticamento 10′",
+            "purpose": "Prima ri-esposizione al ritmo obiettivo 10K",
+            "notes": "Se la seduta appare troppo dura, ridurre a 2×1.5 km. Il vincolo è finire controllati."
           },
           {
             "date": "2026-04-26",
             "weekday": "Domenica",
             "type": "long",
-            "priority": "obbligatoria",
-            "sessionTitle": "Lungo facile con finale attivo",
-            "session": "70–75′ facili @ 6:00–6:20/km, ultimi 12–15′ a 5:45–5:38/km",
-            "totalDurationMin": 74,
-            "estimatedDistanceKm": 12.0,
-            "warmup": {
-              "duration": "12′",
-              "instruction": "Partenza molto calma, 6:15–6:25/km."
-            },
-            "mainSet": [
-              {
-                "segment": "Blocco facile",
-                "instruction": "55–60′ continui in controllo pieno.",
-                "pace": "6:00–6:20/km",
-                "hr": "idealmente 135–148 bpm",
-                "rpe": "2–3/10"
-              },
-              {
-                "segment": "Finale attivo",
-                "instruction": "Ultimi 12–15′ più brillanti ma sempre fluidi.",
-                "pace": "5:45–5:38/km",
-                "rpe": "4–5/10"
-              }
-            ],
-            "cooldown": {
-              "duration": "3–5′",
-              "instruction": "Camminare e sciogliere i polpacci."
-            },
-            "paceGuidance": "Se il passo facile scende sotto 5:55/km con FC in salita, rallentare: non è una gara mascherata.",
-            "recovery": "Seduta continua, nessun recupero interno.",
-            "objective": "Tenuta aerobica e resistenza mentale senza stress di soglia.",
-            "successCriteria": "Finale attivo eseguito con respirazione ancora gestibile.",
-            "downgradeRule": "Se la seduta del 24 lascia residuo, togliere il finale attivo e restare easy tutto il tempo.",
-            "notes": "La domenica resta il giorno del volume, ma con una quota minima di attivazione finale."
+            "session": "70–75′ facili @ 6:00–6:20/km, ultimi 12–15′ a 5:45–5:40/km",
+            "purpose": "Tenuta aerobica con finale leggermente attivo",
+            "notes": "Nessuna deriva agonistica nel tratto finale."
           },
           {
             "date": "2026-04-27",
             "weekday": "Lunedì",
             "type": "easy",
-            "priority": "facoltativa utile",
-            "sessionTitle": "Recovery run breve",
-            "session": "35′ molto facili + 5′ mobilità",
-            "totalDurationMin": 40,
-            "estimatedDistanceKm": 5.5,
-            "warmup": {
-              "duration": "8′",
-              "instruction": "Prime sensazioni, nessuna ricerca del passo."
-            },
-            "mainSet": [
-              {
-                "segment": "Corsa facile",
-                "instruction": "27′ in scioltezza assoluta.",
-                "pace": "6:10–6:30/km",
-                "hr": "<142 bpm",
-                "rpe": "2/10"
-              }
-            ],
-            "cooldown": {
-              "duration": "5′",
-              "instruction": "Mobilità anche/polpacci e respirazione diaframmatica."
-            },
-            "paceGuidance": "Seduta da saltare senza problemi se il lungo di domenica ha lasciato fatica insolita.",
-            "recovery": "Nessun recupero previsto.",
-            "objective": "Smaltire il lungo e mantenere frequenza settimanale.",
-            "successCriteria": "Gambe più leggere a fine corsa che a inizio corsa.",
-            "downgradeRule": "Se stanchezza alta, sostituire con sola camminata + mobilità.",
-            "notes": "È la quarta uscita opzionale del blocco: utile, ma non indispensabile."
+            "session": "35–40′ easy + 5′ tecnica di corsa",
+            "purpose": "Smaltire il lungo e mantenere frequenza",
+            "notes": "Cadenza naturale, niente forcing."
           },
           {
             "date": "2026-04-29",
             "weekday": "Mercoledì",
             "type": "quality",
-            "priority": "obbligatoria",
-            "sessionTitle": "Seduta chiave di ritmo costante",
             "session": "15′ warm-up + 5×1 km @ 5:20–5:24/km, rec 90″ jog + 10′ cool-down",
-            "totalDurationMin": 61,
-            "estimatedDistanceKm": 9.4,
-            "warmup": {
-              "duration": "15′",
-              "instruction": "10′ facili + mobilità + 3×20″ progressivi.",
-              "pace": "6:10–6:25/km"
-            },
-            "mainSet": [
-              {
-                "segment": "1 km n.1",
-                "instruction": "Partire conservativo e chiudere dentro il corridoio.",
-                "pace": "5:20–5:24/km"
-              },
-              {
-                "segment": "1 km n.2",
-                "instruction": "Replicare lo stesso schema del primo.",
-                "pace": "5:20–5:24/km"
-              },
-              {
-                "segment": "1 km n.3",
-                "instruction": "Non inseguire il cronometro. Correre piatto.",
-                "pace": "5:20–5:24/km"
-              },
-              {
-                "segment": "1 km n.4",
-                "instruction": "Se compare fretta mentale, guardare solo il passo medio lap a 400 e 800 m.",
-                "pace": "5:20–5:24/km"
-              },
-              {
-                "segment": "1 km n.5",
-                "instruction": "Ultimo uguale agli altri; concessi solo 1–2″ più veloci se ancora molto controllato.",
-                "pace": "5:20–5:24/km"
-              }
-            ],
-            "cooldown": {
-              "duration": "10′",
-              "instruction": "Defaticamento facile + 2′ camminata."
-            },
-            "paceGuidance": "Questa è la seduta per imparare la costanza: tutte le ripetute devono stare in una forchetta di 2–3″.",
-            "recovery": "90″ jogging a 6:40–7:05/km tra i km.",
-            "objective": "Educare il pacing e creare tolleranza a un ritmo lievemente più rapido del target 10K.",
-            "successCriteria": "Delta massimo tra km più veloce e più lento ≤ 3″.",
-            "downgradeRule": "Se al terzo km la seduta diventa da lotta, fermarsi a 4 ripetute.",
-            "notes": "Seduta più importante del blocco per correggere la dispersione degli split."
+            "purpose": "Seduta chiave di precisione e tenuta a ritmo superiore al target",
+            "notes": "Obiettivo principale: split quasi identici. Se il 1° km esce troppo veloce, la seduta è sbagliata."
           },
           {
             "date": "2026-05-01",
             "weekday": "Venerdì",
             "type": "easy",
-            "priority": "obbligatoria",
-            "sessionTitle": "Scarico attivo",
             "session": "40′ easy @ 6:00–6:20/km + 6×15″ strides",
-            "totalDurationMin": 49,
-            "estimatedDistanceKm": 6.8,
-            "warmup": {
-              "duration": "10′",
-              "instruction": "Partenza rilassata."
-            },
-            "mainSet": [
-              {
-                "segment": "30′ easy",
-                "instruction": "Conversazione sempre possibile.",
-                "pace": "6:00–6:20/km",
-                "hr": "<145 bpm"
-              },
-              {
-                "segment": "6×15″ strides",
-                "instruction": "Ritmo brillante, recupero 60″ cammino/jog.",
-                "pace": "sensazione 5K controllata"
-              }
-            ],
-            "cooldown": {
-              "duration": "5′",
-              "instruction": "Jog molto facile."
-            },
-            "paceGuidance": "È un giorno semplice per assorbire la seduta del 29.",
-            "recovery": "60″ tra gli strides.",
-            "objective": "Recuperare mantenendo elasticità e frequenza del passo.",
-            "successCriteria": "Nessun affaticamento residuo la sera.",
-            "downgradeRule": "Se senti residuo della seduta chiave, togli tutti gli strides.",
-            "notes": "Allenamento volutamente poco spettacolare, ma utile."
+            "purpose": "Recuperare mantenendo elasticità",
+            "notes": "Giornata volutamente semplice."
           },
           {
             "date": "2026-05-03",
             "weekday": "Domenica",
             "type": "specific",
-            "priority": "obbligatoria",
-            "sessionTitle": "Seduta specifica 10K con ritmo gara frazionato",
-            "session": "15′ warm-up + 3 km @ 5:32–5:34/km + 1 km float @ 5:48–5:55/km + 2 km @ 5:28–5:30/km + 1 km float @ 5:48–5:55/km + 1 km @ 5:24–5:27/km + 10′ cool-down",
-            "totalDurationMin": 67,
-            "estimatedDistanceKm": 10.8,
-            "warmup": {
-              "duration": "15′",
-              "instruction": "10′ facili + drills rapidi + 2×20″ progressivi.",
-              "pace": "6:05–6:25/km"
-            },
-            "mainSet": [
-              {
-                "segment": "Blocco 1",
-                "instruction": "3 km continui in controllo, quasi da gara trattenuta.",
-                "pace": "5:32–5:34/km",
-                "rpe": "6/10"
-              },
-              {
-                "segment": "Float 1",
-                "instruction": "1 km non di recupero passivo, ma di alleggerimento attivo.",
-                "pace": "5:48–5:55/km"
-              },
-              {
-                "segment": "Blocco 2",
-                "instruction": "2 km vicini al target sub-55:30.",
-                "pace": "5:28–5:30/km",
-                "rpe": "7/10"
-              },
-              {
-                "segment": "Float 2",
-                "instruction": "Ancora 1 km attivo ma respirabile.",
-                "pace": "5:48–5:55/km"
-              },
-              {
-                "segment": "Blocco 3",
-                "instruction": "1 km finale brillante, senza sprintare.",
-                "pace": "5:24–5:27/km",
-                "rpe": "7.5/10"
-              }
-            ],
-            "cooldown": {
-              "duration": "10′",
-              "instruction": "Defaticamento lento."
-            },
-            "paceGuidance": "Seduta verità del blocco: se il secondo blocco a 5:28–5:30 è già ingestibile, il sub-55 resta stretch e non target centrale.",
-            "recovery": "Recupero incorporato nei km float.",
-            "objective": "Allenare il ritmo gara con variazione minima e finale controllato.",
-            "successCriteria": "Seduta chiusa forte ma non svuotata; nessun km corso fuori controllo.",
-            "downgradeRule": "Se residuo eccessivo o clima pesante, ridurre a 3 km + 1 km float + 2 km + cool-down.",
-            "notes": "È la seduta più specifica prima della gara."
+            "session": "2 km easy + 4 km continui @ 5:31–5:34/km + 1 km float @ ~5:50/km + 2 km @ 5:27–5:30/km + defaticamento",
+            "purpose": "Simulare il cuore della gara con finale più compatto",
+            "notes": "Seduta da chiudere forte ma non svuotati. Se compare crisi precoce, il target <55 va letto come stretch."
           },
           {
             "date": "2026-05-04",
             "weekday": "Lunedì",
             "type": "easy",
-            "priority": "facoltativa utile",
-            "sessionTitle": "Recovery run pre-taper",
-            "session": "30–35′ molto facili",
-            "totalDurationMin": 33,
-            "estimatedDistanceKm": 5.0,
-            "warmup": {
-              "duration": "8′",
-              "instruction": "Avvio molto tranquillo."
-            },
-            "mainSet": [
-              {
-                "segment": "Corsa facile",
-                "instruction": "Seduta solo rigenerante.",
-                "pace": "6:10–6:30/km",
-                "hr": "<142 bpm"
-              }
-            ],
-            "cooldown": {
-              "duration": "3′",
-              "instruction": "Cammino + mobilità caviglie."
-            },
-            "paceGuidance": "Se le gambe sono ancora cariche dalla seduta del 3, meglio saltare che forzare.",
-            "recovery": "Seduta continua.",
-            "objective": "Assorbire la specifica di domenica e restare mobili.",
-            "successCriteria": "Percezione di scarico, non di accumulo.",
-            "downgradeRule": "Può essere sostituita da riposo totale.",
-            "notes": "Quarta uscita opzionale della settimana."
+            "session": "35′ molto facili @ 6:05–6:25/km",
+            "purpose": "Assorbire il lavoro specifico di domenica",
+            "notes": "Nessun richiamo rapido."
           },
           {
             "date": "2026-05-06",
             "weekday": "Mercoledì",
             "type": "quality_taper",
-            "priority": "obbligatoria",
-            "sessionTitle": "Richiamo brillante di settimana gara",
-            "session": "15′ warm-up + 3×1 km @ 5:22–5:26/km, rec 2′ jog + 10′ cool-down",
-            "totalDurationMin": 49,
-            "estimatedDistanceKm": 7.6,
-            "warmup": {
-              "duration": "15′",
-              "instruction": "10′ easy + 3×20″ progressivi.",
-              "pace": "6:10–6:25/km"
-            },
-            "mainSet": [
-              {
-                "segment": "3×1 km",
-                "instruction": "Tre km brillanti ma con margine evidente; nessuno deve diventare il più veloce possibile.",
-                "pace": "5:22–5:26/km",
-                "rpe": "6.5–7/10"
-              }
-            ],
-            "cooldown": {
-              "duration": "10′",
-              "instruction": "Defaticamento morbido."
-            },
-            "paceGuidance": "Il segnale corretto è finire con la sensazione di poterne fare ancora uno, non di essere arrivato al limite.",
-            "recovery": "2′ jogging tra i km.",
-            "objective": "Tenere viva la gamba senza accumulare lattato o rigidità.",
-            "successCriteria": "Tre km regolari, nessun forcing finale.",
-            "downgradeRule": "Se stanchezza o sonno pessimo, passare a 2×1 km soltanto.",
-            "notes": "Seduta di taper, non seduta di costruzione."
+            "session": "15′ warm-up + 3×1 km @ 5:22–5:26/km, rec 2′ + 10′ cool-down",
+            "purpose": "Tenere viva la gamba senza accumulare residuo",
+            "notes": "Sensazione richiesta: margine residuo, non esaurimento."
           },
           {
             "date": "2026-05-08",
             "weekday": "Venerdì",
             "type": "easy_taper",
-            "priority": "obbligatoria",
-            "sessionTitle": "Attivazione pre-gara",
-            "session": "25′ easy + 4×20″ allunghi",
-            "totalDurationMin": 33,
-            "estimatedDistanceKm": 4.5,
-            "warmup": {
-              "duration": "10′",
-              "instruction": "Facile, sciolto."
-            },
-            "mainSet": [
-              {
-                "segment": "15′ easy",
-                "instruction": "Passo conversazione.",
-                "pace": "6:05–6:25/km"
-              },
-              {
-                "segment": "4×20″",
-                "instruction": "Allunghi progressivi con 70″ facili tra uno e l’altro.",
-                "pace": "brillante, non sprint"
-              }
-            ],
-            "cooldown": {
-              "duration": "5′",
-              "instruction": "Rilassarsi e chiudere presto."
-            },
-            "paceGuidance": "Allenamento breve: il sabato deve lasciare fame di correre, non bisogno di recuperare.",
-            "recovery": "70″ facili tra gli allunghi.",
-            "objective": "Attivare il sistema senza aggiungere stanchezza.",
-            "successCriteria": "Seduta leggera, sensazione di gamba viva.",
-            "downgradeRule": "Se senti tensione, fai solo 20′ easy e niente allunghi.",
-            "notes": "Il sabato successivo solo riposo, passeggiata e gambe alte."
+            "session": "25–30′ easy + 4×20″ allunghi",
+            "purpose": "Attivazione pre-gara",
+            "notes": "Seduta breve. Il sabato successivo solo riposo e passeggiata."
           },
           {
             "date": "2026-05-10",
             "weekday": "Domenica",
             "type": "race",
-            "priority": "obbligatoria",
-            "sessionTitle": "Tuttadritta 10K – piano gara",
-            "session": "Riscaldamento 15–18′ + 4×20″ progressivi + gara 10 km",
-            "totalDurationMin": 75,
-            "estimatedDistanceKm": 12.5,
-            "warmup": {
-              "duration": "15–18′",
-              "instruction": "10–12′ facili + mobilità dinamica + 4×20″ progressivi con 60″ facili. Chiudere il warm-up 8–10′ prima della partenza.",
-              "pace": "6:05–6:25/km in warm-up"
-            },
-            "mainSet": [
-              {
-                "segment": "Km 1–2",
-                "instruction": "Partenza sobria, restare nel corridoio.",
-                "pace": "5:31–5:34/km",
-                "rpe": "5.5–6/10"
-              },
-              {
-                "segment": "Km 3–7",
-                "instruction": "Entrare nel ritmo centrale senza inseguire il singolo secondo.",
-                "pace": "5:28–5:31/km",
-                "rpe": "6.5–7/10"
-              },
-              {
-                "segment": "Km 8–9",
-                "instruction": "Tenere la forma, non rilanciare a caso. Restare compatti.",
-                "pace": "5:27–5:31/km",
-                "rpe": "7.5/10"
-              },
-              {
-                "segment": "Ultimo km",
-                "instruction": "Rilasciare solo se il quadro respiratorio è ancora sotto controllo. Ultimi 300–400 m liberi.",
-                "pace": "da 5:25/km a progressione finale"
-              }
-            ],
-            "cooldown": {
-              "duration": "8–12′",
-              "instruction": "Jog/cammino dopo il traguardo e idratazione."
-            },
-            "paceGuidance": "Guardare il passo lap medio. Vietato farsi trascinare sotto 5:25/km già nel primo km.",
-            "recovery": "Nessun recupero interno alla gara; gestione con ritmo e postura.",
-            "objective": "Confermare high-55 e attaccare il sub-55 solo se la parte centrale resta stabile.",
-            "successCriteria": "Primi 7 km senza sbalzi inutili e senza crisi anticipata al km 6–7.",
-            "downgradeRule": "Se caldo, vento o gambe opache, trasformare il target in 55:20–55:50 mantenendo la stessa logica di pacing.",
-            "notes": "Il dato importante non è un singolo km veloce, ma la compattezza dei 10 km."
+            "session": "Tuttadritta 10K",
+            "purpose": "Obiettivo principale del blocco",
+            "notes": "Pacing consigliato: km 1–2 in 5:31–5:34, km 3–7 in 5:28–5:31, poi tenuta e rilascio finale solo se il quadro resta compatto."
           }
         ],
         "subjectiveNotes": {
@@ -6197,105 +5813,6 @@
           "pace": "4:43/km",
           "power": 432,
           "powerWkg": 5.02
-        },
-        "plannedWorkouts": {
-          "2026-04-20": {
-            "typeKey": "recovery",
-            "label": "Riposo totale o sola mobilità"
-          },
-          "2026-04-22": {
-            "typeKey": "easy",
-            "label": "40′ easy + 6×20″ allunghi"
-          },
-          "2026-04-24": {
-            "typeKey": "quality",
-            "label": "2×2 km a ritmo 10K target"
-          },
-          "2026-04-26": {
-            "typeKey": "long",
-            "label": "70–75′ facili con finale progressivo"
-          },
-          "2026-04-27": {
-            "typeKey": "easy",
-            "label": "35′ recovery + mobilità"
-          },
-          "2026-04-29": {
-            "typeKey": "quality",
-            "label": "5×1 km a ritmo controllato e costante"
-          },
-          "2026-05-01": {
-            "typeKey": "easy",
-            "label": "40′ easy + 6×15″ strides"
-          },
-          "2026-05-03": {
-            "typeKey": "specific",
-            "label": "Seduta specifica 10K con blocchi continui"
-          },
-          "2026-05-04": {
-            "typeKey": "easy",
-            "label": "30–35′ molto facili"
-          },
-          "2026-05-06": {
-            "typeKey": "quality_taper",
-            "label": "3×1 km brillante ma controllato"
-          },
-          "2026-05-08": {
-            "typeKey": "easy_taper",
-            "label": "25′ easy + 4×20″ allunghi"
-          },
-          "2026-05-10": {
-            "typeKey": "race",
-            "label": "Tuttadritta 10K"
-          }
-        },
-        "pacingEducationPlan": {
-          "headline": "Metodo pratico per ridurre gli sbalzi di passo nelle prossime tre settimane",
-          "why": "La dispersione degli split nelle gare recenti racconta soprattutto pacing irregolare e lettura imperfetta dello sforzo, più che un difetto dimostrato di economia di corsa.",
-          "rules": [
-            {
-              "name": "Usare il passo del lap, non il passo istantaneo",
-              "detail": "Il passo istantaneo è troppo nervoso. In allenamento e in gara il riferimento deve essere il passo medio del lap corrente."
-            },
-            {
-              "name": "Controllare solo a 400 m e 800 m",
-              "detail": "Nelle ripetute da 1 km il passo va verificato a metà e a 800 m, non ogni 5 secondi. Meno correzioni = corsa più pulita."
-            },
-            {
-              "name": "Forchette, non numeri assoluti",
-              "detail": "Il bersaglio non è 5:30.0 fisso, ma stare dentro una finestra stretta: ad esempio 5:28–5:31/km."
-            },
-            {
-              "name": "Primo km deliberatamente più sobrio",
-              "detail": "Se il primo km sembra già da record, la gara è quasi sempre partita troppo forte. Il primo km deve sembrare facile."
-            },
-            {
-              "name": "Ripetute uguali = allenamento riuscito",
-              "detail": "Le sedute 2×2 km e 5×1 km vanno valutate sulla somiglianza degli split, non sulla singola punta veloce."
-            },
-            {
-              "name": "Su tratti disturbati usare effort e potenza",
-              "detail": "Con curve, vento o salita, il ritmo può oscillare. Lì conta restare vicini allo stesso effort respiratorio e, se disponibile, a una potenza media simile."
-            }
-          ],
-          "deviceSetup": {
-            "screen1": [
-              "Lap Pace",
-              "Lap Distance",
-              "Heart Rate"
-            ],
-            "screen2": [
-              "Elapsed Time",
-              "Average Pace",
-              "Power"
-            ],
-            "autoLap": "1 km",
-            "autopause": "disattivato in gara se possibile"
-          }
-        },
-        "runnaAssessment": {
-          "recommendation": "non consigliato attivare ora",
-          "reason": "A meno di tre settimane dalla Tuttadritta, introdurre un coach o una logica esterna nuova aumenterebbe il rumore decisionale più di quanto aumenterebbe la performance.",
-          "betterChoice": "Usare un microciclo manuale coerente con i dati attuali, senza cambiare ecosistema proprio nella finestra di rifinitura."
         }
       },
       "ui": {
@@ -6303,8 +5820,7 @@
         "stateFormHtml": "Forma specifica 10K ulteriormente salita: <strong>VO₂max 50</strong>, <strong>HRV 73 ms</strong>, <strong>carico acuto 351</strong> e <strong>Training Status produttivo</strong>. La <strong>readiness 15</strong> è dominata da <strong>38 ore di recupero residuo</strong> post-gara e non ridimensiona il valore del nuovo PR.",
         "raceForecastHtml": "Il 10K attuale vale già <strong>55:56</strong> in gara reale. Per la <strong>Tuttadritta</strong> il range serio più credibile è <strong>55:10–55:50</strong>; il <strong>sub-55</strong> è ora uno stretch plausibile, non più una fantasia, ma resta fuori dal centro della previsione. Le stime Garmin da <strong>50:50</strong> restano troppo aggressive per essere usate come target di passo.",
         "bodyCompHtml": "Peso <strong>86.0 kg</strong>, body fat <strong>22.5%</strong>, massa muscolare <strong>62.8 kg</strong>. Il trend sta finalmente scendendo, ma nelle tre settimane pre-Tuttadritta non conviene inseguire dimagrimenti rapidi: il margine prestativo vale più di un taglio calorico impulsivo.",
-        "technicalSummaryHtml": "<p class=\"muted\">La seconda 10K conferma che il percorso partito a metà gennaio non è stato un miglioramento casuale, ma una progressione reale. Dopo il <strong>57:40</strong> della Deejay Ten, la <strong>Dieci di Torino</strong> produce un altro salto fino a <strong>55:56</strong> sui 10 km netti. Questo dato cambia la gerarchia degli obiettivi: il sub-57 non è più il bersaglio, è già lo standard recente.</p><p class=\"muted\">Serve però una correzione tecnica importante. La dispersione degli split non dimostra automaticamente una bassa economia di corsa. L’economia è il costo energetico a pari velocità; qui i dati suggeriscono soprattutto <strong>pacing ancora instabile</strong>, oscillazioni di distribuzione dello sforzo, effetto del contesto gara e gestione mentale del tratto critico intorno al km 7. La conseguenza pratica è semplice: il prossimo salto non si compra “spingendo di più”, ma imparando a <strong>correre più piatti</strong>.</p><p class=\"muted\">A <strong>20 giorni dalla Tuttadritta</strong> introdurre una trial Runna o un coach nuovo sarebbe più rumore che vantaggio. L’atleta arriva da due gare molto forti in tre settimane, con <strong>Training Status produttivo</strong> ma <strong>readiness 15</strong> il giorno dopo gara. La scelta razionale è mantenere continuità metodologica e usare un blocco manuale breve, costruito su quattro assi: recupero vero, una seduta chiave di costanza del ritmo, una seduta specifica 10K e taper pulito.</p><ul class=\"list-clean mt-3\"><li><strong>Settimana 20–26 aprile:</strong> recupero reale, un solo lavoro specifico, lungo facile con finale attivo.</li><li><strong>Settimana 27 aprile–3 maggio:</strong> 5×1 km corsi piatti e una simulazione parziale di ritmo gara.</li><li><strong>Settimana gara:</strong> volume in calo, due soli richiami brevi, nessuna seduta da eroe.</li><li><strong>Tuttadritta:</strong> target centrale high-55, con <strong>sub-55</strong> da attaccare solo se la parte centrale della gara resta davvero compatta.</li><li><strong>Pacing:</strong> usare lap pace, corridoi di ritmo e primo km sobrio; vietato inseguire il cronometro già nei primi 400 metri.</li></ul><p class=\"small-note mb-0\">Punto chiave di onestà: la sprintata finale non prova l’esistenza di un minuto ancora nascosto. Più correttamente, dimostra che la gara non è esplosa. La differenza è decisiva, perché orienta verso una rifinitura intelligente e non verso carichi casuali.</p>",
-        "tuttadrittaPlanHtml": "<p class=\"muted\">Blocco manuale di rifinitura fino al 10 maggio, organizzato sui giorni preferiti <strong>lunedì, mercoledì, venerdì e domenica</strong>. La logica è semplice: recuperare dalla Dieci di Torino, poi fare due sedute realmente utili per educare il ritmo e una seduta specifica 10K, infine taper corto e pulito.</p><ul class=\"list-clean mt-3\"><li><strong>24 aprile:</strong> 2×2 km a ritmo target 10K, non oltre.</li><li><strong>29 aprile:</strong> 5×1 km con forchetta stretta di passo, seduta chiave per ridurre gli sbalzi.</li><li><strong>3 maggio:</strong> lavoro specifico con blocchi continui a ritmo gara e float controllati.</li><li><strong>6 maggio:</strong> ultimo richiamo brillante, breve.</li><li><strong>10 maggio:</strong> gara con pacing a corridoi, non a ossessione del secondo.</li></ul>"
+        "technicalSummaryHtml": "<p class=\"muted\">La seconda 10K conferma che il percorso partito a metà gennaio non è stato un miglioramento casuale, ma una progressione reale. Dopo il <strong>57:40</strong> della Deejay Ten, la <strong>Dieci di Torino</strong> produce un altro salto fino a <strong>55:56</strong> sui 10 km netti. Questo dato cambia la gerarchia degli obiettivi: il sub-57 non è più il bersaglio, è già lo standard recente.</p><p class=\"muted\">Serve però una correzione tecnica importante. La dispersione degli split non dimostra automaticamente una bassa economia di corsa. L’economia è il costo energetico a pari velocità; qui i dati suggeriscono soprattutto <strong>pacing ancora instabile</strong>, oscillazioni di distribuzione dello sforzo, effetto del contesto gara e gestione mentale del tratto critico intorno al km 7. La conseguenza pratica è semplice: il prossimo salto non si compra “spingendo di più”, ma imparando a <strong>correre più piatti</strong>.</p><p class=\"muted\">A <strong>20 giorni dalla Tuttadritta</strong> introdurre un coach nuovo o una trial Runna sarebbe più rumore che vantaggio. L’atleta arriva da due gare molto forti in tre settimane, con <strong>Training Status produttivo</strong> ma <strong>readiness 15</strong> il giorno dopo gara. La scelta razionale è mantenere continuità metodologica e usare un blocco manuale breve, con una sola logica: recuperare bene, poi rendere più precisa la specificità 10K.</p><ul class=\"list-clean mt-3\"><li><strong>Settimana 20–26 aprile:</strong> recupero reale, un solo lavoro specifico, un lungo facile con finale leggermente attivo.</li><li><strong>Settimana 27 aprile–3 maggio:</strong> seduta chiave di 1 km ripetuti a split uguali e una simulazione parziale di ritmo gara.</li><li><strong>Settimana gara:</strong> volume in calo, due soli richiami brevi, nessuna seduta da eroe.</li><li><strong>Tuttadritta:</strong> obiettivo centrale high-55, con <strong>sub-55</strong> da attaccare solo se il blocco finale viene assorbito bene.</li><li><strong>Pacing:</strong> usare lap pace, corridoi di ritmo e primi 2 km sobrii; vietato inseguire il cronometro già al km 1.</li></ul><p class=\"small-note mb-0\">Punto chiave di onestà: la sprintata finale non prova l’esistenza di un minuto ancora nascosto. Più correttamente, dimostra che la gara non è esplosa. La differenza è decisiva, perché orienta verso una rifinitura intelligente e non verso carichi casuali.</p>"
       },
       "nutritionPlan": {
         "avgTargetKcal": 2020,
