@@ -3,1422 +3,937 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Running Report • Sintesi tecnica</title>
+<title>Running Coach Planner • Mezza → Roma</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
-:root {
-  --bg: #08101f;
-  --panel: #0f1930;
-  --panel-2: #121f3f;
-  --line: rgba(122, 146, 199, 0.18);
-  --text: #ebf1ff;
-  --muted: #9eadd1;
-  --accent: #ff7a00;
-  --accent-2: #4ea6ff;
-  --good: #32c48d;
-  --warn: #ffb020;
-  --bad: #ff5d5d;
-  --shadow: 0 18px 50px rgba(0,0,0,.24);
-  --radius: 20px;
+:root{
+  --bg:#07101d;
+  --panel:#0d182d;
+  --panel-2:#111f3a;
+  --line:rgba(130,150,197,.16);
+  --text:#eef3ff;
+  --muted:#9aabc9;
+  --accent:#ff7a00;
+  --accent-2:#63a8ff;
+  --good:#35c48f;
+  --warn:#ffb020;
+  --bad:#ff6470;
+  --shadow:0 18px 40px rgba(0,0,0,.28);
+  --radius:22px;
+  --footer-h:84px;
+  --header-h:164px;
 }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   background:
-    radial-gradient(circle at top right, rgba(78,166,255,.12), transparent 24%),
-    radial-gradient(circle at top left, rgba(255,122,0,.08), transparent 20%),
+    radial-gradient(circle at top right, rgba(99,168,255,.12), transparent 22%),
+    radial-gradient(circle at top left, rgba(255,122,0,.08), transparent 22%),
     var(--bg);
 }
-.app-shell { min-height: 100vh; overflow-x: clip; }
-.row > * { min-width: 0; }
-.card-panel {
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
-  background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.018));
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+.app-shell{
+  min-height:100vh;
+  padding:12px 12px calc(var(--footer-h) + 18px);
 }
-.sidebar-wrap { width: 100%; min-width: 0; }
-.sticky-lg-top { top: 1.2rem; }
-.eyebrow {
-  color: var(--accent);
-  font-size: .76rem;
-  font-weight: 800;
-  letter-spacing: .14em;
-  text-transform: uppercase;
+.app-header{
+  position:sticky;
+  top:0;
+  z-index:40;
+  padding-bottom:10px;
+  backdrop-filter: blur(14px);
+  background:linear-gradient(180deg, rgba(7,16,29,.96), rgba(7,16,29,.84));
 }
-.muted { color: var(--muted); }
-.btn-soft {
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.03);
-  color: var(--text);
+.header-card,.body-card,.nav-card{
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.018));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
 }
-.btn-soft:hover { background: rgba(255,255,255,.06); color: var(--text); }
-.btn-accent {
-  background: rgba(255,122,0,.14);
-  border-color: rgba(255,122,0,.28);
-  color: #ffe7d2;
+.header-card{padding:14px}
+.body-card{padding:16px}
+.app-main{margin-top:14px}
+.eyebrow{
+  color:var(--accent);
+  font-size:.72rem;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
 }
-.btn-accent:hover { background: rgba(255,122,0,.20); color: #fff; }
-.hero-card { padding: 1.4rem; }
-.section-title {
-  font-size: clamp(1.45rem, 2vw, 2rem);
-  font-weight: 800;
+.page-title{
+  font-size:1.15rem;
+  font-weight:800;
+  margin:2px 0 0;
 }
-.delta-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  padding: .28rem .62rem;
-  border-radius: 999px;
-  font-size: .76rem;
-  font-weight: 700;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.035);
-  white-space: normal;
-  max-width: 100%;
-  text-align: left;
+.page-sub{
+  color:var(--muted);
+  font-size:.88rem;
+  line-height:1.45;
 }
-.mini-note {
-  font-size: .93rem;
-  line-height: 1.55;
-  color: var(--muted);
+.icon-btn{
+  width:42px;height:42px;border-radius:14px;border:1px solid var(--line);
+  background:rgba(255,255,255,.04); color:var(--text); display:inline-flex;
+  align-items:center; justify-content:center; font-size:1.05rem;
 }
-.metric-item {
-  min-width: 0;
-  padding: .9rem 1rem;
-  border-radius: 16px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.025);
+.icon-btn:hover{background:rgba(255,255,255,.08)}
+.week-meta{
+  display:flex; align-items:center; justify-content:space-between; gap:.75rem;
+  margin-top:12px;
 }
-.metric-item .label { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
-.metric-item .value { font-size: 1.45rem; font-weight: 800; margin-top: .35rem; }
-.list-clean { margin: 0; padding-left: 1.15rem; }
-.list-clean li { color: var(--muted); line-height: 1.7; margin-bottom: .35rem; }
-.list-clean strong { color: var(--text); }
-svg.chart {
-  width: 100%;
-  max-width: 100%;
-  height: 280px;
-  display: block;
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+.week-label{
+  font-size:.88rem; color:var(--muted);
 }
-.chart-card { min-width: 0; padding: 1rem; height: 100%; }
-.chart-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .25rem; }
-.chart-sub { color: var(--muted); font-size: .9rem; line-height: 1.5; margin-bottom: .75rem; }
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: .4rem;
+.badge-soft,.type-pill{
+  display:inline-flex; align-items:center; gap:.35rem; padding:.34rem .66rem;
+  border-radius:999px; font-size:.74rem; font-weight:700; border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
 }
-.calendar .wd {
-  text-align: center;
-  font-size: .72rem;
-  color: var(--muted);
-  padding: .2rem 0;
-  text-transform: uppercase;
+.badge-soft strong{color:var(--text)}
+.week-strip-wrap{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:8px;
+  align-items:center;
 }
-.calendar .day {
-  min-height: 48px;
-  border-radius: 14px;
-  border: 1px solid transparent;
-  background: rgba(255,255,255,.025);
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+.week-scroll{
+  display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none;
 }
-.calendar .day.has-report::after {
-  content: '';
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  position: absolute;
-  bottom: 7px;
-  left: 50%;
-  transform: translateX(-50%);
+.week-scroll::-webkit-scrollbar{display:none}
+.day-chip{
+  min-width:64px; padding:10px 8px; border-radius:18px; border:1px solid var(--line);
+  background:rgba(255,255,255,.04); color:var(--text); text-align:center;
 }
-.calendar .day.selected {
-  border-color: rgba(78,166,255,.55);
-  box-shadow: inset 0 0 0 1px rgba(78,166,255,.28);
+.day-chip .dow{font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em}
+.day-chip .num{font-size:1rem; font-weight:800; margin-top:4px}
+.day-chip .mini{font-size:.65rem; color:var(--muted); margin-top:4px; line-height:1.2}
+.day-chip.active{border-color:rgba(255,122,0,.45); background:rgba(255,122,0,.12); box-shadow:inset 0 0 0 1px rgba(255,122,0,.18)}
+.day-chip.rest{opacity:.84}
+.body-card + .body-card{margin-top:14px}
+.hero-grid,.summary-grid,.detail-grid,.week-grid,.roadmap-grid,.metric-grid,.report-chip-grid,.analysis-list,.modal-week-grid{
+  display:grid; gap:12px;
 }
-.calendar .day.other { opacity: .32; }
-.table-tight td, .table-tight th {
-  padding: .7rem .6rem;
-  border-color: rgba(255,255,255,.06);
+.hero-grid{grid-template-columns:1fr}
+.summary-grid,.metric-grid,.detail-grid,.analysis-list,.roadmap-grid{grid-template-columns:1fr}
+.week-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.plan-header{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;
 }
-.table-tight th {
-  color: var(--muted);
-  font-size: .74rem;
-  text-transform: uppercase;
-  letter-spacing: .08em;
+.section-title{
+  font-size:1.15rem; font-weight:800; margin:0;
 }
-.training-plan-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: .85rem;
+.muted{color:var(--muted)}
+.small-note{color:var(--muted); font-size:.84rem; line-height:1.55}
+.metric-card,.day-overview-card,.report-chip,.summary-card,.block-card{
+  padding:14px; border-radius:18px; border:1px solid var(--line); background:rgba(255,255,255,.03);
 }
-
-.plan-day-btn {
-  width: 100%;
-  text-align: left;
-  padding: 1rem;
-  border-radius: 18px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.03);
-  color: var(--text);
-  transition: .18s ease;
+.metric-card .label,.summary-card .label{
+  font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em;
 }
-
-.plan-day-btn:hover {
-  background: rgba(255,255,255,.06);
-  transform: translateY(-1px);
+.metric-card .value,.summary-card .value{
+  margin-top:6px; font-size:1.25rem; font-weight:800;
 }
-
-.plan-day-btn.active {
-  border-color: rgba(255,122,0,.45);
-  background: rgba(255,122,0,.10);
-  box-shadow: inset 0 0 0 1px rgba(255,122,0,.18);
+.summary-card .text{margin-top:8px; color:var(--muted); font-size:.88rem; line-height:1.55}
+.plan-step + .plan-step{margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.06)}
+.plan-step-title{font-weight:700; margin-bottom:4px}
+.plan-metrics{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px}
+.kpi{
+  display:inline-flex; align-items:center; gap:.35rem; padding:.28rem .56rem; border-radius:999px;
+  font-size:.72rem; font-weight:700; border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
 }
-
-.plan-day-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: .5rem;
+.day-overview-card.active{border-color:rgba(99,168,255,.45); box-shadow:inset 0 0 0 1px rgba(99,168,255,.18)}
+.type-pill.easy,.type-pill.easy_taper{background:rgba(53,196,143,.12); color:#d7ffef; border-color:rgba(53,196,143,.28)}
+.type-pill.quality,.type-pill.specific,.type-pill.quality_taper{background:rgba(99,168,255,.12); color:#deedff; border-color:rgba(99,168,255,.28)}
+.type-pill.long{background:rgba(255,176,32,.12); color:#ffe8bc; border-color:rgba(255,176,32,.28)}
+.type-pill.race{background:rgba(255,122,0,.14); color:#ffe2cf; border-color:rgba(255,122,0,.28)}
+.type-pill.recovery{background:rgba(255,255,255,.06); color:var(--text); border-color:rgba(255,255,255,.12)}
+.report-chip{
+  text-align:left;
 }
-
-.plan-day-date {
-  font-size: .78rem;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--muted);
+.report-chip.active{
+  border-color:rgba(255,122,0,.45);
+  background:rgba(255,122,0,.12);
 }
-
-.plan-day-title {
-  margin-top: .55rem;
-  font-size: 1rem;
-  font-weight: 800;
-  line-height: 1.35;
+.report-chip small{color:var(--muted)}
+.quick-list{
+  margin:0; padding-left:1.05rem;
 }
-
-.plan-day-sub {
-  margin-top: .45rem;
-  font-size: .9rem;
-  line-height: 1.45;
-  color: var(--muted);
+.quick-list li{margin-bottom:.45rem; color:var(--muted); line-height:1.55}
+.quick-list strong{color:var(--text)}
+svg.chart{
+  width:100%; height:230px; display:block; border-radius:18px;
+  background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
 }
-
-.plan-tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: .28rem .55rem;
-  border-radius: 999px;
-  font-size: .72rem;
-  font-weight: 700;
-  border: 1px solid var(--line);
-  white-space: nowrap;
+.footer-nav{
+  position:fixed;
+  left:12px; right:12px; bottom:12px;
+  z-index:50;
 }
-
-.plan-tag.easy,
-.plan-tag.easy_taper {
-  background: rgba(50,196,141,.12);
-  color: #cff7e5;
-  border-color: rgba(50,196,141,.28);
+.footer-inner{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:10px;
 }
-
-.plan-tag.quality,
-.plan-tag.quality_taper,
-.plan-tag.specific {
-  background: rgba(78,166,255,.12);
-  color: #d8ebff;
-  border-color: rgba(78,166,255,.28);
+.footer-btn{
+  border:1px solid var(--line); border-radius:18px; background:rgba(255,255,255,.04); color:var(--muted);
+  padding:10px 8px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+  font-size:.76rem; font-weight:700;
 }
-
-.plan-tag.long {
-  background: rgba(255,176,32,.12);
-  color: #ffe7b6;
-  border-color: rgba(255,176,32,.28);
+.footer-btn.active{background:rgba(255,122,0,.12); border-color:rgba(255,122,0,.38); color:var(--text)}
+.footer-btn .ico{font-size:1rem}
+.modal-content{
+  background:var(--panel); color:var(--text); border:1px solid var(--line); border-radius:22px;
 }
-
-.plan-tag.race {
-  background: rgba(255,122,0,.14);
-  color: #ffe2cc;
-  border-color: rgba(255,122,0,.28);
+.btn-soft{
+  border-radius:14px; border:1px solid var(--line); background:rgba(255,255,255,.04); color:var(--text);
 }
-
-.plan-tag.recovery {
-  background: rgba(255,255,255,.06);
-  color: var(--text);
-  border-color: rgba(255,255,255,.12);
-}
-
-.plan-detail-summary {
-  color: var(--muted);
-  line-height: 1.65;
-}
-
-.plan-detail-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
-}
-
-.plan-block {
-  padding: 1rem;
-  border-radius: 16px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.025);
-  min-width: 0;
-}
-
-.plan-step + .plan-step {
-  margin-top: .9rem;
-  padding-top: .9rem;
-  border-top: 1px solid rgba(255,255,255,.06);
-}
-
-.plan-step-title {
-  font-weight: 700;
-  margin-bottom: .25rem;
-}
-
-.plan-metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-}
-
-.plan-empty-note {
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-
-.small-note { color: var(--muted); font-size: .85rem; line-height: 1.55; }
-.hero-card, .calendar, .mini-note, .muted, .chart-sub, .section-title, .metric-item .value { min-width: 0; overflow-wrap: anywhere; }
-.table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.btn-hamburger {
-  padding: .5rem .65rem;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.03);
-}
-.btn-hamburger:hover { background: rgba(255,255,255,.06); }
-.btn-hamburger .navbar-toggler-icon {
-  display: block;
-  width: 1.35em;
-  height: 1.35em;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28235, 241, 255, 0.88%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-}
-.loading-box, .error-box {
-  padding: 1.5rem;
-}
-.error-box { color: #ffd9d9; }
-@media (max-width: 991.98px) {
-  .sidebar-wrap { position: static !important; }
-}
-@media (max-width: 767.98px) {
-  .hero-card, .chart-card, .metric-item { padding-left: .9rem; padding-right: .9rem; }
-  .card-panel { border-radius: 18px; }
-  svg.chart { height: 240px; }
-  .training-plan-grid,
-  .plan-detail-grid {
-    grid-template-columns: 1fr;
-  }
+.btn-soft:hover{background:rgba(255,255,255,.08); color:var(--text)}
+.loading-box,.error-box{padding:24px}
+.error-box{color:#ffd7d7}
+@media (min-width:768px){
+  .app-shell{max-width:900px; margin:0 auto}
+  .summary-grid,.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .detail-grid,.analysis-list,.roadmap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .report-chip-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .modal-week-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 </style>
 </head>
 <body>
-<div class="app-shell py-3 py-lg-4">
-  <div class="container-xxl">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <div>
-        <div class="eyebrow">Relazione tecnica sintetica</div>
-        <div class="h2 fw-bold mb-0">Running report archive</div>
+<div class="app-shell">
+  <header class="app-header">
+    <div class="header-card">
+      <div class="d-flex align-items-start justify-content-between gap-3">
+        <div>
+          <div class="eyebrow">Running season planner</div>
+          <h1 class="page-title">Mezza ottobre → Roma marzo</h1>
+          <div class="page-sub">Header giornaliero stile Runna, corpo con dettaglio seduta, footer con piano, analisi e nutrizione.</div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="icon-btn" id="openReportsBtn" aria-label="Apri report">🗂</button>
+          <button class="icon-btn" id="openWeeksBtn" aria-label="Apri settimane">📅</button>
+        </div>
       </div>
-      <div class="d-lg-none">
-        <button class="navbar-toggler btn-hamburger" type="button" data-bs-toggle="offcanvas" data-bs-target="#archiveCanvas" aria-controls="archiveCanvas" aria-label="Apri archivio">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+      <div class="week-meta">
+        <div>
+          <div class="week-label" id="headerWeekLabel">Settimana</div>
+          <div class="d-flex flex-wrap gap-2 mt-2" id="headerBadges"></div>
+        </div>
+      </div>
+      <div class="week-strip-wrap">
+        <button class="icon-btn" id="prevWeekBtn" aria-label="Settimana precedente">‹</button>
+        <div class="week-scroll" id="weekStrip"></div>
+        <button class="icon-btn" id="nextWeekBtn" aria-label="Settimana successiva">›</button>
       </div>
     </div>
-    <div class="row g-4">
-      <aside class="col-lg-4 col-xxl-3 d-none d-lg-block"><div class="sidebar-wrap sticky-lg-top"><div id="sidebarDesktop"></div></div></aside>
-      <main class="col-lg-8 col-xxl-9"><div id="mainContent"></div></main>
+  </header>
+
+  <main class="app-main" id="appMain">
+    <section class="body-card loading-box">
+      <h2 class="section-title">Caricamento archivio</h2>
+      <p class="muted mb-0">Lettura del JSON remoto in corso.</p>
+    </section>
+  </main>
+</div>
+
+<div class="footer-nav">
+  <div class="nav-card footer-inner">
+    <button class="footer-btn active" data-tab="plan"><span class="ico">🏃</span><span>Piano</span></button>
+    <button class="footer-btn" data-tab="analysis"><span class="ico">📈</span><span>Analisi</span></button>
+    <button class="footer-btn" data-tab="nutrition"><span class="ico">🍽️</span><span>Nutrizione</span></button>
+  </div>
+</div>
+
+<div class="modal fade" id="reportsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header border-bottom" style="border-color:var(--line)!important;">
+        <h5 class="modal-title">Report disponibili</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="small-note mb-3">Le analisi e la scheda nutrizione leggono il report selezionato. Il piano giornaliero usa sempre il report più recente che contiene una pianificazione stagionale.</div>
+        <div class="report-chip-grid" id="reportsGrid"></div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="archiveCanvas" aria-labelledby="archiveCanvasLabel" style="background: var(--bg); width:min(92vw, 380px);">
-  <div class="offcanvas-header border-bottom" style="border-color: var(--line)!important;">
-    <h5 class="offcanvas-title" id="archiveCanvasLabel">Archivio report</h5>
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<div class="modal fade" id="weeksModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-fullscreen-sm-down">
+    <div class="modal-content">
+      <div class="modal-header border-bottom" style="border-color:var(--line)!important;">
+        <h5 class="modal-title">Panoramica settimane</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="small-note mb-3">Selezionare una settimana per aggiornare l’header giornaliero e il dettaglio della seduta.</div>
+        <div class="modal-week-grid" id="weeksGrid"></div>
+      </div>
+    </div>
   </div>
-  <div class="offcanvas-body p-3"><div id="sidebarMobile"></div></div>
 </div>
 
 <script>
 const ARCHIVE_URL = './report-archive.json';
-
+const WORKOUT_TYPE_META = {
+  easy: { label:'Easy', className:'easy' },
+  easy_taper: { label:'Attivazione', className:'easy_taper' },
+  quality: { label:'Qualità', className:'quality' },
+  quality_taper: { label:'Richiamo', className:'quality_taper' },
+  specific: { label:'Specifico', className:'specific' },
+  long: { label:'Lungo', className:'long' },
+  race: { label:'Gara', className:'race' },
+  recovery: { label:'Recupero', className:'recovery' },
+  other: { label:'Seduta', className:'recovery' }
+};
 const state = {
-  archive: null,
-  selectedDate: null,
-  monthCursor: null,
-  selectedPlanDate: null,
-  loading: true,
-  error: null
+  archive:null,
+  selectedDate:null,
+  planReportDate:null,
+  selectedPlanDate:null,
+  activeTab:'plan',
+  loading:true,
+  error:null
 };
 
-function getReportDates() {
-  return state.archive ? Object.keys(state.archive.reports).sort() : [];
+function getWorkoutTypeMeta(typeKey){ return WORKOUT_TYPE_META[typeKey] || WORKOUT_TYPE_META.other; }
+function getReportDates(){ return state.archive ? Object.keys(state.archive.reports).sort() : []; }
+function isoToDate(iso){ const [y,m,d]=iso.split('-').map(Number); return new Date(y,m-1,d); }
+function formatRange(startIso,endIso){
+  const s=isoToDate(startIso); const e=isoToDate(endIso);
+  return `${s.toLocaleDateString('it-IT',{day:'2-digit',month:'short'})} → ${e.toLocaleDateString('it-IT',{day:'2-digit',month:'short'})}`;
 }
-
-function isoToDate(iso) {
-  const [y, m, d] = iso.split('-').map(Number);
-  return new Date(y, m - 1, d);
-}
-
-function formatMonth(date) {
-  return date.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
-}
-
-function fmtPace(sec) {
-  if (sec == null || Number.isNaN(sec)) return 'n.d.';
-  const m = Math.floor(sec / 60);
-  const s = Math.round(sec % 60).toString().padStart(2, '0');
-  return `${m}:${s}/km`;
-}
-
-function readSelectedDateFromHash() {
-  const match = window.location.hash.match(/date=(\d{4}-\d{2}-\d{2})/);
-  return match ? match[1] : null;
-}
-
-function writeSelectedDateToHash(iso) {
-  const url = `${window.location.pathname}${window.location.search}#date=${iso}`;
-  history.replaceState(null, '', url);
-}
-
-async function loadArchive() {
-  const res = await fetch(ARCHIVE_URL, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`Impossibile caricare ${ARCHIVE_URL} (${res.status})`);
-  const parsed = await res.json();
-  if (!parsed || !parsed.reports) throw new Error('Formato JSON non valido: manca la chiave "reports".');
-  return parsed;
-}
-
-function ensureSelectedDateValid() {
-  const dates = getReportDates();
-  if (!dates.length) return;
-  if (!state.selectedDate || !state.archive.reports[state.selectedDate]) {
-    state.selectedDate = dates[dates.length - 1];
-  }
-  writeSelectedDateToHash(state.selectedDate);
-  const selected = isoToDate(state.selectedDate);
-  state.monthCursor = new Date(selected.getFullYear(), selected.getMonth(), 1);
-}
-
-function latestSession(report) {
-  const sessions = report?.data?.sessions || [];
-  return sessions.length ? sessions[sessions.length - 1] : null;
-}
-
-function latestVo2(report) {
-  const statusVo2 = report?.data?.trainingStatus?.vo2max;
-  if (statusVo2 != null) return statusVo2;
-  const trend = report?.data?.vo2Trend || [];
-  return trend.length ? trend[trend.length - 1].value : null;
-}
-
-function latestReadiness(report) {
-  return report?.data?.trainingReadiness?.value ?? null;
-}
-
-function latestWeight(report) {
-  return report?.data?.bodyComp?.weight ?? null;
-}
-
-function latestBodyFat(report) {
-  return report?.data?.bodyComp?.bodyFat ?? null;
-}
-
-function createSVG(el, width = 900, height = 280) {
-  el.setAttribute('viewBox', `0 0 ${width} ${height}`);
-  el.innerHTML = '';
-  return { width, height };
-}
-
-function lineChart(svgId, data, valueAccessor, opts = {}) {
-  const svg = document.getElementById(svgId);
-  if (!svg || !data?.length) return;
-  const { width, height } = createSVG(svg, opts.width || 900, opts.height || 280);
-  const m = { top: 18, right: 18, bottom: 44, left: 54 };
-  const innerW = width - m.left - m.right;
-  const innerH = height - m.top - m.bottom;
-  const values = data.map(valueAccessor).filter(v => v != null);
-  if (!values.length) return;
-
-  let minY = Math.min(...values);
-  let maxY = Math.max(...values);
-  const pad = (maxY - minY) * 0.15 || 1;
-  const y0 = minY - pad;
-  const y1 = maxY + pad;
-
-  const x = i => m.left + (i / Math.max(data.length - 1, 1)) * innerW;
-  const y = v => m.top + innerH - ((v - y0) / (y1 - y0)) * innerH;
-
-  for (let i = 0; i < 5; i++) {
-    const gy = m.top + (innerH / 4) * i;
-    const val = y1 - ((y1 - y0) / 4) * i;
-    svg.insertAdjacentHTML('beforeend', `<line x1="${m.left}" y1="${gy}" x2="${width - m.right}" y2="${gy}" stroke="rgba(255,255,255,.08)" />`);
-    svg.insertAdjacentHTML('beforeend', `<text x="${m.left - 10}" y="${gy + 4}" text-anchor="end" fill="rgba(235,241,255,.62)" font-size="12">${opts.formatY ? opts.formatY(val) : Math.round(val)}</text>`);
-  }
-
-  data.forEach((d, i) => {
-    if (i % Math.max(1, Math.ceil(data.length / 6)) === 0 || i === data.length - 1) {
-      svg.insertAdjacentHTML('beforeend', `<text x="${x(i)}" y="${height - 14}" text-anchor="middle" fill="rgba(235,241,255,.62)" font-size="12">${d.label || d.date}</text>`);
-    }
-  });
-
-  let path = '';
-  data.forEach((d, i) => {
-    const v = valueAccessor(d);
-    if (v == null) return;
-    path += `${path ? 'L' : 'M'} ${x(i)} ${y(v)} `;
-  });
-
-  svg.insertAdjacentHTML('beforeend', `<path d="${path}" fill="none" stroke="${opts.color || '#ff7a00'}" stroke-width="3.25" />`);
-  data.forEach((d, i) => {
-    const v = valueAccessor(d);
-    if (v == null) return;
-    svg.insertAdjacentHTML('beforeend', `<circle cx="${x(i)}" cy="${y(v)}" r="4.5" fill="${opts.color || '#ff7a00'}" />`);
-  });
-}
-
-function barChart(svgId, data, valueKey, opts = {}) {
-  const svg = document.getElementById(svgId);
-  if (!svg || !data?.length) return;
-  const { width, height } = createSVG(svg, opts.width || 900, opts.height || 280);
-  const m = { top: 18, right: 18, bottom: 48, left: 48 };
-  const innerW = width - m.left - m.right;
-  const innerH = height - m.top - m.bottom;
-  const maxVal = Math.max(...data.map(d => d[valueKey] || 0)) * 1.2 || 1;
-  const step = innerW / data.length;
-  const barW = step * 0.58;
-
-  for (let i = 0; i < 5; i++) {
-    const val = (maxVal / 4) * (4 - i);
-    const gy = m.top + (innerH / 4) * i;
-    svg.insertAdjacentHTML('beforeend', `<line x1="${m.left}" y1="${gy}" x2="${width - m.right}" y2="${gy}" stroke="rgba(255,255,255,.08)" />`);
-    svg.insertAdjacentHTML('beforeend', `<text x="${m.left - 10}" y="${gy + 4}" text-anchor="end" fill="rgba(235,241,255,.62)" font-size="12">${Math.round(val)}</text>`);
-  }
-
-  data.forEach((d, i) => {
-    const x = m.left + (i + 0.5) * step - barW / 2;
-    const h = ((d[valueKey] || 0) / maxVal) * innerH;
-    const y = m.top + innerH - h;
-    svg.insertAdjacentHTML('beforeend', `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="8" fill="${opts.color || '#4ea6ff'}" />`);
-    svg.insertAdjacentHTML('beforeend', `<text x="${x + barW / 2}" y="${height - 14}" text-anchor="middle" fill="rgba(235,241,255,.62)" font-size="12">${d.label}</text>`);
-  });
-}
-
-function parseSessionDateLabel(label, fallbackYear = 2026) {
-  if (!label) return null;
-  const m = String(label).toLowerCase().match(/(\d{1,2})\s+([a-zà]+)/i);
-  if (!m) return null;
-  const months = { gen:0, feb:1, mar:2, apr:3, mag:4, giu:5, lug:6, ago:7, set:8, ott:9, nov:10, dic:11 };
-  const monthKey = m[2].slice(0,3);
-  if (!(monthKey in months)) return null;
-  return new Date(fallbackYear, months[monthKey], Number(m[1]));
-}
-
-function sessionKey(s) {
-  return [s?.name || '', s?.date || '', s?.distance || '', s?.pace || ''].join('|');
-}
-
-function inferSessionCategory(session) {
-  const name = String(session?.name || '').toLowerCase();
-  const type = String(session?.type || '').toLowerCase();
-  if (type === 'intervals' || type === 'tempo' || name.includes('ripet') || name.includes('passo gara')) return 'intervals';
-  if (type === 'progression' || name.includes('progress')) return 'progression';
-  if (name.includes('gara') || name.includes('test') || name.includes('riferimento') || type === 'fast' || type === 'race') return 'race';
-  if (name.includes('lung') || name.includes('long')) return 'long';
-  if (type === 'easy' || name.includes('facile')) return 'easy';
-  return type || 'other';
-}
-
-function collectAllSessions(cutoffIso = state.selectedDate) {
-  const seen = new Set();
-  const out = [];
-  const cutoff = cutoffIso ? isoToDate(cutoffIso) : null;
-  if (cutoff) cutoff.setHours(23, 59, 59, 999);
-
-  getReportDates().forEach(reportIso => {
-    if (cutoff && isoToDate(reportIso) > cutoff) return;
-    const rep = state.archive.reports[reportIso];
-    (rep?.data?.sessions || []).forEach(s => {
-      const key = sessionKey(s);
-      if (seen.has(key)) return;
-      seen.add(key);
-      const parsed = parseSessionDateLabel(s.date, isoToDate(reportIso).getFullYear()) || isoToDate(reportIso);
-      if (cutoff && parsed > cutoff) return;
-      out.push({ ...s, _parsedDate: parsed, _reportIso: reportIso, _category: inferSessionCategory(s) });
-    });
-  });
-
-  return out.sort((a, b) => a._parsedDate - b._parsedDate);
-}
-
-function timeStrToSeconds(value) {
-  if (!value) return null;
-  const parts = String(value).split(':').map(Number);
-  if (parts.some(Number.isNaN)) return null;
-  if (parts.length === 2) return parts[0] * 60 + parts[1];
-  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-  return null;
-}
-
-function inferFallbackCompareGroup(session) {
-  const type = inferSessionCategory(session);
-  const snap = session?.comparisonSnapshot || {};
-  const distance = Number(snap.distance ?? session.distance ?? 0);
-  const durationMin = (timeStrToSeconds(snap.time ?? session.time) ?? 0) / 60;
-  const name = String(session?.name || '').toLowerCase();
-
-  if (type === 'race') {
-    if (distance >= 9.5 && distance <= 10.5) return { key: 'race_10k', label: 'Gare / test 10K', family: 'race' };
-    if (distance >= 4.7 && distance <= 5.3) return { key: 'race_5k', label: 'Gare / test 5K', family: 'race' };
-  }
-
-  if (type === 'easy') {
-    if (distance >= 7 && distance <= 10.5) return { key: 'easy_7_10k', label: 'Corse facili 7–10 km', family: 'easy' };
-    if (distance >= 3 && distance < 5.5) return { key: 'easy_3_5k', label: 'Corse facili 3–5 km', family: 'easy' };
-  }
-
-  if (type === 'progression') {
-    if (durationMin >= 28 && durationMin <= 32) return { key: 'prog_28_32', label: 'Progressioni 28–32 min', family: 'progression' };
-    if (durationMin >= 30 && durationMin <= 36) return { key: 'prog_30_36', label: 'Progressioni 30–36 min', family: 'progression' };
-    if (durationMin > 36 && durationMin <= 45) return { key: 'prog_36_45', label: 'Progressioni 36–45 min', family: 'progression' };
-  }
-
-  if (type === 'intervals') {
-    if (name.includes('2×8') || name.includes('2x8')) return { key: 'int_2x8', label: 'Richiami passo gara 2×8′', family: 'intervals' };
-    if (name.includes('falcato')) return { key: 'int_falcato', label: 'Ripetute di passo falcato', family: 'intervals' };
-  }
-
-  return { key: `${type || 'other'}_generic`, label: 'Sedute comparabili', family: type || 'other' };
-}
-
-function getComparisonView(session) {
-  const fallback = inferFallbackCompareGroup(session);
-  const snap = session?.comparisonSnapshot || {};
+function formatLong(iso){ return isoToDate(iso).toLocaleDateString('it-IT',{weekday:'long',day:'2-digit',month:'long',year:'numeric'}); }
+function formatShort(iso){ return isoToDate(iso).toLocaleDateString('it-IT',{weekday:'short',day:'2-digit',month:'2-digit'}); }
+function fmtPace(sec){ if(sec==null || Number.isNaN(sec)) return 'n.d.'; const m=Math.floor(sec/60); const s=Math.round(sec%60).toString().padStart(2,'0'); return `${m}:${s}/km`; }
+function readHash(){
+  const hash = new URLSearchParams(window.location.hash.replace(/^#/,''));
   return {
-    ...session,
-    _compareKey: session.compareGroup || fallback.key,
-    _compareLabel: session.compareLabel || fallback.label,
-    _compareFamily: session.compareFamily || fallback.family,
-    _compareBasis: snap.basis || 'mixed',
-    _compareDistance: snap.distance ?? session.distance ?? null,
-    _compareTime: snap.time ?? session.time ?? null,
-    _comparePace: snap.pace ?? session.pace ?? null,
-    _comparePaceSec: snap.paceSec ?? session.paceSec ?? null,
-    _compareAvgHr: snap.avgHr ?? session.avgHr ?? null,
-    _compareMaxHr: snap.maxHr ?? session.maxHr ?? null,
-    _compareName: snap.label ? `${session.name} • ${snap.label}` : session.name
+    report: hash.get('report'),
+    day: hash.get('day'),
+    tab: hash.get('tab')
   };
 }
-
-function buildComparableGroups(cutoffIso = state.selectedDate) {
-  const groups = new Map();
-  collectAllSessions(cutoffIso).forEach(session => {
-    const s = getComparisonView(session);
-    if (!groups.has(s._compareKey)) {
-      groups.set(s._compareKey, {
-        key: s._compareKey,
-        label: s._compareLabel,
-        family: s._compareFamily,
-        basis: s._compareBasis,
-        sessions: []
-      });
-    }
-    groups.get(s._compareKey).sessions.push(s);
-  });
-
-  return Array.from(groups.values())
-    .map(g => ({ ...g, sessions: g.sessions.sort((a, b) => a._parsedDate - b._parsedDate) }))
-    .sort((a, b) => a.label.localeCompare(b.label, 'it'));
+function writeHash(){
+  const hash = new URLSearchParams();
+  if(state.selectedDate) hash.set('report', state.selectedDate);
+  if(state.selectedPlanDate) hash.set('day', state.selectedPlanDate);
+  if(state.activeTab) hash.set('tab', state.activeTab);
+  history.replaceState(null,'', `${window.location.pathname}${window.location.search}#${hash.toString()}`);
 }
-
-function pickBestComparableGroup(family) {
-  return buildComparableGroups(state.selectedDate)
-    .filter(g => g.family === family && g.sessions.length >= 2)
-    .sort((a, b) => b.sessions.length - a.sessions.length)[0] || null;
+async function loadArchive(){
+  const res = await fetch(ARCHIVE_URL, { cache:'no-store' });
+  if(!res.ok) throw new Error(`Impossibile caricare ${ARCHIVE_URL} (${res.status})`);
+  const parsed = await res.json();
+  if(!parsed || !parsed.reports) throw new Error('Formato JSON non valido: manca la chiave "reports".');
+  return parsed;
 }
-
-function groupToSeries(group) {
-  if (!group) return [];
-  return group.sessions.map(s => ({
-    label: s._parsedDate.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' }),
-    paceSec: s._comparePaceSec,
-    avgHr: s._compareAvgHr,
-    distance: s._compareDistance,
-    name: s._compareName
-  }));
+function findLatestPlanReportDate(){
+  return getReportDates().filter(date => {
+    const rep = state.archive.reports[date];
+    return rep?.data?.halfMarathonPlan || rep?.data?.marathonPlan;
+  }).slice(-1)[0] || getReportDates().slice(-1)[0];
 }
-
-function buildArchiveWeightSeries(cutoffIso = state.selectedDate) {
-  const cutoff = cutoffIso ? isoToDate(cutoffIso) : null;
-  if (cutoff) cutoff.setHours(23, 59, 59, 999);
-
-  return getReportDates()
-    .filter(date => !cutoff || isoToDate(date) <= cutoff)
-    .map(date => ({
-      label: isoToDate(date).toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' }),
-      date,
-      weight: latestWeight(state.archive.reports[date]),
-      bodyFat: latestBodyFat(state.archive.reports[date]),
-      readiness: latestReadiness(state.archive.reports[date]),
-      vo2: latestVo2(state.archive.reports[date])
-    }))
-    .filter(d => d.weight != null);
+function ensureSelectedDateValid(){
+  const dates = getReportDates();
+  if(!dates.length) return;
+  if(!state.selectedDate || !state.archive.reports[state.selectedDate]) state.selectedDate = dates[dates.length-1];
+  if(!state.planReportDate || !state.archive.reports[state.planReportDate]) state.planReportDate = findLatestPlanReportDate();
 }
+function getSelectedReport(){ return state.archive?.reports?.[state.selectedDate] || null; }
+function getPlanReport(){ return state.archive?.reports?.[state.planReportDate] || getSelectedReport(); }
 
-function collectSundayLongSeries(report) {
-  return (report?.data?.easyRuns || [])
-    .map(r => ({ ...r, _date: isoToDate(r.date) }))
-    .filter(r => r._date.getDay() === 0)
-    .sort((a, b) => a._date - b._date)
-    .map(r => ({ ...r, label: r._date.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit' }) }));
+function syntheticRestDay(dateIso, weekInfo){
+  const date = isoToDate(dateIso);
+  const wd = date.getDay();
+  const titles = {
+    2:'Mobilità + core',
+    4:'Forza generale + mobilità',
+    6:'Riposo / passeggiata'
+  };
+  const details = {
+    2:'20–25′ di mobilità, anche, caviglie e core leggero.',
+    4:'20–30′ di forza generale semplice: glutei, polpacci, core, anche.',
+    6:'Riposo completo oppure camminata leggera.'
+  };
+  return {
+    date:dateIso,
+    weekday: date.toLocaleDateString('it-IT',{weekday:'long'}),
+    type:'recovery',
+    priority:'support',
+    sessionTitle: titles[wd] || 'Riposo attivo',
+    session: details[wd] || 'Recupero attivo, nessuna corsa prevista.',
+    totalDurationMin: wd === 6 ? 0 : 25,
+    estimatedDistanceKm: 0,
+    warmup:null,
+    mainSet:[{segment:'Supporto', instruction: details[wd] || 'Recupero attivo.'}],
+    cooldown:null,
+    paceGuidance:'Nessun passo target.',
+    recovery:'Libero.',
+    objective:'Favorire assorbimento del carico e qualità della seduta successiva.',
+    successCriteria:'Sensazione di recupero, non di ulteriore accumulo.',
+    downgradeRule:'Se stanchezza o fastidi salgono, ridurre al solo riposo.',
+    notes:`Giorno senza corsa previsto nella ${weekInfo.segmentLabel}.`
+  };
 }
-
-function buildCalendarMarkup() {
-  const reportDates = new Set(getReportDates());
-  const first = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth(), 1);
-  const startOffset = (first.getDay() + 6) % 7;
-  const gridStart = new Date(first);
-  gridStart.setDate(first.getDate() - startOffset);
-
-  let cells = '';
-  const weekdays = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'].map(d => `<div class="wd">${d}</div>`).join('');
-
-  for (let i = 0; i < 42; i++) {
-    const d = new Date(gridStart);
-    d.setDate(gridStart.getDate() + i);
-    const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-    const sameMonth = d.getMonth() === state.monthCursor.getMonth();
-    const hasReport = reportDates.has(iso);
-    const selected = iso === state.selectedDate;
-    cells += `<button type="button" class="day ${sameMonth ? '' : 'other'} ${hasReport ? 'has-report' : ''} ${selected ? 'selected' : ''}" data-date="${iso}">${d.getDate()}</button>`;
+function expandWeekDays(week, segmentLabel, raceName){
+  const byDate = new Map((week.days || []).map(day => [day.date, {...day}]));
+  const out = [];
+  const start = isoToDate(week.startDate);
+  for(let i=0;i<7;i++){
+    const d = new Date(start); d.setDate(start.getDate()+i);
+    const iso = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const base = byDate.get(iso) || syntheticRestDay(iso, { segmentLabel });
+    out.push({
+      ...base,
+      segmentLabel,
+      raceName,
+      weekNo: week.week,
+      weekPhase: week.phase,
+      weekObjective: week.objective,
+      weekVolume: week.plannedVolumeKm,
+      weekStart: week.startDate,
+      weekEnd: week.endDate
+    });
   }
-
-  return `<div class="d-flex align-items-center justify-content-between mb-3">
-      <button class="btn btn-soft btn-sm" id="prevMonthBtn">‹</button>
-      <div class="fw-semibold text-capitalize">${formatMonth(state.monthCursor)}</div>
-      <button class="btn btn-soft btn-sm" id="nextMonthBtn">›</button>
-    </div>
-    <div class="calendar">${weekdays}${cells}</div>`;
+  return out;
 }
-
-function exportArchive() {
-  const blob = new Blob([JSON.stringify(state.archive, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'report-archive.json';
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-function renderSidebar(targetId) {
-  const root = document.getElementById(targetId);
-  if (!root || !state.archive) return;
-
-  root.innerHTML = `<section class="card-panel p-3 mb-3">
-      <div class="eyebrow mb-2">Archivio report</div>
-      <div class="fw-semibold mb-2">Sorgente unica remota</div>
-      <p class="small-note mb-3">
-        L’interfaccia legge un solo file JSON remoto, mantenendo tutti i report storici consultabili dal calendario.
-        Nessun import manuale o localStorage operativo nel flusso standard.
-      </p>
-      <div class="d-grid">
-        <button id="${targetId}-export" class="btn btn-soft btn-accent">Esporta JSON corrente</button>
-      </div>
-    </section>
-    <section class="card-panel p-3">${buildCalendarMarkup()}</section>`;
-
-  root.querySelector(`#${targetId}-export`).addEventListener('click', exportArchive);
-
-  root.querySelectorAll('[data-date]').forEach(btn => btn.addEventListener('click', () => {
-    state.selectedDate = btn.dataset.date;
-    writeSelectedDateToHash(state.selectedDate);
-    state.monthCursor = new Date(isoToDate(state.selectedDate).getFullYear(), isoToDate(state.selectedDate).getMonth(), 1);
-    renderAll();
-  }));
-
-  root.querySelector('#prevMonthBtn').addEventListener('click', () => {
-    state.monthCursor = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth() - 1, 1);
-    renderSidebar(targetId);
-  });
-
-  root.querySelector('#nextMonthBtn').addEventListener('click', () => {
-    state.monthCursor = new Date(state.monthCursor.getFullYear(), state.monthCursor.getMonth() + 1, 1);
-    renderSidebar(targetId);
-  });
-}
-
-function basisLabel(basis) {
-  if (basis === 'distance') return 'stessa distanza netta';
-  if (basis === 'time') return 'stesso blocco temporale';
-  if (basis === 'structure') return 'stessa struttura seduta';
-  return 'criterio misto / fallback';
-}
-
-function buildAxisNote(group, yLabel, fallbackLabel) {
-  if (!group) return `Ascissa: data delle sedute disponibili. Ordinata: ${yLabel}. ${fallbackLabel}`;
-  return `Ascissa: data delle sedute del gruppo “${group.label}”. Ordinata: ${yLabel}. Confronto normalizzato su ${basisLabel(group.basis)}.`;
-}
-
-function renderChartOrNote(svgId, series, type, opts = {}) {
-  const svg = document.getElementById(svgId);
-  if (!svg) return;
-  if (!series || series.length < 2) {
-    svg.outerHTML = `<div class="small-note pt-2">Dati ancora insufficienti per un confronto serio e normalizzato di questa tipologia.</div>`;
-    return;
+function buildPlanTimeline(report){
+  if(!report) return { weeks:[], days:[] };
+  const plans = [];
+  if(report?.data?.halfMarathonPlan){
+    plans.push({
+      key:'half',
+      segmentLabel:'Blocco mezza',
+      raceName: report.data.halfMarathonPlan.raceName,
+      plan: report.data.halfMarathonPlan
+    });
   }
-  if (type === 'bar') barChart(svgId, series, opts.valueKey, opts);
-  else lineChart(svgId, series, opts.valueAccessor, opts);
-}
-
-function buildLastWorkoutOverview(report) {
-  if (report?.ui?.lastWorkoutHtml) return report.ui.lastWorkoutHtml;
-  const latest = latestSession(report);
-  if (!latest) return `<p class="muted mb-0">Per questa data non è presente una seduta campione descrivibile nel report.</p>`;
-  const view = getComparisonView(latest);
-  return `<p class="muted mb-3">L’ultima attività registrata è <strong>${latest.name}</strong>: <strong>${latest.distance.toFixed(2)} km</strong> in <strong>${latest.pace}</strong> con FC media <strong>${latest.avgHr} bpm</strong>.</p>
-  <p class="mini-note mb-0">Questa seduta viene letta dentro il gruppo comparabile <strong>${view._compareLabel}</strong>, con normalizzazione su <strong>${basisLabel(view._compareBasis)}</strong>.</p>`;
-}
-
-function buildStateFormText(report) {
-  if (report?.ui?.stateFormHtml) return report.ui.stateFormHtml;
-  const vo2 = latestVo2(report);
-  const readiness = report?.data?.trainingReadiness;
-  const hrv = readiness?.hrvMs ?? report?.data?.trainingStatus?.hrvMs;
-  const acute = readiness?.acuteLoad;
-  return `Quadro complessivamente favorevole: VO₂max <strong>${vo2 ?? 'n.d.'}</strong>${hrv != null ? `, HRV <strong>${hrv} ms</strong>` : ''}${acute != null ? `, carico acuto <strong>${acute}</strong>` : ''}.`;
-}
-
-function buildRaceForecastText(report) {
-  if (report?.ui?.raceForecastHtml) return report.ui.raceForecastHtml;
-  const goals = report?.data?.raceGoals || {};
-  const deejay = goals?.deejayTen?.realistic || 'n.d.';
-  const tuttadritta = goals?.tuttadritta?.realistic || 'n.d.';
-  return `Deejay Ten: <strong>${deejay}</strong>. Tuttadritta: <strong>${tuttadritta}</strong>.`;
-}
-
-function buildBodyCompText(report) {
-  if (report?.ui?.bodyCompHtml) return report.ui.bodyCompHtml;
-  const body = report?.data?.bodyComp || {};
-  return `Peso <strong>${body.weight ?? 'n.d.'} kg</strong>, body fat <strong>${body.bodyFat ?? 'n.d.'}%</strong>, massa muscolare <strong>${body.muscleMass ?? 'n.d.'} kg</strong>.`;
-}
-
-function buildTechnicalSummaryHTML(report) {
-  if (report?.ui?.technicalSummaryHtml) return report.ui.technicalSummaryHtml;
-  return `<p class="muted">Nessuna sintesi tecnica personalizzata disponibile per questo report.</p>`;
-}
-
-function renderSwaps(swaps) {
-  if (!swaps || !swaps.length) return '';
-  return `<div class="small-note mt-2"><strong>Sostituzioni:</strong> ${swaps.join(' • ')}</div>`;
-}
-
-function getNutritionPlan(report) {
-  return report?.nutritionPlan || null;
-}
-
-function buildNutritionHTML(report) {
-  const plan = getNutritionPlan(report);
-  if (!plan) {
-    return `<div class="card-panel p-4 h-100"><div class="eyebrow mb-2">Nutrizione</div><h2 class="section-title mb-3">Dati non disponibili</h2><p class="muted mb-0">Per questo report non è presente un piano nutrizionale a 3 giorni.</p></div>`;
+  if(report?.data?.marathonPlan){
+    plans.push({
+      key:'marathon',
+      segmentLabel:'Blocco Roma',
+      raceName: report.data.marathonPlan.raceName,
+      plan: report.data.marathonPlan
+    });
   }
-
-  return `<div class="card-panel p-4 h-100">
-    <div class="eyebrow mb-2">Nutrizione</div>
-    <h2 class="section-title mb-3">Solo i 3 giorni successivi al report</h2>
-    <p class="muted mb-3">
-      Piano sintetico su <strong>3 giorni</strong>, con variazione reale delle colazioni e protezione energetica maggiore nei giorni qualitativi.
-      L’obiettivo resta ridurre massa grassa entro fine giugno senza compromettere la qualità del lavoro.
-    </p>
-    <div class="d-flex flex-wrap gap-2 mb-3">
-      <span class="delta-badge">Target medio ~${plan.avgTargetKcal} kcal</span>
-      <span class="delta-badge">Proteine ${plan.proteinLow}–${plan.proteinHigh} g</span>
-      <span class="delta-badge">${plan.badgeLabel || 'Colazioni variate'}</span>
-    </div>
-    <div class="row g-3">
-      ${plan.days.map(day => `
-        <div class="col-md-6 col-xl-4">
-          <div class="metric-item h-100">
-            <div class="label">${day.label}</div>
-            ${day.plannedLabel ? `<div class="small-note mt-1">Allenamento previsto: <strong>${day.plannedLabel}</strong></div>` : ''}
-            <div class="value">${day.kcal} kcal</div>
-            <div class="mini-note mt-2"><strong>${day.typeLabel}</strong></div>
-
-            <div class="mini-note mt-3"><strong>Colazione:</strong> ${day.breakfast.text} <em>(~${day.breakfast.kcal} kcal)</em></div>
-            ${renderSwaps(day.breakfast.swaps)}
-
-            <div class="mini-note mt-3"><strong>Pranzo:</strong> ${day.lunch.text} <em>(~${day.lunch.kcal} kcal)</em></div>
-            ${renderSwaps(day.lunch.swaps)}
-
-            <div class="mini-note mt-3"><strong>Cena:</strong> ${day.dinner.text} <em>(~${day.dinner.kcal} kcal)</em></div>
-            ${renderSwaps(day.dinner.swaps)}
-
-            <div class="mini-note mt-3"><strong>Spuntino:</strong> ${day.snack.text} <em>(~${day.snack.kcal} kcal)</em></div>
-            ${renderSwaps(day.snack.swaps)}
-
-            <div class="small-note mt-3">${day.note}</div>
-          </div>
-        </div>
-      `).join('')}
-    </div>
-    <p class="small-note mt-3 mb-2">${plan.footerNote1 || ''}</p>
-    <p class="small-note mb-0">${plan.footerNote2 || ''}</p>
-  </div>`;
-}
-
-function formatCompareCell(item, mode) {
-  if (!item) return 'n.d.';
-  if (mode === 'pace') return item._comparePace || item.pace || 'n.d.';
-  if (mode === 'hr') return item._compareAvgHr != null ? `${item._compareAvgHr} bpm` : (item.avgHr != null ? `${item.avgHr} bpm` : 'n.d.');
-  if (mode === 'date') return item.date || item.label || 'n.d.';
-  return 'n.d.';
-}
-
-function buildComparisonRows() {
-  const groups = buildComparableGroups(state.selectedDate).filter(g => g.sessions.length >= 2);
-  if (!groups.length) {
-    return `<tr><td colspan="7" class="small-note">Storico ancora insufficiente per confronti normalizzati robusti.</td></tr>`;
-  }
-
-  return groups.map(group => {
-    const first = group.sessions[0];
-    const last = group.sessions[group.sessions.length - 1];
-    return `<tr>
-      <td><strong>${group.label}</strong></td>
-      <td>${basisLabel(group.basis)}</td>
-      <td>${formatCompareCell(first, 'date')}</td>
-      <td>${formatCompareCell(first, 'pace')}</td>
-      <td>${formatCompareCell(first, 'hr')}</td>
-      <td>${formatCompareCell(last, 'date')}</td>
-      <td>${formatCompareCell(last, 'pace')}</td>
-      <td>${formatCompareCell(last, 'hr')}</td>
-    </tr>`;
-  }).join('');
-}
-
-function buildComparisonComment() {
-  const groups = buildComparableGroups(state.selectedDate).filter(g => g.sessions.length >= 2);
-  if (!groups.length) {
-    return 'Il confronto rapido usa solo gruppi omogenei. In questa fase lo storico è ancora troppo corto per tutte le famiglie.';
-  }
-  return `Il confronto rapido è costruito prima su <strong>comparisonSnapshot</strong> e <strong>compareGroup</strong>, e solo in fallback sulla famiglia generica. In questo modo 5K e 10K, oppure progressioni di durata molto diversa, non vengono mescolati in modo improprio.`;
-}
-
-const WORKOUT_TYPE_META = {
-  easy: { label: 'Easy', className: 'easy' },
-  easy_taper: { label: 'Attivazione', className: 'easy_taper' },
-  quality: { label: 'Qualità', className: 'quality' },
-  quality_taper: { label: 'Richiamo', className: 'quality_taper' },
-  specific: { label: 'Specifico 10K', className: 'specific' },
-  long: { label: 'Lungo', className: 'long' },
-  race: { label: 'Gara', className: 'race' },
-  recovery: { label: 'Recupero', className: 'recovery' },
-  other: { label: 'Seduta', className: 'recovery' }
-};
-
-function getWorkoutTypeMeta(typeKey) {
-  return WORKOUT_TYPE_META[typeKey] || WORKOUT_TYPE_META.other;
-}
-
-function formatPlanDateLong(iso) {
-  return isoToDate(iso).toLocaleDateString('it-IT', {
-    weekday: 'long',
-    day: '2-digit',
-    month: 'long'
-  });
-}
-
-function formatPlanDateShort(iso) {
-  return isoToDate(iso).toLocaleDateString('it-IT', {
-    weekday: 'short',
-    day: '2-digit',
-    month: '2-digit'
-  });
-}
-
-function buildTrainingCalendarEntries(report) {
-  const detailedPlan = report?.data?.tuttadrittaBuildPlan;
-  if (Array.isArray(detailedPlan) && detailedPlan.length) {
-    return detailedPlan
-      .map(item => ({
-        iso: item.date,
-        typeKey: item.type || 'other',
-        title: item.sessionTitle || 'Seduta',
-        summary: item.session || '',
-        priority: item.priority || null,
-        totalDurationMin: item.totalDurationMin ?? null,
-        estimatedDistanceKm: item.estimatedDistanceKm ?? null,
-        warmup: item.warmup || null,
-        mainSet: Array.isArray(item.mainSet) ? item.mainSet : [],
-        cooldown: item.cooldown || null,
-        paceGuidance: item.paceGuidance || null,
-        recovery: item.recovery || null,
-        objective: item.objective || null,
-        successCriteria: item.successCriteria || null,
-        downgradeRule: item.downgradeRule || null,
-        notes: item.notes || null,
-        isDetailed: true
-      }))
-      .sort((a, b) => a.iso.localeCompare(b.iso));
-  }
-
-  const planned = report?.data?.plannedWorkouts || {};
-  const plannedEntries = Object.entries(planned)
-    .map(([iso, item]) => ({
-      iso,
-      typeKey: item.typeKey || 'other',
-      title: item.label || 'Allenamento',
-      summary: item.label || 'Dettaglio non disponibile',
-      priority: null,
-      totalDurationMin: null,
-      estimatedDistanceKm: null,
-      warmup: null,
-      mainSet: [],
-      cooldown: null,
-      paceGuidance: null,
-      recovery: null,
-      objective: null,
-      successCriteria: null,
-      downgradeRule: null,
-      notes: null,
-      isDetailed: false
-    }))
-    .sort((a, b) => a.iso.localeCompare(b.iso));
-
-  if (plannedEntries.length) return plannedEntries;
-
-  const micro = report?.data?.recommendedMicrocycle || [];
-  return micro
-    .map(item => ({
-      iso: item.date,
-      typeKey: 'recovery',
-      title: item.label || 'Seduta',
-      summary: item.label || '',
-      priority: null,
-      totalDurationMin: null,
-      estimatedDistanceKm: null,
-      warmup: null,
-      mainSet: [],
-      cooldown: null,
-      paceGuidance: null,
-      recovery: null,
-      objective: null,
-      successCriteria: null,
-      downgradeRule: null,
-      notes: null,
-      isDetailed: false
-    }))
-    .sort((a, b) => a.iso.localeCompare(b.iso));
-}
-
-function ensureSelectedPlanValid(report) {
-  const entries = buildTrainingCalendarEntries(report);
-  if (!entries.length) {
-    state.selectedPlanDate = null;
-    return;
-  }
-
-  const hasCurrent = entries.some(e => e.iso === state.selectedPlanDate);
-  if (hasCurrent) return;
-
-  const firstFutureOrSame = entries.find(e => e.iso >= state.selectedDate);
-  state.selectedPlanDate = (firstFutureOrSame || entries[0]).iso;
-}
-
-function renderPlanBadge(text) {
-  return text ? `<span class="delta-badge">${text}</span>` : '';
-}
-
-function renderPlanBlock(title, content) {
-  return `
-    <div class="plan-block">
-      <div class="label mb-2">${title}</div>
-      ${content}
-    </div>
-  `;
-}
-
-function renderWarmupBlock(warmup) {
-  if (!warmup) {
-    return `<div class="plan-empty-note">Riscaldamento non specificato nel JSON.</div>`;
-  }
-
-  return `
-    <div class="plan-step">
-      <div class="plan-step-title">Warm-up</div>
-      <div class="small-note">${warmup.instruction || 'Dettaglio non disponibile.'}</div>
-      <div class="plan-metrics mt-2">
-        ${warmup.duration ? renderPlanBadge(warmup.duration) : ''}
-        ${warmup.pace ? renderPlanBadge(`Passo ${warmup.pace}`) : ''}
-      </div>
-    </div>
-  `;
-}
-
-function renderMainSetBlock(mainSet) {
-  if (!mainSet || !mainSet.length) {
-    return `<div class="plan-empty-note">Blocco centrale non dettagliato nel JSON.</div>`;
-  }
-
-  return mainSet.map(block => `
-    <div class="plan-step">
-      <div class="plan-step-title">${block.segment || 'Blocco'}</div>
-      <div class="small-note">${block.instruction || 'Dettaglio non disponibile.'}</div>
-      <div class="plan-metrics mt-2">
-        ${block.duration ? renderPlanBadge(block.duration) : ''}
-        ${block.pace ? renderPlanBadge(`Passo ${block.pace}`) : ''}
-        ${block.hr ? renderPlanBadge(`FC ${block.hr}`) : ''}
-        ${block.rpe ? renderPlanBadge(`RPE ${block.rpe}`) : ''}
-      </div>
-    </div>
-  `).join('');
-}
-
-function renderCooldownBlock(cooldown) {
-  if (!cooldown) {
-    return `<div class="plan-empty-note">Defaticamento non specificato nel JSON.</div>`;
-  }
-
-  return `
-    <div class="plan-step">
-      <div class="plan-step-title">Cool-down</div>
-      <div class="small-note">${cooldown.instruction || 'Dettaglio non disponibile.'}</div>
-      <div class="plan-metrics mt-2">
-        ${cooldown.duration ? renderPlanBadge(cooldown.duration) : ''}
-      </div>
-    </div>
-  `;
-}
-
-function buildTrainingPlanHTML(report) {
-  const entries = buildTrainingCalendarEntries(report);
-
-  if (!entries.length) {
-    return `
-      <div class="card-panel p-4 h-100">
-        <div class="eyebrow mb-2">Calendario allenamenti</div>
-        <h2 class="section-title mb-3">Pianificazione giornaliera</h2>
-        <p class="muted mb-0">
-          In questo report non è presente alcun planning futuro renderizzabile.
-        </p>
-      </div>
-    `;
-  }
-
-  const selected = entries.find(e => e.iso === state.selectedPlanDate) || entries[0];
-  const meta = getWorkoutTypeMeta(selected.typeKey);
-
-  return `
-    <div class="card-panel p-4 h-100">
-      <div class="eyebrow mb-2">Calendario allenamenti</div>
-      <h2 class="section-title mb-3">Pianificazione giornaliera dettagliata</h2>
-      <p class="muted mb-4">
-        La sezione usa prima <strong>tuttadrittaBuildPlan</strong> se presente, altrimenti <strong>plannedWorkouts</strong>.
-        Quando il JSON contiene solo una label sintetica, il dettaglio completo di warm-up, blocchi, recuperi e defaticamento non può essere inventato.
-      </p>
-
-      <div class="training-plan-grid mb-4">
-        ${entries.map(entry => {
-          const itemMeta = getWorkoutTypeMeta(entry.typeKey);
-          return `
-            <button type="button"
-                    class="plan-day-btn ${entry.iso === selected.iso ? 'active' : ''}"
-                    data-plan-date="${entry.iso}">
-              <div class="plan-day-head">
-                <div class="plan-day-date">${formatPlanDateShort(entry.iso)}</div>
-                <span class="plan-tag ${itemMeta.className}">${itemMeta.label}</span>
-              </div>
-              <div class="plan-day-title">${entry.title}</div>
-              <div class="plan-day-sub">${entry.summary || 'Seduta pianificata'}</div>
-            </button>
-          `;
-        }).join('')}
-      </div>
-
-      <div class="plan-block mb-4">
-        <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
-          <div>
-            <div class="label mb-1">${formatPlanDateLong(selected.iso)}</div>
-            <div class="h4 fw-bold mb-2">${selected.title}</div>
-            <div class="plan-detail-summary">${selected.summary || 'Seduta pianificata.'}</div>
-          </div>
-          <span class="plan-tag ${meta.className}">${meta.label}</span>
-        </div>
-
-        <div class="plan-metrics mt-3">
-          ${selected.priority ? renderPlanBadge(`Priorità ${selected.priority}`) : ''}
-          ${selected.totalDurationMin ? renderPlanBadge(`${selected.totalDurationMin} min`) : ''}
-          ${selected.estimatedDistanceKm != null ? renderPlanBadge(`${Number(selected.estimatedDistanceKm).toFixed(1)} km stimati`) : ''}
-          ${selected.paceGuidance ? renderPlanBadge('Passo guidato') : ''}
-          ${selected.recovery ? renderPlanBadge('Recuperi specificati') : ''}
-        </div>
-      </div>
-
-      <div class="plan-detail-grid">
-        ${renderPlanBlock('Riscaldamento', renderWarmupBlock(selected.warmup))}
-        ${renderPlanBlock('Blocco centrale', renderMainSetBlock(selected.mainSet))}
-        ${renderPlanBlock('Defaticamento', renderCooldownBlock(selected.cooldown))}
-        ${renderPlanBlock('Parametri operativi', `
-          <div class="small-note"><strong>Guida passo:</strong> ${selected.paceGuidance || 'n.d.'}</div>
-          <div class="small-note mt-3"><strong>Recupero:</strong> ${selected.recovery || 'n.d.'}</div>
-        `)}
-        ${renderPlanBlock('Obiettivo e criteri', `
-          <div class="small-note"><strong>Obiettivo:</strong> ${selected.objective || 'n.d.'}</div>
-          <div class="small-note mt-3"><strong>Criterio di riuscita:</strong> ${selected.successCriteria || 'n.d.'}</div>
-          <div class="small-note mt-3"><strong>Downgrade rule:</strong> ${selected.downgradeRule || 'n.d.'}</div>
-        `)}
-        ${renderPlanBlock('Note tecniche', `
-          <div class="small-note">
-            ${selected.notes || (selected.isDetailed
-              ? 'Nessuna nota aggiuntiva.'
-              : 'Per questa data il JSON contiene solo una pianificazione sintetica. Per mostrare passo, FC, blocchi, recuperi, warm-up e cool-down serve arricchire il dato con una struttura dettagliata come quella del report 2026-04-20.')}
-          </div>
-        `)}
-      </div>
-    </div>
-  `;
-}
-
-function renderMain() {
-  const root = document.getElementById('mainContent');
-
-  if (state.loading) {
-    root.innerHTML = `<section class="card-panel loading-box"><h2 class="section-title mb-2">Caricamento archivio</h2><p class="muted mb-0">Lettura del JSON remoto in corso.</p></section>`;
-    return;
-  }
-
-  if (state.error) {
-    root.innerHTML = `<section class="card-panel error-box"><h2 class="section-title mb-2">Errore di caricamento</h2><p class="mb-0">${state.error}</p></section>`;
-    return;
-  }
-
-  const report = state.archive?.reports?.[state.selectedDate];
-  if (!report) {
-    root.innerHTML = `<section class="card-panel p-4"><h2 class="section-title">Nessun report disponibile</h2><p class="muted mb-0">La data selezionata non contiene un report valido.</p></section>`;
-    return;
-  }
-
-  ensureSelectedPlanValid(report);
-
-  const currentSummary = report.summaryCards?.[0];
-  const easyGroup = pickBestComparableGroup('easy');
-  const intervalsGroup = pickBestComparableGroup('intervals');
-  const progressionGroup = pickBestComparableGroup('progression');
-  const easySeries = groupToSeries(easyGroup);
-  const intervalSeries = groupToSeries(intervalsGroup);
-  const progressionSeries = groupToSeries(progressionGroup);
-  const longSeries = collectSundayLongSeries(report);
-  const weeklySeries = report.data?.weeklyVolume || [];
-  const weightSeries = buildArchiveWeightSeries(state.selectedDate);
-
-  root.innerHTML = `
-    <section class="card-panel hero-card mb-4">
-      <div class="row g-4 align-items-start">
-        <div class="col-xl-7">
-          <div class="eyebrow mb-2">Report selezionato</div>
-          <h1 class="section-title mb-2">${report.title}</h1>
-          <p class="muted mb-3">${report.subtitle || ''}</p>
-          ${buildLastWorkoutOverview(report)}
-          <div class="d-flex flex-wrap gap-2 mt-3">
-            ${(report.heroTags || []).slice(0, 6).map(tag => `<span class="delta-badge">${tag}</span>`).join('')}
-          </div>
-        </div>
-        <div class="col-xl-5">
-          <div class="d-grid gap-3">
-            <div class="metric-item">
-              <div class="label">Stato forma</div>
-              <div class="value">${currentSummary?.value || 'n.d.'}</div>
-              <div class="mini-note mt-2">${buildStateFormText(report)}</div>
-            </div>
-            <div class="metric-item">
-              <div class="label">10K realistico e gare</div>
-              <div class="value">${report.summaryCards?.find(c => c.label.toLowerCase().includes('10k'))?.value || 'n.d.'}</div>
-              <div class="mini-note mt-2">${buildRaceForecastText(report)}</div>
-            </div>
-            <div class="metric-item">
-              <div class="label">Peso e composizione</div>
-              <div class="value">${latestWeight(report) != null ? latestWeight(report).toFixed(1) + ' kg' : 'n.d.'}</div>
-              <div class="mini-note mt-2">${buildBodyCompText(report)}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="row g-4 mb-4">
-      <div class="col-12">
-        <div class="card-panel p-4 h-100">
-          <div class="eyebrow mb-2">Sintesi tecnica</div>
-          <h2 class="section-title mb-3">Relazione medico-sportiva e operativa</h2>
-          ${buildTechnicalSummaryHTML(report)}
-        </div>
-      </div>
-      <div class="col-12">
-        ${buildNutritionHTML(report)}
-      </div>
-      <div class="col-12">
-        ${buildTrainingPlanHTML(report)}
-      </div>
-    </section>
-
-    <section class="mb-4">
-      <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3">
-        <div>
-          <h2 class="section-title mb-1">Grafici chiave di tendenza</h2>
-          <div class="muted">Ogni grafico esplicita ascissa, ordinata e criterio di normalizzazione del confronto.</div>
-        </div>
-      </div>
-      <div class="row g-4">
-        <div class="col-xl-6">
-          <div class="card-panel chart-card">
-            <h3>Easy run</h3>
-            <div class="chart-sub">${buildAxisNote(easyGroup, 'passo medio normalizzato (sec/km)', 'Nessun gruppo easy omogeneo sufficiente.')}</div>
-            <svg id="easyPaceChart" class="chart" aria-label="Trend easy"></svg>
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <div class="card-panel chart-card">
-            <h3>Ripetute / passo gara</h3>
-            <div class="chart-sub">${buildAxisNote(intervalsGroup, 'passo medio del blocco comparabile (sec/km)', 'Nessun gruppo di ripetute omogenee sufficiente.')}</div>
-            <svg id="intervalChart" class="chart" aria-label="Trend ripetute"></svg>
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <div class="card-panel chart-card">
-            <h3>Progressioni</h3>
-            <div class="chart-sub">${buildAxisNote(progressionGroup, 'passo medio del blocco comparabile (sec/km)', 'Nessun gruppo di progressioni omogenee sufficiente.')}</div>
-            <svg id="progressionChart" class="chart" aria-label="Trend progressioni"></svg>
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <div class="card-panel chart-card">
-            <h3>Lunghi domenicali</h3>
-            <div class="chart-sub">Ascissa: data dei lunghi domenicali. Ordinata: passo medio della seduta. Confronto descrittivo, non pienamente normalizzato.</div>
-            <svg id="longChart" class="chart" aria-label="Trend lunghi"></svg>
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <div class="card-panel chart-card">
-            <h3>Volume settimanale</h3>
-            <div class="chart-sub">Ascissa: settimana di allenamento. Ordinata: chilometri settimanali.</div>
-            <svg id="weeklyVolumeChart" class="chart" aria-label="Trend volume settimanale"></svg>
-          </div>
-        </div>
-        <div class="col-xl-6">
-          <div class="card-panel chart-card">
-            <h3>Peso corporeo</h3>
-            <div class="chart-sub">Ascissa: data del report. Ordinata: peso corporeo in kg. Qui conta il trend, non il singolo decimale.</div>
-            <svg id="weightChart" class="chart" aria-label="Trend peso"></svg>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="row g-4">
-      <div class="col-12">
-        <div class="card-panel p-4 h-100">
-          <div class="eyebrow mb-2">Confronto rapido</div>
-          <h2 class="section-title mb-3">Prima vs ultima per gruppo comparabile</h2>
-          <div class="table-responsive">
-            <table class="table table-dark table-borderless table-tight align-middle mb-0">
-              <thead>
-                <tr>
-                  <th>Gruppo</th>
-                  <th>Normalizzazione</th>
-                  <th>Prima data</th>
-                  <th>Primo passo</th>
-                  <th>Prima FC</th>
-                  <th>Ultima data</th>
-                  <th>Ultimo passo</th>
-                  <th>Ultima FC</th>
-                </tr>
-              </thead>
-              <tbody>${buildComparisonRows()}</tbody>
-            </table>
-          </div>
-          <p class="small-note mt-3 mb-0">${buildComparisonComment()}</p>
-        </div>
-      </div>
-    </section>`;
-
-  renderChartOrNote('easyPaceChart', easySeries, 'line', { color: '#ff7a00', valueAccessor: d => d.paceSec, formatY: v => fmtPace(v).replace('/km', '') });
-  renderChartOrNote('intervalChart', intervalSeries, 'line', { color: '#4ea6ff', valueAccessor: d => d.paceSec, formatY: v => fmtPace(v).replace('/km', '') });
-  renderChartOrNote('progressionChart', progressionSeries, 'line', { color: '#32c48d', valueAccessor: d => d.paceSec, formatY: v => fmtPace(v).replace('/km', '') });
-  renderChartOrNote('longChart', longSeries, 'line', { color: '#ffb020', valueAccessor: d => d.paceSec, formatY: v => fmtPace(v).replace('/km', '') });
-  renderChartOrNote('weeklyVolumeChart', weeklySeries, 'bar', { color: '#4ea6ff', valueKey: 'km' });
-  renderChartOrNote('weightChart', weightSeries, 'line', { color: '#a855f7', valueAccessor: d => d.weight, formatY: v => Number(v).toFixed(1) });
-
-  root.querySelectorAll('[data-plan-date]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      state.selectedPlanDate = btn.dataset.planDate;
-      renderMain();
+  const weeks = [];
+  const days = [];
+  plans.forEach(item => {
+    (item.plan.weeks || []).forEach(week => {
+      const expanded = expandWeekDays(week, item.segmentLabel, item.raceName);
+      const weekObj = { ...week, segmentKey:item.key, segmentLabel:item.segmentLabel, raceName:item.raceName, daysExpanded:expanded };
+      weeks.push(weekObj);
+      days.push(...expanded);
     });
   });
+  weeks.sort((a,b) => a.startDate.localeCompare(b.startDate));
+  days.sort((a,b) => a.date.localeCompare(b.date));
+  return { weeks, days, plans };
 }
+function ensureSelectedPlanValid(){
+  const timeline = buildPlanTimeline(getPlanReport());
+  if(!timeline.days.length){ state.selectedPlanDate = null; return; }
+  const currentExists = timeline.days.some(d => d.date === state.selectedPlanDate);
+  if(!currentExists){
+    const refDate = state.selectedDate && timeline.days.some(d => d.date >= state.selectedDate)
+      ? timeline.days.find(d => d.date >= state.selectedDate).date
+      : timeline.days[0].date;
+    state.selectedPlanDate = refDate;
+  }
+}
+function getSelectedPlanDay(){
+  const timeline = buildPlanTimeline(getPlanReport());
+  if(!timeline.days.length) return null;
+  return timeline.days.find(d => d.date === state.selectedPlanDate) || timeline.days[0];
+}
+function getSelectedPlanWeek(){
+  const timeline = buildPlanTimeline(getPlanReport());
+  const selected = getSelectedPlanDay();
+  if(!selected) return null;
+  return timeline.weeks.find(w => w.startDate === selected.weekStart) || timeline.weeks[0];
+}
+function selectWeekByStart(startDate){
+  const timeline = buildPlanTimeline(getPlanReport());
+  const week = timeline.weeks.find(w => w.startDate === startDate);
+  if(week?.daysExpanded?.length){
+    state.selectedPlanDate = week.daysExpanded[0].date;
+    writeHash();
+    renderAll();
+  }
+}
+function changeWeek(offset){
+  const timeline = buildPlanTimeline(getPlanReport());
+  const week = getSelectedPlanWeek();
+  if(!week) return;
+  const idx = timeline.weeks.findIndex(w => w.startDate === week.startDate);
+  const next = timeline.weeks[idx + offset];
+  if(next?.daysExpanded?.length){
+    state.selectedPlanDate = next.daysExpanded[0].date;
+    writeHash();
+    renderAll();
+  }
+}
+function renderHeader(){
+  const weekLabel = document.getElementById('headerWeekLabel');
+  const badges = document.getElementById('headerBadges');
+  const strip = document.getElementById('weekStrip');
+  const selectedDay = getSelectedPlanDay();
+  const selectedWeek = getSelectedPlanWeek();
+  if(!selectedDay || !selectedWeek){
+    weekLabel.textContent = 'Pianificazione non disponibile';
+    badges.innerHTML = '';
+    strip.innerHTML = '';
+    return;
+  }
+  weekLabel.textContent = `Settimana ${selectedWeek.week} • ${selectedWeek.segmentLabel} • ${formatRange(selectedWeek.startDate, selectedWeek.endDate)}`;
+  badges.innerHTML = `
+    <span class="badge-soft"><strong>${selectedWeek.phase}</strong></span>
+    <span class="badge-soft">${selectedWeek.raceName}</span>
+    <span class="badge-soft">Volume ${selectedWeek.plannedVolumeKm}</span>
+  `;
+  strip.innerHTML = selectedWeek.daysExpanded.map(day => {
+    const meta = getWorkoutTypeMeta(day.type);
+    return `<button type="button" class="day-chip ${day.date === selectedDay.date ? 'active' : ''} ${day.type === 'recovery' ? 'rest' : ''}" data-day="${day.date}">
+      <div class="dow">${isoToDate(day.date).toLocaleDateString('it-IT',{weekday:'short'})}</div>
+      <div class="num">${isoToDate(day.date).getDate()}</div>
+      <div class="mini">${meta.label}</div>
+    </button>`;
+  }).join('');
+  strip.querySelectorAll('[data-day]').forEach(btn => btn.addEventListener('click', () => {
+    state.selectedPlanDate = btn.dataset.day;
+    writeHash();
+    renderAll();
+  }));
+}
+function renderPlanStep(title, block){
+  if(!block) return `<div class="plan-step"><div class="small-note">Dato non disponibile.</div></div>`;
+  return `<div class="plan-step">
+    <div class="plan-step-title">${title}</div>
+    <div class="small-note">${block.instruction || 'Dettaglio non disponibile.'}</div>
+    <div class="plan-metrics">
+      ${block.duration ? `<span class="kpi">${block.duration}</span>` : ''}
+      ${block.pace ? `<span class="kpi">Passo ${block.pace}</span>` : ''}
+      ${block.hr ? `<span class="kpi">FC ${block.hr}</span>` : ''}
+      ${block.rpe ? `<span class="kpi">RPE ${block.rpe}</span>` : ''}
+    </div>
+  </div>`;
+}
+function buildNutritionHTML(report){
+  const plan = report?.nutritionPlan;
+  if(!plan) return `<section class="body-card"><div class="eyebrow mb-2">Nutrizione</div><h2 class="section-title">Dati non disponibili</h2><p class="muted mb-0">Per questo report non è presente un piano nutrizionale a 3 giorni.</p></section>`;
+  return `<section class="body-card">
+    <div class="eyebrow mb-2">Nutrizione</div>
+    <div class="d-flex align-items-start justify-content-between gap-3 flex-wrap">
+      <div>
+        <h2 class="section-title mb-1">Scheda nutrizionale su 3 giorni</h2>
+        <div class="small-note">La scheda si apre solo dal footer. Il piano resta limitato ai successivi 3 giorni, senza trasformare la webapp in un diario alimentare infinito.</div>
+      </div>
+      <span class="badge-soft">${plan.badgeLabel || 'Colazioni variate'}</span>
+    </div>
+    <div class="metric-grid mt-3">
+      <div class="metric-card"><div class="label">Target medio</div><div class="value">${plan.avgTargetKcal} kcal</div></div>
+      <div class="metric-card"><div class="label">Proteine</div><div class="value">${plan.proteinLow}–${plan.proteinHigh} g</div></div>
+    </div>
+    <div class="analysis-list mt-3">
+      ${plan.days.map(day => `<div class="block-card">
+        <div class="d-flex align-items-start justify-content-between gap-2">
+          <div>
+            <div class="label">${day.label}</div>
+            <div class="value" style="font-size:1.1rem">${day.kcal} kcal</div>
+          </div>
+          <span class="type-pill recovery">${day.typeLabel}</span>
+        </div>
+        <div class="small-note mt-2"><strong>Allenamento previsto:</strong> ${day.plannedLabel || 'n.d.'}</div>
+        <div class="small-note mt-3"><strong>Colazione:</strong> ${day.breakfast.text}</div>
+        <div class="small-note mt-2"><strong>Pranzo:</strong> ${day.lunch.text}</div>
+        <div class="small-note mt-2"><strong>Cena:</strong> ${day.dinner.text}</div>
+        <div class="small-note mt-2"><strong>Spuntino:</strong> ${day.snack.text}</div>
+        <div class="small-note mt-3">${day.note}</div>
+      </div>`).join('')}
+    </div>
+    ${plan.foodsToTry?.length ? `<section class="body-card mt-3 p-0" style="background:none;border:none;box-shadow:none;padding:0;">
+      <div class="block-card">
+        <div class="label mb-2">Cibi / soluzioni da provare</div>
+        ${plan.foodsToTry.map(item => `<div class="small-note"><strong>${item.name}:</strong> ${item.why}</div>`).join('')}
+      </div>
+    </section>` : ''}
+    <div class="small-note mt-3">${plan.footerNote1 || ''}</div>
+    <div class="small-note">${plan.footerNote2 || ''}</div>
+  </section>`;
+}
+function renderPlanTab(){
+  const report = getPlanReport();
+  const selectedDay = getSelectedPlanDay();
+  const selectedWeek = getSelectedPlanWeek();
+  if(!report || !selectedDay || !selectedWeek){
+    return `<section class="body-card"><h2 class="section-title">Piano non disponibile</h2><p class="muted mb-0">Nessuna pianificazione stagionale leggibile nel report corrente.</p></section>`;
+  }
+  const meta = getWorkoutTypeMeta(selectedDay.type);
+  const planRoot = selectedDay.segmentLabel === 'Blocco Roma' ? report?.data?.marathonPlan : report?.data?.halfMarathonPlan;
+  const seasonBlueprint = report?.data?.seasonBlueprint;
+  return `
+    <section class="body-card">
+      <div class="eyebrow mb-2">Piano del giorno</div>
+      <div class="plan-header">
+        <div>
+          <h2 class="section-title">${selectedDay.sessionTitle}</h2>
+          <div class="small-note mt-1">${formatLong(selectedDay.date)} • ${selectedDay.segmentLabel} • ${selectedWeek.raceName}</div>
+          <div class="small-note mt-2">${selectedDay.session}</div>
+        </div>
+        <span class="type-pill ${meta.className}">${meta.label}</span>
+      </div>
+      <div class="metric-grid mt-3">
+        <div class="metric-card"><div class="label">Obiettivo settimana</div><div class="value" style="font-size:1.05rem">${selectedDay.weekObjective}</div></div>
+        <div class="metric-card"><div class="label">Volume settimana</div><div class="value">${selectedDay.weekVolume || 'n.d.'}</div></div>
+        <div class="metric-card"><div class="label">Durata seduta</div><div class="value">${selectedDay.totalDurationMin || 0} min</div></div>
+        <div class="metric-card"><div class="label">Km stimati</div><div class="value">${Number(selectedDay.estimatedDistanceKm || 0).toFixed(1)} km</div></div>
+      </div>
+      <div class="detail-grid mt-3">
+        <div class="block-card">
+          <div class="label mb-2">Warm-up</div>
+          ${selectedDay.warmup ? renderPlanStep('Riscaldamento', selectedDay.warmup) : '<div class="small-note">Seduta senza warm-up strutturato nel JSON.</div>'}
+        </div>
+        <div class="block-card">
+          <div class="label mb-2">Blocco centrale</div>
+          ${(selectedDay.mainSet || []).map((block, idx) => renderPlanStep(block.segment || `Blocco ${idx+1}`, block)).join('') || '<div class="small-note">Nessun blocco centrale disponibile.</div>'}
+        </div>
+        <div class="block-card">
+          <div class="label mb-2">Defaticamento e regole</div>
+          ${selectedDay.cooldown ? renderPlanStep('Cool-down', selectedDay.cooldown) : '<div class="small-note">Nessun cool-down strutturato.</div>'}
+          <div class="plan-step"><div class="plan-step-title">Guida passo</div><div class="small-note">${selectedDay.paceGuidance || 'n.d.'}</div></div>
+          <div class="plan-step"><div class="plan-step-title">Downgrade rule</div><div class="small-note">${selectedDay.downgradeRule || 'n.d.'}</div></div>
+        </div>
+        <div class="block-card">
+          <div class="label mb-2">Obiettivo e riuscita</div>
+          <div class="plan-step"><div class="plan-step-title">Obiettivo</div><div class="small-note">${selectedDay.objective || 'n.d.'}</div></div>
+          <div class="plan-step"><div class="plan-step-title">Criterio di riuscita</div><div class="small-note">${selectedDay.successCriteria || 'n.d.'}</div></div>
+          <div class="plan-step"><div class="plan-step-title">Note tecniche</div><div class="small-note">${selectedDay.notes || 'Nessuna nota aggiuntiva.'}</div></div>
+        </div>
+      </div>
+    </section>
 
-function renderAll() {
+    <section class="body-card">
+      <div class="eyebrow mb-2">Settimana corrente</div>
+      <div class="plan-header">
+        <div>
+          <h2 class="section-title">Overview sedute della settimana</h2>
+          <div class="small-note">${selectedWeek.phase} • ${selectedWeek.objective}</div>
+        </div>
+        <span class="badge-soft">${formatRange(selectedWeek.startDate, selectedWeek.endDate)}</span>
+      </div>
+      <div class="week-grid mt-3">
+        ${selectedWeek.daysExpanded.map(day => {
+          const dayMeta = getWorkoutTypeMeta(day.type);
+          return `<button type="button" class="day-overview-card ${day.date === selectedDay.date ? 'active' : ''}" data-day="${day.date}">
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="label">${isoToDate(day.date).toLocaleDateString('it-IT',{weekday:'short',day:'2-digit',month:'2-digit'})}</div>
+                <div class="value" style="font-size:1rem">${day.sessionTitle}</div>
+              </div>
+              <span class="type-pill ${dayMeta.className}">${dayMeta.label}</span>
+            </div>
+            <div class="small-note mt-2">${day.session}</div>
+          </button>`;
+        }).join('')}
+      </div>
+    </section>
+
+    <section class="body-card">
+      <div class="eyebrow mb-2">Roadmap stagionale</div>
+      <h2 class="section-title mb-2">Due macro-blocchi, due logiche diverse</h2>
+      <div class="small-note mb-3">Il calendario giorno per giorno è elegante solo se la logica di carico resta onesta. Prima si corre bene la mezza, poi si costruisce la maratona.</div>
+      <div class="roadmap-grid">
+        ${(seasonBlueprint?.blocks || []).map(block => `<div class="block-card">
+          <div class="label">${block.name}</div>
+          <div class="value" style="font-size:1.05rem">${block.goal}</div>
+          <div class="small-note mt-2">${formatRange(block.startDate, block.endDate)}</div>
+          <div class="small-note mt-2">${block.why}</div>
+        </div>`).join('')}
+        <div class="block-card">
+          <div class="label">Guida ritmi ${selectedDay.segmentLabel === 'Blocco Roma' ? 'maratona' : 'mezza'}</div>
+          ${(planRoot?.paceGuide || []).map(item => `<div class="small-note"><strong>${item.label}:</strong> ${item.pace} <span class="muted">• ${item.use}</span></div>`).join('')}
+        </div>
+        <div class="block-card">
+          <div class="label">Valutazione coach</div>
+          <div class="small-note"><strong>${planRoot?.coachAssessment?.headline || 'n.d.'}</strong></div>
+          ${(planRoot?.coachAssessment?.why || []).slice(0,3).map(item => `<div class="small-note">• ${item}</div>`).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+}
+function createSVG(el, width=900, height=230){ el.setAttribute('viewBox', `0 0 ${width} ${height}`); el.innerHTML=''; return {width,height}; }
+function lineChart(svgId, data, valueAccessor, opts={}){
+  const svg=document.getElementById(svgId); if(!svg || !data?.length) return;
+  const {width,height}=createSVG(svg, opts.width || 900, opts.height || 230);
+  const m={top:18,right:18,bottom:42,left:54}; const innerW=width-m.left-m.right; const innerH=height-m.top-m.bottom;
+  const values=data.map(valueAccessor).filter(v=>v!=null); if(!values.length) return;
+  let minY=Math.min(...values), maxY=Math.max(...values); const pad=(maxY-minY)*0.15 || 1; const y0=minY-pad, y1=maxY+pad;
+  const x=i => m.left + (i/Math.max(data.length-1,1))*innerW;
+  const y=v => m.top + innerH - ((v-y0)/(y1-y0))*innerH;
+  for(let i=0;i<5;i++){
+    const gy=m.top + (innerH/4)*i;
+    const val=y1 - ((y1-y0)/4)*i;
+    svg.insertAdjacentHTML('beforeend', `<line x1="${m.left}" y1="${gy}" x2="${width-m.right}" y2="${gy}" stroke="rgba(255,255,255,.08)" />`);
+    svg.insertAdjacentHTML('beforeend', `<text x="${m.left-10}" y="${gy+4}" text-anchor="end" fill="rgba(238,243,255,.62)" font-size="12">${opts.formatY ? opts.formatY(val) : Math.round(val)}</text>`);
+  }
+  data.forEach((d,i) => {
+    if(i % Math.max(1, Math.ceil(data.length/6)) === 0 || i === data.length-1){
+      svg.insertAdjacentHTML('beforeend', `<text x="${x(i)}" y="${height-14}" text-anchor="middle" fill="rgba(238,243,255,.62)" font-size="12">${d.label || d.date}</text>`);
+    }
+  });
+  let path='';
+  data.forEach((d,i)=>{ const v=valueAccessor(d); if(v==null) return; path += `${path ? 'L' : 'M'} ${x(i)} ${y(v)} `; });
+  svg.insertAdjacentHTML('beforeend', `<path d="${path}" fill="none" stroke="${opts.color || '#ff7a00'}" stroke-width="3.1" />`);
+  data.forEach((d,i)=>{ const v=valueAccessor(d); if(v==null) return; svg.insertAdjacentHTML('beforeend', `<circle cx="${x(i)}" cy="${y(v)}" r="4.2" fill="${opts.color || '#ff7a00'}" />`); });
+}
+function barChart(svgId,data,valueKey,opts={}){
+  const svg=document.getElementById(svgId); if(!svg || !data?.length) return;
+  const {width,height}=createSVG(svg, opts.width || 900, opts.height || 230);
+  const m={top:18,right:18,bottom:48,left:48}; const innerW=width-m.left-m.right; const innerH=height-m.top-m.bottom;
+  const maxVal=Math.max(...data.map(d => d[valueKey] || 0)) * 1.2 || 1;
+  const step=innerW / data.length; const barW=step * .58;
+  for(let i=0;i<5;i++){
+    const val=(maxVal/4)*(4-i); const gy=m.top + (innerH/4)*i;
+    svg.insertAdjacentHTML('beforeend', `<line x1="${m.left}" y1="${gy}" x2="${width-m.right}" y2="${gy}" stroke="rgba(255,255,255,.08)" />`);
+    svg.insertAdjacentHTML('beforeend', `<text x="${m.left-10}" y="${gy+4}" text-anchor="end" fill="rgba(238,243,255,.62)" font-size="12">${Math.round(val)}</text>`);
+  }
+  data.forEach((d,i)=>{
+    const x=m.left + (i+.5)*step - barW/2;
+    const h=((d[valueKey] || 0)/maxVal)*innerH; const y=m.top + innerH - h;
+    svg.insertAdjacentHTML('beforeend', `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="8" fill="${opts.color || '#63a8ff'}" />`);
+    svg.insertAdjacentHTML('beforeend', `<text x="${x + barW/2}" y="${height-14}" text-anchor="middle" fill="rgba(238,243,255,.62)" font-size="12">${d.label}</text>`);
+  });
+}
+function buildArchiveWeightSeries(cutoffIso){
+  const cutoff = cutoffIso ? isoToDate(cutoffIso) : null;
+  if(cutoff) cutoff.setHours(23,59,59,999);
+  return getReportDates()
+    .filter(date => !cutoff || isoToDate(date) <= cutoff)
+    .map(date => {
+      const rep = state.archive.reports[date];
+      return {
+        label: isoToDate(date).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit'}),
+        weight: rep?.data?.bodyComp?.weight ?? null
+      };
+    }).filter(d => d.weight != null);
+}
+function renderAnalysisTab(){
+  const report = getSelectedReport();
+  if(!report) return `<section class="body-card"><h2 class="section-title">Analisi non disponibile</h2></section>`;
+  const summary = report.summaryCards || [];
+  const recentSessions = (report?.data?.sessions || []).slice(-6).reverse();
+  return `
+    <section class="body-card">
+      <div class="eyebrow mb-2">Analisi tecniche</div>
+      <div class="plan-header">
+        <div>
+          <h2 class="section-title">${report.title}</h2>
+          <div class="small-note mt-1">${report.subtitle || ''}</div>
+        </div>
+        <span class="badge-soft">${state.selectedDate}</span>
+      </div>
+      <div class="report-chip-grid mt-3">
+        ${getReportDates().slice().reverse().map(date => {
+          const item = state.archive.reports[date];
+          return `<button type="button" class="report-chip ${date === state.selectedDate ? 'active' : ''}" data-report="${date}">
+            <div class="label">${date}</div>
+            <div class="value" style="font-size:1rem">${item.title}</div>
+            <small>${(item.heroTags || []).slice(0,2).join(' • ')}</small>
+          </button>`;
+        }).join('')}
+      </div>
+    </section>
+
+    <section class="body-card">
+      <div class="eyebrow mb-2">Sintesi rapida</div>
+      <div class="summary-grid">
+        ${summary.map(card => `<div class="summary-card">
+          <div class="label">${card.label}</div>
+          <div class="value">${card.value}</div>
+          <div class="text">${card.text}</div>
+        </div>`).join('')}
+      </div>
+    </section>
+
+    <section class="body-card">
+      <div class="eyebrow mb-2">Relazione tecnica</div>
+      <h2 class="section-title mb-2">Lettura clinico-prestativa</h2>
+      ${report?.ui?.technicalSummaryHtml || `<p class="muted mb-0">Nessuna sintesi tecnica disponibile.</p>`}
+    </section>
+
+    <section class="body-card">
+      <div class="eyebrow mb-2">Ultime sedute utili</div>
+      <div class="analysis-list">
+        ${recentSessions.map(session => {
+          const meta = getWorkoutTypeMeta(session.type);
+          return `<div class="block-card">
+            <div class="d-flex align-items-start justify-content-between gap-2">
+              <div>
+                <div class="label">${session.date}</div>
+                <div class="value" style="font-size:1rem">${session.name}</div>
+              </div>
+              <span class="type-pill ${meta.className}">${meta.label}</span>
+            </div>
+            <div class="small-note mt-2"><strong>${session.distance.toFixed ? session.distance.toFixed(2) : session.distance} km</strong> • ${session.time} • ${session.pace}</div>
+            <div class="small-note mt-2">FC ${session.avgHr ?? 'n.d.'} / ${session.maxHr ?? 'n.d.'} • ${session.rpe || 'n.d.'}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </section>
+
+    <section class="body-card">
+      <div class="eyebrow mb-2">Trend essenziali</div>
+      <div class="analysis-list">
+        <div class="block-card">
+          <div class="label mb-2">Benchmark 10K</div>
+          <div class="small-note mb-2">Ascissa: data del benchmark omogeneo da 10 km. Ordinata: tempo totale in secondi.</div>
+          <svg id="tenKTrendChart" class="chart"></svg>
+        </div>
+        <div class="block-card">
+          <div class="label mb-2">Volume settimanale</div>
+          <div class="small-note mb-2">Ascissa: settimana di allenamento. Ordinata: chilometri settimanali.</div>
+          <svg id="volumeTrendChart" class="chart"></svg>
+        </div>
+        <div class="block-card">
+          <div class="label mb-2">Peso corporeo archivio</div>
+          <div class="small-note mb-2">Ascissa: data del report. Ordinata: peso in kg.</div>
+          <svg id="weightTrendChart" class="chart"></svg>
+        </div>
+      </div>
+    </section>
+  `;
+}
+function renderNutritionTab(){
+  return buildNutritionHTML(getSelectedReport());
+}
+function renderMain(){
+  const root = document.getElementById('appMain');
+  if(state.loading){
+    root.innerHTML = `<section class="body-card loading-box"><h2 class="section-title">Caricamento archivio</h2><p class="muted mb-0">Lettura del JSON remoto in corso.</p></section>`;
+    return;
+  }
+  if(state.error){
+    root.innerHTML = `<section class="body-card error-box"><h2 class="section-title">Errore di caricamento</h2><p class="mb-0">${state.error}</p></section>`;
+    return;
+  }
+  if(state.activeTab === 'analysis') root.innerHTML = renderAnalysisTab();
+  else if(state.activeTab === 'nutrition') root.innerHTML = renderNutritionTab();
+  else root.innerHTML = renderPlanTab();
+
+  if(state.activeTab === 'analysis'){
+    const report = getSelectedReport();
+    const ten = report?.data?.benchmarkProgression10k || [];
+    if(ten.length >= 2) lineChart('tenKTrendChart', ten, d => d.seconds, { color:'#ff7a00', formatY:v => Math.round(v) });
+    else document.getElementById('tenKTrendChart')?.replaceWith(Object.assign(document.createElement('div'), {className:'small-note', textContent:'Dati ancora insufficienti.'}));
+    const vol = report?.data?.weeklyVolume || [];
+    if(vol.length >= 2) barChart('volumeTrendChart', vol.slice(-10), 'km', { color:'#63a8ff' });
+    else document.getElementById('volumeTrendChart')?.replaceWith(Object.assign(document.createElement('div'), {className:'small-note', textContent:'Dati ancora insufficienti.'}));
+    const ws = buildArchiveWeightSeries(state.selectedDate);
+    if(ws.length >= 2) lineChart('weightTrendChart', ws, d => d.weight, { color:'#9b6bff', formatY:v => Number(v).toFixed(1) });
+    else document.getElementById('weightTrendChart')?.replaceWith(Object.assign(document.createElement('div'), {className:'small-note', textContent:'Dati ancora insufficienti.'}));
+
+    root.querySelectorAll('[data-report]').forEach(btn => btn.addEventListener('click', () => {
+      state.selectedDate = btn.dataset.report;
+      writeHash();
+      renderAll();
+    }));
+  }
+  if(state.activeTab === 'plan'){
+    root.querySelectorAll('[data-day]').forEach(btn => btn.addEventListener('click', () => {
+      state.selectedPlanDate = btn.dataset.day;
+      writeHash();
+      renderAll();
+    }));
+  }
+  renderReportsModal();
+  renderWeeksModal();
+}
+function renderFooter(){
+  document.querySelectorAll('.footer-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === state.activeTab);
+  });
+}
+function renderReportsModal(){
+  const grid = document.getElementById('reportsGrid');
+  grid.innerHTML = getReportDates().slice().reverse().map(date => {
+    const rep = state.archive.reports[date];
+    return `<button type="button" class="report-chip ${date === state.selectedDate ? 'active' : ''}" data-report-modal="${date}">
+      <div class="label">${date}</div>
+      <div class="value" style="font-size:1rem">${rep.title}</div>
+      <div class="small-note mt-1">${(rep.heroTags || []).slice(0,3).join(' • ')}</div>
+    </button>`;
+  }).join('');
+  grid.querySelectorAll('[data-report-modal]').forEach(btn => btn.addEventListener('click', () => {
+    state.selectedDate = btn.dataset.reportModal;
+    writeHash();
+    bootstrap.Modal.getInstance(document.getElementById('reportsModal'))?.hide();
+    renderAll();
+  }));
+}
+function renderWeeksModal(){
+  const grid = document.getElementById('weeksGrid');
+  const timeline = buildPlanTimeline(getPlanReport());
+  const selectedWeek = getSelectedPlanWeek();
+  grid.innerHTML = timeline.weeks.map(week => `<button type="button" class="report-chip ${selectedWeek?.startDate === week.startDate ? 'active' : ''}" data-week="${week.startDate}">
+    <div class="label">${week.segmentLabel}</div>
+    <div class="value" style="font-size:1rem">Settimana ${week.week}</div>
+    <div class="small-note mt-1">${week.phase}</div>
+    <div class="small-note">${formatRange(week.startDate, week.endDate)}</div>
+    <div class="small-note mt-2"><strong>Obiettivo:</strong> ${week.objective}</div>
+    <div class="small-note"><strong>Volume:</strong> ${week.plannedVolumeKm}</div>
+  </button>`).join('');
+  grid.querySelectorAll('[data-week]').forEach(btn => btn.addEventListener('click', () => {
+    selectWeekByStart(btn.dataset.week);
+    bootstrap.Modal.getInstance(document.getElementById('weeksModal'))?.hide();
+  }));
+}
+function renderAll(){
   ensureSelectedDateValid();
-  renderSidebar('sidebarDesktop');
-  renderSidebar('sidebarMobile');
+  ensureSelectedPlanValid();
+  renderHeader();
   renderMain();
+  renderFooter();
 }
-
-async function initApp() {
-  try {
+async function initApp(){
+  try{
     state.loading = true;
     state.error = null;
     renderMain();
-
     state.archive = await loadArchive();
-    state.selectedDate = readSelectedDateFromHash() || getReportDates().slice(-1)[0];
-
-    ensureSelectedDateValid();
+    const hash = readHash();
+    state.selectedDate = hash.report || getReportDates().slice(-1)[0];
+    state.planReportDate = findLatestPlanReportDate();
+    state.selectedPlanDate = hash.day || null;
+    state.activeTab = ['plan','analysis','nutrition'].includes(hash.tab) ? hash.tab : 'plan';
     state.loading = false;
     renderAll();
-  } catch (err) {
+    writeHash();
+  }catch(err){
     state.loading = false;
     state.error = err.message || 'Errore sconosciuto nel caricamento archivio.';
-    renderAll();
+    renderMain();
   }
 }
-
 window.addEventListener('hashchange', () => {
-  const next = readSelectedDateFromHash();
-  if (next && state.archive?.reports?.[next]) {
-    state.selectedDate = next;
-    ensureSelectedDateValid();
-    renderAll();
-  }
+  const hash = readHash();
+  if(hash.report && state.archive?.reports?.[hash.report]) state.selectedDate = hash.report;
+  if(hash.day) state.selectedPlanDate = hash.day;
+  if(['plan','analysis','nutrition'].includes(hash.tab)) state.activeTab = hash.tab;
+  renderAll();
 });
-
+document.getElementById('prevWeekBtn').addEventListener('click', () => changeWeek(-1));
+document.getElementById('nextWeekBtn').addEventListener('click', () => changeWeek(1));
+document.getElementById('openReportsBtn').addEventListener('click', () => new bootstrap.Modal(document.getElementById('reportsModal')).show());
+document.getElementById('openWeeksBtn').addEventListener('click', () => new bootstrap.Modal(document.getElementById('weeksModal')).show());
+document.querySelectorAll('.footer-btn').forEach(btn => btn.addEventListener('click', () => {
+  state.activeTab = btn.dataset.tab;
+  writeHash();
+  renderAll();
+}));
 initApp();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
